@@ -1,0 +1,68 @@
+# Common rules for both "frontend" and "backend" directories
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts and intermediate files
+/backend/api/bin/
+/backend/api/obj/
+
+backend/infrastructure/bin/
+backend/infrastructure/obj/
+
+backend/infrastructure.tests/bin/
+backend/infrastructure.tests/obj/
+
+backend/application/bin/
+backend/application/obj/
+
+backend/application.tests/bin/
+backend/application.tests/obj/
+
+backend/api.tests/bin/
+backend/api.tests/obj/
+
+backend/services/bin/
+backend/services/obj/
+
+backend/services.tests/bin/
+backend/services.tests/obj/
+
+backend/tests/bin/
+backend/tests/obj/
+
+backend/tests.integration/bin/
+backend/tests.integration/obj/
+
+# Ignore launchSettings.json in the "backend" directory
+/backend/api/Properties/launchSettings.json
