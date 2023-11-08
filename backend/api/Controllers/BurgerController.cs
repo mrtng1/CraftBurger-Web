@@ -3,6 +3,7 @@ using api.Models;
 using Microsoft.AspNetCore.Mvc;
 using service;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace backend.Controllers;
 
@@ -36,7 +37,7 @@ public class BurgerController : Controller
 
     [HttpPost]
     [Route("/api/burger")]
-    public async Task<ActionResult<Burger>> PostBurger([FromBody] Burger burger)
+    public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger)
     {
         if (burger == null || string.IsNullOrEmpty(burger.BurgerName))
         {

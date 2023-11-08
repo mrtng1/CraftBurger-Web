@@ -4,11 +4,11 @@ using Npgsql;
 
 namespace infrastructure;
 
-public class Repository
+public class BurgerRepository
 {
     private readonly NpgsqlDataSource _dataSource;
 
-    public Repository(NpgsqlDataSource dataSource)
+    public BurgerRepository(NpgsqlDataSource dataSource)
     {
         _dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
     }

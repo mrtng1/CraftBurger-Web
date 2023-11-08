@@ -6,11 +6,11 @@ namespace service;
 
 public class BurgerService : IBurgerService
     {
-        private readonly Repository _repository;
+        private readonly BurgerRepository _burgerRepository;
 
-        public BurgerService(Repository repository)
+        public BurgerService(BurgerRepository burgerRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository), "Repository is null");
+            _burgerRepository = burgerRepository ?? throw new ArgumentNullException(nameof(burgerRepository), "BurgerRepository is null");
         }
 
         public async Task<Burger> CreateBurger(Burger burger)
@@ -32,7 +32,7 @@ public class BurgerService : IBurgerService
 
             try
             {
-                Burger createdBurger = await Task.Run(() => _repository.CreateBurger(burger));
+                Burger createdBurger = await Task.Run(() => _burgerRepository.CreateBurger(burger));
                 return createdBurger;
             }
             catch (Exception)
@@ -46,7 +46,7 @@ public class BurgerService : IBurgerService
         {
             try
             {
-                return await Task.Run(() => _repository.GetAllBurgers());
+                return await Task.Run(() => _burgerRepository.GetAllBurgers());
             }
             catch (NpgsqlException ex)
             {
@@ -64,7 +64,7 @@ public class BurgerService : IBurgerService
         {
             try
             {
-                var burger = await Task.Run(() => _repository.GetBurgerById(id));
+                var burger = await Task.Run(() => _burgerRepository.GetBurgerById(id));
                 if (burger == null) throw new KeyNotFoundException("Burger not found");
                 return burger;
             }
@@ -88,7 +88,7 @@ public class BurgerService : IBurgerService
 
             try
             {
-                var burger = await Task.Run(() => _repository.UpdateBurger(id, burgerUpdateInfo));
+                var burger = await Task.Run(() => _burgerRepository.UpdateBurger(id, burgerUpdateInfo));
                 if (burger == null) throw new KeyNotFoundException("Burger not found");
 
                 return burger;
@@ -108,7 +108,7 @@ public class BurgerService : IBurgerService
         {
             try
             {
-                return await Task.Run(() => _repository.DeleteBurger(id));
+                return await Task.Run(() => _burgerRepository.DeleteBurger(id));
             }
             catch (KeyNotFoundException)
             {
