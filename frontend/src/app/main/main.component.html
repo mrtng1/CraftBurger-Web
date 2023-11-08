@@ -1,9 +1,17 @@
 <div class="flex flex-col items-center p-4">
-  <h1 class="text-3xl mt-10">Truffle Burger</h1>
-  <div class="flex justify-center items-center">
-    <img id="burger-img" src="/assets/burgers/truffle-burger.png" alt="Burger Image" class="w-96 h-96 drop-shadow-md">
+  <h1 class="text-3xl mt-10">Our Burgers</h1>
+  <div class="flex flex-row justify-center items-center overflow-x-auto">
+    <div *ngFor="let burger of burgers" class="flex flex-col items-center p-4">
+      <h2 class="text-xl">{{ burger.burgerName }}</h2>
+      <div class="flex justify-center items-center">
+        <img [src]="burger.imageUrl" alt="{{ burger.burgerName }}" class="w-96 h-96 drop-shadow-md">
+      </div>
+      <div>
+        <button mat-button color="warn">View</button>
+      </div>
+    </div>
   </div>
-  <div>
+  <div class="mt-4">
     <button mat-button color="warn">Order Now</button>
     <button mat-button color="warn">Browse Menu</button>
   </div>
