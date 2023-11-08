@@ -1,0 +1,40 @@
+name: Build, Run, and Test
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Start Angular server
+    - name: Setup Node.js for Angular
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # adjust to your Node.js version for Angular
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
+    - name: Install Angular dependencies
+      run: npm install
+      working-directory: ./frontend 
+
+    - name: Start Angular server
+      run: ng serve &
+      working-directory: ./frontend 
+
+    - name: Wait for Angular server to start
+      run: sleep 30  # waits 30 seconds
+
+    # Build and run C# project
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0.100-preview.7.23376.3'  # adjust to your .NET version
+
+    - name: Build C# project
+      run: dotnet build ./backend/backend.sln
