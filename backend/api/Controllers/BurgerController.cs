@@ -39,22 +39,23 @@ public class BurgerController : Controller
     [Route("/api/burger")]
     public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger)
     {
-        if (burger == null || string.IsNullOrEmpty(burger.BurgerName))
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Invalid input");
+            
+            return BadRequest(ModelState);
         }
 
         Burger newBurger = await _service.CreateBurger(burger);
-        return Ok(newBurger);
+        return CreatedAtAction(nameof(GetBurgerById), new { burgerId = newBurger.ID }, newBurger);
     }
 
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromBody] Burger burger, [FromRoute] int burgerId)
     {
-        if (burger == null || !ModelState.IsValid)
+        if (!ModelState.IsValid || burger.ID != burgerId)
         {
-            return BadRequest("Invalid input");
+            return BadRequest(ModelState);
         }
 
         Burger updatedBurger = await _service.UpdateBurger(burgerId, burger);
