@@ -8,6 +8,15 @@
 
     <ItemGroup>
       <PackageReference Include="Dapper" Version="2.1.15" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+      <PackageReference Include="Moq" Version="4.20.69" />
+      <PackageReference Include="xunit" Version="2.6.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\api\api.csproj" />
+      <ProjectReference Include="..\infrastructure\infrastructure.csproj" />
+      <ProjectReference Include="..\service\service.csproj" />
     </ItemGroup>
 
 </Project>
