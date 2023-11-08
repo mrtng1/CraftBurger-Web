@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/fries")]
 public class FriesController : Controller
 {
     private readonly IFriesService _service;
@@ -19,12 +18,14 @@ public class FriesController : Controller
     }
 
     [HttpGet]
+    [Route("/api/fries")]
     public async Task<IEnumerable<Fries>> GetAllFries()
     {
         return await _service.GetAllFries();
     }
     
-    [HttpGet("{friesId}")]
+    [HttpGet]
+    [Route("/api/fries/{friesId}")]
     public async Task<ActionResult<Fries>> GetFriesById([FromRoute] int friesId)
     {
         Fries fries = await _service.GetFriesById(friesId);
@@ -36,23 +37,30 @@ public class FriesController : Controller
     }
 
     [HttpPost]
+    [Route("/api/fries")]
     public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries)
     {
-        if (fries == null || string.IsNullOrEmpty(fries.FriesName))
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Invalid input");
+            return BadRequest(ModelState);
         }
 
         Fries newFries = await _service.CreateFries(fries);
         return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.ID }, newFries);
     }
 
-    [HttpPut("{friesId}")]
+    [HttpPut]
+    [Route("/api/fries/{friesId}")]
     public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries)
     {
-        if (fries == null || !ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Invalid input");
+            return BadRequest(ModelState);
+        }
+        
+        if (fries.ID != friesId)
+        {
+            return BadRequest("Mismatch between the ID in the route and the body.");
         }
 
         Fries updatedFries = await _service.UpdateFries(friesId, fries);
@@ -64,7 +72,8 @@ public class FriesController : Controller
         return Ok(updatedFries);
     }
 
-    [HttpDelete("{friesId}")]
+    [HttpDelete]
+    [Route("/api/fries/{friesId}")]
     public async Task<ActionResult> DeleteFries([FromRoute] int friesId)
     {
         bool isDeleted = await _service.DeleteFries(friesId);
