@@ -1,34 +1,52 @@
+using AspNetCoreRateLimit;
+using NetEscapades.AspNetCore.SecurityHeaders;
 using infrastructure;
 using service;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load the app settings
+builder.Services.AddOptions();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
     dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
-builder.Services.AddSingleton<Repository>();
-builder.Services.AddSingleton<IService>();
-builder.Services.AddSingleton<Service>();
+
+
+builder.Services.AddSingleton<BurgerRepository>();
+builder.Services.AddSingleton<IBurgerService, BurgerService>();
+
+builder.Services.AddSingleton<FriesRepository>();
+builder.Services.AddSingleton<IFriesService, FriesService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseIpRateLimiting();
+
 app.UseSwagger();
 
 app.UseSwaggerUI();
 
+/*
 app.UseCors(options =>
-
 {
-
     options.SetIsOriginAllowed(origin => true)
-
         .AllowAnyMethod()
-
         .AllowAnyHeader()
-
         .AllowCredentials();
-
 });
+*/
+
+app.UseSecurityHeaders();
 app.MapControllers();
 app.Run();
