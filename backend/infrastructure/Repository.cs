@@ -1,5 +1,61 @@
-﻿namespace infrastructure;
+﻿using api.Models;
+using Dapper;
+using Npgsql;
+
+namespace infrastructure;
 
 public class Repository
 {
+    private readonly NpgsqlDataSource _dataSource;
+
+    public Repository(NpgsqlDataSource dataSource)
+    {
+        _dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
+    }
+
+    public IEnumerable<Burger> GetAllBurgers()
+    {
+        const string sql = "SELECT * FROM burgers;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<Burger>(sql);
+        }
+    }
+
+    public Burger GetBurgerById(int burgerId)
+    {
+        const string sql = "SELECT * FROM burgers WHERE id = @BurgerId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerId = burgerId });
+        }
+    }
+
+    public async Task<Burger> CreateBurger(Burger burger)
+    {
+        const string sql = "INSERT INTO burgers (burgername, burgerprice) VALUES (@BurgerName, @BurgerPrice) RETURNING *;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QuerySingleAsync<Burger>(sql, burger);
+        }
+    }
+
+
+    public Burger UpdateBurger(int burgerId, Burger burger)
+    {
+        const string sql = "UPDATE burgers SET burgername = @BurgerName, burgerprice = @BurgerPrice WHERE id = @BurgerId RETURNING *;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QuerySingleOrDefault<Burger>(sql, new { burger.BurgerName, burger.BurgerPrice, BurgerId = burgerId });
+        }
+    }
+
+    public bool DeleteBurger(int burgerId)
+    {
+        const string sql = "DELETE FROM burgers WHERE id = @BurgerId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { BurgerId = burgerId }) > 0;
+        }
+    }
 }
