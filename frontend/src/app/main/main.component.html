@@ -1,18 +1,30 @@
 <div class="flex flex-col items-center p-4">
   <h1 class="text-3xl mt-10">Our Burgers</h1>
-  <div class="flex flex-row justify-center items-center overflow-x-auto">
-    <div *ngFor="let burger of burgers" class="flex flex-col items-center p-4">
-      <h2 class="text-xl">{{ burger.burgerName }}</h2>
-      <div class="flex justify-center items-center">
-        <img [src]="burger.imageUrl" alt="{{ burger.burgerName }}" class="w-96 h-96 drop-shadow-md">
-      </div>
-      <div>
-        <button mat-button color="warn">View</button>
-      </div>
+  <div *ngIf="burgers.length > 0">
+    <div class="flex flex-row justify-center items-center">
+      <!-- Slider Controls -->
+      <button (click)="previousBurger()" mat-icon-button>
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <!-- Current Burger Image -->
+      <img [src]="burgers[currentIndex].imageUrl"
+           alt="{{ burgers[currentIndex].burgerName }}"
+           class="w-96 h-96 drop-shadow-md">
+
+      <!-- Slider Controls -->
+      <button (click)="nextBurger()" mat-icon-button>
+        <mat-icon>chevron_right</mat-icon>
+      </button>
     </div>
-  </div>
-  <div class="mt-4">
-    <button mat-button color="warn">Order Now</button>
-    <button mat-button color="warn">Browse Menu</button>
+
+    <!-- Burger Name -->
+    <h2 class="text-xl">{{ burgers[currentIndex].burgerName }}</h2>
+
+    <!-- Additional Controls -->
+    <div class="mt-4">
+      <button mat-button color="warn">Order Now</button>
+      <button mat-button color="warn">Browse Menu</button>
+    </div>
   </div>
 </div>
