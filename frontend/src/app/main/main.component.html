@@ -1,9 +1,10 @@
 <div class="flex flex-col items-center p-5 avenir-next custom-margin-top">
   <h1 class="text-3xl mt-10" style="color: #ff3a02"><span class="uppercase">Our Burgers</span></h1>
   <h2 class="text-xl" style="color: #ff3a02;">{{ burgers[currentIndex]?.burgerName }}</h2>
+
   <div *ngIf="burgers.length > 0">
+    <!-- Burger Image and Slider Controls -->
     <div class="flex flex-row justify-center items-center">
-      <!-- Slider Controls -->
       <button (click)="previousBurger()" mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
@@ -13,14 +14,13 @@
            alt="{{ burgers[currentIndex].burgerName }}"
            class="w-96 h-96 drop-shadow-md">
 
-      <!-- Slider Controls -->
       <button (click)="nextBurger()" mat-icon-button>
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
 
-    <!-- Additional Controls -->
-    <div class="mt-4">
+    <!-- "Order Now" and "Browse Menu" Buttons -->
+    <div class="mt-4" style="display: flex; justify-content: center; gap: 32px;">
       <button mat-button color="warn">Order Now</button>
       <button mat-button color="warn">Browse Menu</button>
     </div>

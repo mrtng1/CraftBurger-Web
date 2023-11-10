@@ -4,7 +4,7 @@
 
 
 .slider-transition {
-  transition: transform 0.5s ease;
+  transition: transform 2s ease;
 }
 
 .uppercase {

@@ -1,5 +1,14 @@
 <mat-toolbar class="fixed">
-  <button mat-icon-button>
+  <img src="assets/logo/CraftBurger.png" alt="logo" height="100px" width="100px" class="logo"/>
+  <button mat-icon-button (click)="toggleCart()" class="shopping-cart">
     <mat-icon>shopping_cart</mat-icon>
   </button>
 </mat-toolbar>
+
+<app-cart-list *ngIf="isCartVisible">
+  <ul>
+    <!-- List items will be populated here -->
+  </ul>
+  <!-- View Cart Button -->
+  <button>View Cart</button>
+</app-cart-list>
