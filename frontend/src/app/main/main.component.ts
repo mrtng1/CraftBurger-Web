@@ -67,4 +67,10 @@ export class MainComponent implements OnInit {
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
   }
 
+  scrollToBurgerGrid() {
+    const grid = document.getElementById('burgerGrid');
+    if (grid) {
+      grid.scrollIntoView({behavior: 'smooth'});
+    }
+  }
 }

@@ -16,3 +16,22 @@
   font-weight: bold;
   font-style: italic;
 }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.grid-item {
+  /* Styles for grid items */
+}
+
+#burgerGrid {
+  margin-top: 150px; /* Adjust this value as needed for desired spacing */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
