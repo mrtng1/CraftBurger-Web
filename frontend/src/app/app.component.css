@@ -1,7 +1,11 @@
-.top-headline{
-  margin-top: 60rem;
+.header {
+  height: 100px;
+  width: 100%;
+  margin-top: 0;
+  padding: 0;
 }
 
-.header{
-  opacity: 75%;
+
+.main {
+  margin-top: 880px;
 }
