@@ -11,6 +11,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import { HttpClientModule } from '@angular/common/http';
 import { CartListComponent } from './cart-list/cart-list.component';
+import { InspectItemComponent } from './inspect-item/inspect-item.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CartListComponent } from './cart-list/cart-list.component';
     HeaderComponent,
     MainComponent,
     CartListComponent,
+    InspectItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,7 @@ import { CartListComponent } from './cart-list/cart-list.component';
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

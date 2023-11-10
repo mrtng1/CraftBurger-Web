@@ -1,0 +1,7 @@
+<div *ngIf="burger">
+  <h2>{{ burger.burgerName }}</h2>
+  <img [src]="getImageUrl(burger.burgerName)"
+       alt="{{ burger.burgerName }}"
+       style="width: 288px; height: 432px; object-fit: cover;">
+  <p>Price: {{ burger.burgerPrice }}</p>
+</div>

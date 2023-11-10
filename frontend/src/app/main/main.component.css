@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
 .slider-transition {
   transition: transform 2s ease;
 }
@@ -15,4 +14,17 @@
   font-family: 'Avenir Next Condensed', sans-serif;
   font-weight: bold;
   font-style: italic;
+}
+
+/* Grid Layout for Burgers */
+#burgerGrid {
+  margin-top: 150px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.grid-item {
+  /* Additional styles for grid items */
 }

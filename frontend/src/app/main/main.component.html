@@ -23,7 +23,19 @@
 
     <div class="mt-4" style="display: flex; justify-content: center; gap: 32px;">
       <button mat-button color="warn" (click)="addToCart(burgers[currentIndex])">ADD TO CART</button>
-      <button mat-button color="warn">Browse Menu</button>
+      <button mat-button color="warn" (click)="scrollToBurgerGrid()">Browse Menu</button>
+
     </div>
+  </div>
+</div>
+
+<div id="burgerGrid" class="grid-layout">
+  <div *ngFor="let burger of burgers" class="grid-item">
+    <img [src]="getImageUrl(burger.burgerName)"
+         alt="{{ burger.burgerName }}"
+         style="width: 100%; object-fit: cover;">
+    <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
+    <p>Price: {{burger.burgerPrice}}</p>
+    <button mat-button color="warn" (click)="addToCart(burgers[currentIndex])">ADD TO CART</button>
   </div>
 </div>

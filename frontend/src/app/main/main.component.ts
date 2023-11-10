@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../Environments/environment";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -11,17 +12,8 @@ import {environment} from "../../Environments/environment";
 export class MainComponent implements OnInit {
   burgers: any[] = [];
   currentIndex: number = 0;
-  imageExtensions: { [key: string]: string } = {
-    'Cheeseburger': 'jpg',
-    'Truffleburger': 'png',
-    'hot-bird': 'JPG',
-    'monster-burger': 'JPG',
-    'kids-burger': 'JPG',
-    'bernaise-burger': 'JPG',
-    'cherry-burger': 'JPG',
-  };
 
-  constructor(private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -38,10 +30,13 @@ export class MainComponent implements OnInit {
     });
   }
 
+  getBurgerDetails(burgerId: number) {
+    this.router.navigate(['/inspect', burgerId]);
+  }
+
   getImageUrl(burgerName: string): string {
     const formattedName = burgerName.toLowerCase().replace(/\s+/g, '-');
-    const extension = this.imageExtensions[burgerName] || 'JPG';
-    return `/assets/burgers/${formattedName}.${extension}`;
+    return `/assets/burgers/${formattedName}.JPG`;
   }
 
   nextBurger() {
@@ -65,6 +60,17 @@ export class MainComponent implements OnInit {
 
     cartArray.push(burger);
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
+    this.refreshPage();
   }
 
+  scrollToBurgerGrid() {
+    const grid = document.getElementById('burgerGrid');
+    if (grid) {
+      grid.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
+  refreshPage() {
+    location.reload();
+  }
 }
