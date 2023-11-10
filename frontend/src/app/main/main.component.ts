@@ -10,6 +10,7 @@ import {environment} from "../../Environments/environment";
 })
 export class MainComponent implements OnInit {
   burgers: any[] = [];
+  currentIndex: number = 0;
   imageExtensions: { [key: string]: string } = {
     'Cheeseburger': 'jpg',
     'Truffleburger': 'png',
@@ -41,6 +42,15 @@ export class MainComponent implements OnInit {
     const formattedName = burgerName.toLowerCase().replace(/\s+/g, '-');
     const extension = this.imageExtensions[burgerName] || 'JPG';
     return `/assets/burgers/${formattedName}.${extension}`;
+  }
+
+  nextBurger() {
+    this.currentIndex = (this.currentIndex + 1) % this.burgers.length;
+  }
+
+  previousBurger() {
+    this.currentIndex =
+      (this.currentIndex - 1 + this.burgers.length) % this.burgers.length;
   }
 
 
