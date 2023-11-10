@@ -53,5 +53,20 @@ export class MainComponent implements OnInit {
       (this.currentIndex - 1 + this.burgers.length) % this.burgers.length;
   }
 
+  addToCart(burgerName: string) {
+    let cart = sessionStorage.getItem('cart');
+    let cartArray;
+
+    if (cart) {
+      cartArray = JSON.parse(cart);
+    } else {
+      cartArray = [];
+    }
+
+    cartArray.push(burgerName);
+    sessionStorage.setItem('cart', JSON.stringify(cartArray));
+  }
+
+
 
 }
