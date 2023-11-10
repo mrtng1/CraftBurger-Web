@@ -6,3 +6,13 @@
 .slider-transition {
   transition: transform 0.5s ease;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.avenir-next {
+  font-family: 'Avenir Next Condensed', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
