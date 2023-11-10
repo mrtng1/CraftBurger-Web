@@ -6,6 +6,11 @@ import {AppComponent} from "./app.component";
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full' // This ensures that the redirect only occurs for the exact path ''
+  },
+  {
     path: 'home',
     component: MainComponent // The main page
   },
@@ -13,7 +18,6 @@ const routes: Routes = [
     path: 'inspect/:burgerId',
     component: InspectItemComponent // The inspect page
   }
-
 ];
 
 @NgModule({
