@@ -1,0 +1,8 @@
+.cart-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.colour{
+  color: #f8e8d3;
+}
