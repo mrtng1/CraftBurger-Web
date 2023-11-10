@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
 .slider-transition {
   transition: transform 2s ease;
 }
@@ -17,21 +16,15 @@
   font-style: italic;
 }
 
-.grid-layout {
+/* Grid Layout for Burgers */
+#burgerGrid {
+  margin-top: 150px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 20px;
 }
 
 .grid-item {
-  /* Styles for grid items */
-}
-
-#burgerGrid {
-  margin-top: 150px; /* Adjust this value as needed for desired spacing */
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  /* Additional styles for grid items */
 }
