@@ -19,4 +19,8 @@ export class CartListComponent implements OnInit {
       console.log(this.cartItems); // Debugging: log the cart items
     }
   }
+
+  get totalPrice(): number {
+    return this.cartItems.reduce((sum, item) => sum + item.burgerPrice, 0);
+  }
 }
