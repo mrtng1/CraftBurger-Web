@@ -1,4 +1,10 @@
-<p>Cart List:</p>
-<ul>
-  <li *ngFor="let item of cartItems">{{ item }}</li>
-</ul>
+<p class="colour">Cart List:</p>
+<div class="cart-list">
+  <ul>
+    <li *ngFor="let item of cartItems" class="colour">
+      {{ item.burgerName }} - {{ item.burgerPrice }} kr
+    </li>
+  </ul>
+</div>
+<p class="colour">Total: {{ totalPrice }} kr</p>
+<button mat-button color="warn">Checkout</button>

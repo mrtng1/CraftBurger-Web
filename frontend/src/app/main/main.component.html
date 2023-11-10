@@ -21,9 +21,8 @@
 
     <h2 class="text-xl" style="color: #ff3a02; margin-left: auto; margin-right: auto; width: 50%; text-align: center;">{{ burgers[currentIndex]?.burgerName }}</h2>
 
-    <!-- "Order Now" and "Browse Menu" Buttons -->
     <div class="mt-4" style="display: flex; justify-content: center; gap: 32px;">
-      <button mat-button color="warn" (click)="addToCart(burgers[currentIndex]?.burgerName)">Order Now</button>
+      <button mat-button color="warn" (click)="addToCart(burgers[currentIndex])">ADD TO CART</button>
       <button mat-button color="warn">Browse Menu</button>
     </div>
   </div>
