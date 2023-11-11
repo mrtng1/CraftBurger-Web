@@ -2,6 +2,21 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.side-burger-image {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  filter: blur(2px);
+  margin: 0 5px;
+}
+
+.main-burger-image {
+  width: 346px;
+  height: 518px;
+  object-fit: cover;
+  margin: 0 5px;
+}
+
 .slider-transition {
   transition: transform 2s ease;
 }
@@ -16,7 +31,6 @@
   font-style: italic;
 }
 
-/* Grid Layout for Burgers */
 #burgerGrid {
   margin-top: 150px;
   display: grid;

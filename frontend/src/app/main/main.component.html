@@ -2,29 +2,30 @@
   <h1 class="text-3xl" style="color: #ff3a02; margin-top: 80px;"><span class="uppercase">Our Burgers</span></h1>
 
   <div class="flex flex-row justify-center items-center">
-    <!-- Previous Burger Image -->
-    <img [src]="burgers[previousIndex]?.imageUrl"
-         alt="{{ burgers[previousIndex]?.burgerName }}"
-         style="width: 100px; height: 150px; object-fit: cover;">
-
+    <!-- Previous Button -->
     <button (click)="previousBurger()" mat-icon-button>
       <mat-icon>chevron_left</mat-icon>
     </button>
 
+    <!-- Previous Burger Image -->
+    <img [src]="burgers[previousIndex]?.imageUrl"
+         alt="{{ burgers[previousIndex]?.burgerName }}"
+         class="side-burger-image">
+
     <!-- Current Burger Image -->
     <img [src]="burgers[currentIndex]?.imageUrl"
          alt="{{ burgers[currentIndex]?.burgerName }}"
-         style="width: 288px; height: 432px; object-fit: cover;"
-         class="drop-shadow-md">
-
-    <button (click)="nextBurger()" mat-icon-button>
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+         class="main-burger-image drop-shadow-md">
 
     <!-- Next Burger Image -->
     <img [src]="burgers[nextIndex]?.imageUrl"
          alt="{{ burgers[nextIndex]?.burgerName }}"
-         style="width: 100px; height: 150px; object-fit: cover;">
+         class="side-burger-image">
+
+    <!-- Next Button -->
+    <button (click)="nextBurger()" mat-icon-button>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
 
     <h2 class="text-xl" style="color: #ff3a02; margin-left: auto; margin-right: auto; width: 50%; text-align: center;">{{ burgers[currentIndex]?.burgerName }}</h2>
