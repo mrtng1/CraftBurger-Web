@@ -1,10 +1,16 @@
-<mat-toolbar class="fixed">
-  <img src="assets/logo/CraftBurger.png" alt="logo" height="100px" width="100px" class="logo"/>
-  <button mat-icon-button (click)="toggleCart()" class="shopping-cart">
-    <mat-icon>shopping_cart</mat-icon>
-  </button>
-</mat-toolbar>
+<div class="relative">
+  <mat-toolbar class="fixed top-0 left-0 right-0 z-50 toolbar">
+    <a routerLink="/home">
+      <img src="assets/logo/CraftBurger.png" alt="logo" height="100px" width="100px" class="logo"/>
+    </a>
+    <button mat-icon-button (click)="toggleCart()" class="shopping-cart">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+  </mat-toolbar>
 
-<app-cart-list *ngIf="isCartVisible"></app-cart-list>
+  <div class="absolute top-full right-0 z-40">
+    <app-cart-list *ngIf="isCartVisible"></app-cart-list>
+  </div>
+</div>
 
 <router-outlet></router-outlet>

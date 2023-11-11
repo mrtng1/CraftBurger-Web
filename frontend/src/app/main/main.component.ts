@@ -48,6 +48,14 @@ export class MainComponent implements OnInit {
       (this.currentIndex - 1 + this.burgers.length) % this.burgers.length;
   }
 
+  get previousIndex(): number {
+    return this.currentIndex === 0 ? this.burgers.length - 1 : this.currentIndex - 1;
+  }
+
+  get nextIndex(): number {
+    return this.currentIndex === this.burgers.length - 1 ? 0 : this.currentIndex + 1;
+  }
+
   addToCart(burger: any) {
     let cart = sessionStorage.getItem('cart');
     let cartArray;
@@ -60,7 +68,6 @@ export class MainComponent implements OnInit {
 
     cartArray.push(burger);
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
-    this.refreshPage();
   }
 
   scrollToBurgerGrid() {
@@ -68,9 +75,5 @@ export class MainComponent implements OnInit {
     if (grid) {
       grid.scrollIntoView({behavior: 'smooth'});
     }
-  }
-
-  refreshPage() {
-    location.reload();
   }
 }

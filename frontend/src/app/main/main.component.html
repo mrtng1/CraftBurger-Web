@@ -1,23 +1,32 @@
 <div class="flex flex-col items-center p-5 avenir-next custom-margin-top">
   <h1 class="text-3xl" style="color: #ff3a02; margin-top: 80px;"><span class="uppercase">Our Burgers</span></h1>
 
-  <div *ngIf="burgers.length > 0">
-    <!-- Burger Image and Slider Controls -->
-    <div class="flex flex-row justify-center items-center">
-      <button (click)="previousBurger()" mat-icon-button>
-        <mat-icon>chevron_left</mat-icon>
-      </button>
+  <div class="flex flex-row justify-center items-center">
+    <!-- Previous Button -->
+    <button (click)="previousBurger()" mat-icon-button>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
 
-      <!-- Current Burger Image -->
-      <img [src]="burgers[currentIndex].imageUrl"
-           alt="{{ burgers[currentIndex].burgerName }}"
-           style="width: 288px; height: 432px; object-fit: cover;"
-           class="drop-shadow-md">
+    <!-- Previous Burger Image -->
+    <img [src]="burgers[previousIndex]?.imageUrl"
+         alt="{{ burgers[previousIndex]?.burgerName }}"
+         class="side-burger-image">
 
-      <button (click)="nextBurger()" mat-icon-button>
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
+    <!-- Current Burger Image -->
+    <img [src]="burgers[currentIndex]?.imageUrl"
+         alt="{{ burgers[currentIndex]?.burgerName }}"
+         class="main-burger-image drop-shadow-md">
+
+    <!-- Next Burger Image -->
+    <img [src]="burgers[nextIndex]?.imageUrl"
+         alt="{{ burgers[nextIndex]?.burgerName }}"
+         class="side-burger-image">
+
+    <!-- Next Button -->
+    <button (click)="nextBurger()" mat-icon-button>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
 
     <h2 class="text-xl" style="color: #ff3a02; margin-left: auto; margin-right: auto; width: 50%; text-align: center;">{{ burgers[currentIndex]?.burgerName }}</h2>
 
@@ -27,7 +36,6 @@
 
     </div>
   </div>
-</div>
 
 <div id="burgerGrid" class="grid-layout">
   <div *ngFor="let burger of burgers" class="grid-item">
