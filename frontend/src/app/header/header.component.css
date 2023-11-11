@@ -2,39 +2,44 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Style for the fixed toolbar */
 mat-toolbar.fixed {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ff3a02 !important;
+  background-color: #ff3a02;
   height: 60px;
   opacity: 75%;
+  position: fixed; /* Makes the toolbar fixed */
+  top: 0; /* Aligns it to the top */
+  left: 0; /* Aligns it to the left */
+  right: 0; /* Aligns it to the right */
+  z-index: 100; /* Ensures it stays above other content */
 }
 
+/* Style for the cart list */
 app-cart-list {
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  width: 300px;
-  background-color: #1b1b1b;
-  border: 1px solid #ff3a02;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-  padding: 20px;
-  z-index: 1000;
+  position: fixed; /* Fixes the cart list position */
+  top: 60px; /* Positions it right below the toolbar */
+  right: 10px; /* Aligns it to the right */
+  width: 300px; /* Sets the width */
+  background-color: #1b1b1b; /* Background color */
+  border: 1px solid #ff3a02; /* Border style */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+  padding: 20px; /* Padding */
+  z-index: 99; /* Z-index lower than the toolbar */
 }
 
+/* Style for the cart list items */
 app-cart-list ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+/* Style for buttons inside the cart list */
 app-cart-list button {
   display: block;
   width: 100%;
   margin-top: 20px;
-}
-
-.example-fill-remaining-space {
-  flex: 1;
 }
