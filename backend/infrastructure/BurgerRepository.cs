@@ -58,4 +58,18 @@ public class BurgerRepository
             return conn.Execute(sql, new { BurgerId = burgerId }) > 0;
         }
     }
+    
+    public async Task<IEnumerable<Ingredient>> GetIngredientsByBurgerId(int burgerId)
+    {
+        const string sql = @"
+                SELECT i.id, i.name 
+                FROM ingredients i
+                INNER JOIN burgeringredients bi ON i.id = bi.ingredient_id
+                WHERE bi.burger_id = @BurgerId;";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QueryAsync<Ingredient>(sql, new { BurgerId = burgerId });
+        }
+    }
 }

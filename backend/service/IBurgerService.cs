@@ -11,5 +11,6 @@ namespace service
         Task<Burger> GetBurgerById(int id);
         Task<Burger> UpdateBurger(int id, Burger burgerUpdateInfo);
         Task<bool> DeleteBurger(int id);
+        Task<IEnumerable<Ingredient>> GetIngredientsByBurgerId(int burgerId);
     }
 }
