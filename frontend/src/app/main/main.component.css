@@ -2,7 +2,36 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.side-burger-image {
+/* New styles for the burger container */
+.burger-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* New styles for the previous and next buttons */
+.prev-button,
+.next-button {
+  color: #f8e8d3;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.prev-button {
+  left: 40px;
+}
+
+.next-button {
+  right: 40px;
+}
+
+/* Adjusted styles for the previous and next images */
+.prev-image,
+.next-image {
   width: 120px;
   height: 180px;
   object-fit: cover;
@@ -10,6 +39,7 @@
   margin: 0 5px;
 }
 
+/* Styles for the main burger image */
 .main-burger-image {
   width: 346px;
   height: 518px;
@@ -17,20 +47,24 @@
   margin: 0 5px;
 }
 
+/* Additional styles for the slider transition */
 .slider-transition {
   transition: transform 2s ease;
 }
 
+/* Additional styles for uppercase text */
 .uppercase {
   text-transform: uppercase;
 }
 
+/* Additional styles for the Avenir Next font */
 .avenir-next {
   font-family: 'Avenir Next Condensed', sans-serif;
   font-weight: bold;
   font-style: italic;
 }
 
+/* Additional styles for the burger grid */
 #burgerGrid {
   margin-top: 150px;
   display: grid;
@@ -39,6 +73,7 @@
   padding: 20px;
 }
 
+/* Additional styles for grid items */
 .grid-item {
   /* Additional styles for grid items */
 }

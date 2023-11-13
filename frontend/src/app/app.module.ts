@@ -12,6 +12,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { HttpClientModule } from '@angular/common/http';
 import { CartListComponent } from './cart-list/cart-list.component';
 import { InspectItemComponent } from './inspect-item/inspect-item.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { InspectItemComponent } from './inspect-item/inspect-item.component';
     MainComponent,
     CartListComponent,
     InspectItemComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
