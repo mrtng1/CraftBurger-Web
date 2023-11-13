@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class InspectItemComponent implements OnInit {
   burger: any;
+  ingredients: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -22,10 +23,18 @@ export class InspectItemComponent implements OnInit {
       if (burgerId) {
         this.http.get<any>(`${environment.baseUrl}/api/burger/${burgerId}`).subscribe(data => {
           this.burger = data;
+          this.getBurgerIngredients(burgerId);
         });
       }
     });
   }
+
+  getBurgerIngredients(burgerId: string): void {
+    this.http.get<any[]>(`${environment.baseUrl}/api/burger/${burgerId}/ingredients`).subscribe(data => {
+      this.ingredients = data;
+    });
+  }
+
 
   getImageUrl(burgerName: string): string {
     const formattedName = burgerName.toLowerCase().replace(/\s+/g, '-');
