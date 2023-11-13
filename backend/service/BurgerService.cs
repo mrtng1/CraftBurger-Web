@@ -120,4 +120,16 @@ public class BurgerService : IBurgerService
                 throw new Exception("Could not delete the burger");
             }
         }
+        
+        public async Task<IEnumerable<Ingredient>> GetIngredientsByBurgerId(int burgerId)
+        {
+            try
+            {
+                return await _burgerRepository.GetIngredientsByBurgerId(burgerId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while trying to get ingredients for the burger", ex);
+            }
+        }
     }
