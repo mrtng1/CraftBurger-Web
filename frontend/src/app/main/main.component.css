@@ -58,7 +58,7 @@
 }
 
 #aboutUsSection {
-  margin-top: 150px;
+  margin-top: 80px;
   margin-bottom: 75px;
 }
 
@@ -70,3 +70,14 @@
    height: 518px;
    margin-left: 50px;
  }
+
+.contact-section {
+  background-color: rgba(0, 0, 0, 0.75); /* 75% transparent black */
+  color: white; /* Text color */
+  padding: 6px;
+  margin-top: 12px;
+}
+
+.contact-section * {
+  color: inherit; /* Ensures all child elements inherit the white text color */
+}
