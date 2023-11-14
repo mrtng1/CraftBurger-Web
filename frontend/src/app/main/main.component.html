@@ -11,7 +11,13 @@
     <img [src]="burgers[previousIndex]?.imageUrl" alt="{{ burgers[previousIndex]?.burgerName }}" class="side-burger-image prev-image">
 
     <!-- Current Burger with Animation -->
-    <img [src]="burgers[currentIndex]?.imageUrl" alt="{{ burgers[currentIndex]?.burgerName }}" class="main-burger-image drop-shadow-md">
+    <div *ngFor="let burger of burgers; let i = index">
+      <img *ngIf="i === currentIndex"
+           [src]="burger.imageUrl"
+           alt="{{ burger.burgerName }}"
+           class="main-burger-image drop-shadow-md"
+           [@scaleIn]>
+    </div>
 
     <!-- Next Burger -->
     <img [src]="burgers[nextIndex]?.imageUrl" alt="{{ burgers[nextIndex]?.burgerName }}" class="side-burger-image next-image">
