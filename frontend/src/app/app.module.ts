@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CartListComponent } from './cart-list/cart-list.component';
 import { InspectItemComponent } from './inspect-item/inspect-item.component';
 import { MenuComponent } from './menu/menu.component';
+import {NgIconsModule} from "@ng-icons/core";
+import {heroUsers} from "@ng-icons/heroicons/outline";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { MenuComponent } from './menu/menu.component';
     MatToolbarModule,
     MatButtonModule,
     HttpClientModule,
+    NgIconsModule.withIcons({heroUsers }),
   ],
   providers: [],
   bootstrap: [AppComponent]
