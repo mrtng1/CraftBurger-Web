@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {InspectItemComponent} from "./inspect-item/inspect-item.component";
 import {MainComponent} from "./main/main.component";
-import {AppComponent} from "./app.component";
+import {MenuComponent} from "./menu/menu.component";
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/home',
-    pathMatch: 'full' // This ensures that the redirect only occurs for the exact path ''
+    pathMatch: 'full'
   },
   {
     path: 'home',
@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'inspect/:burgerId',
     component: InspectItemComponent // The inspect page
+  },
+  {
+    path: 'menu',
+    component: MenuComponent // The menu page
   }
 ];
 
