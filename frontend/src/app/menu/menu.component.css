@@ -2,60 +2,91 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* New styles for the burger container */
 .burger-container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Adjusted styles for the previous and next images */
 .prev-image,
 .next-image {
-    width: 120px;
-    height: 180px;
-    object-fit: cover;
-    filter: blur(2px);
-    margin: 0 5px;
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  filter: blur(2px);
+  margin: 0 5px;
 }
 
-/* Styles for the main burger image */
 .main-burger-image {
-    width: 346px;
-    height: 518px;
-    object-fit: cover;
-    margin: 0 5px;
+  width: 346px;
+  height: 518px;
+  object-fit: cover;
+  margin: 0 5px;
 }
 
-/* Additional styles for the slider transition */
 .slider-transition {
-    transition: transform 2s ease;
+  transition: transform 2s ease;
 }
 
-/* Additional styles for uppercase text */
 .uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
-/* Additional styles for the Avenir Next font */
 .avenir-next {
-    font-family: 'Avenir Next Condensed', sans-serif;
-    font-weight: bold;
-    font-style: italic;
+  font-family: 'Avenir Next Condensed', sans-serif;
+  font-weight: bold;
+  font-style: italic;
 }
 
-/* Additional styles for the burger grid */
 #burgerGrid {
-    margin-top: 150px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
-/* Additional styles for grid items */
+#fries .grid-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
 .grid-item {
-    /* Additional styles for grid items */
+  /* Styles specific to grid items */
+}
+
+.grid-item img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+  margin-bottom: 20px;
+  margin-top: 120px; /* Adjusted margin */
+}
+
+.nav-button {
+  padding: 15px 30px; /* Increased padding for larger buttons */
+  margin: 0 10px;
+  border: none;
+  background-color: transparent; /* Invisible background */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase; /* Uppercase text */
+  font-size: 1.2em; /* Larger font size */
+}
+
+.nav-button.selected {
+  background-color: #ddd;
+  cursor: default;
+}
+
+.nav-button:hover:not(.selected) {
+  background-color: #eaeaea;
 }
