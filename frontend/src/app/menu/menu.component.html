@@ -8,3 +8,14 @@
     <button mat-button color="warn" (click)="addToCart(burgers[currentIndex])">ADD TO CART</button>
   </div>
 </div>
+
+<div id="fries" class="section">
+  <div class="grid-layout">
+    <div *ngFor="let fry of fries" class="grid-item">
+      <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
+      <p>{{fry.friesName}}</p>
+      <p>Price: {{fry.friesPrice}}</p>
+      <button mat-button color="warn" (click)="addToCartFries(fries[currentIndex])">ADD TO CART</button>
+    </div>
+  </div>
+</div>

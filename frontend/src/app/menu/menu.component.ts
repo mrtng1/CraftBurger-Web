@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BurgerService} from "../burger.service";
+import {FriesService} from "../fries.service";
 
 @Component({
   selector: 'app-menu',
@@ -8,11 +9,17 @@ import {BurgerService} from "../burger.service";
 })
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
+  fries: any[] = [];
   currentIndex: number = 0;
 
-  constructor(private burgerService: BurgerService) {}
+  constructor(private burgerService: BurgerService, public friesService: FriesService) {}
 
   ngOnInit() {
+    this.loadBurgers();
+    this.loadFries();
+  }
+
+  loadBurgers() {
     this.burgerService.getBurgers().subscribe({
       next: (data) => {
         this.burgers = data.map(burger => ({
@@ -20,9 +27,19 @@ export class MenuComponent implements OnInit {
           imageUrl: this.burgerService.getImageUrl(burger.burgerName)
         }));
       },
-      error: (error) => {
-        console.error('Error fetching burgers:', error);
-      }
+      error: (error) => console.error('Error fetching burgers:', error)
+    });
+  }
+
+  loadFries() {
+    this.friesService.getFries().subscribe({
+      next: (data) => {
+        this.fries = data.map(fry => ({
+          ...fry,
+          imageUrl: this.friesService.getImageUrl(fry.friesName)
+        }));
+      },
+      error: (error) => console.error('Error fetching fries:', error)
     });
   }
 
@@ -32,6 +49,10 @@ export class MenuComponent implements OnInit {
 
   addToCart(burger: any) {
     this.burgerService.addToCart(burger);
+  }
+
+  addToCartFries(fries: any) {
+    this.burgerService.addToCart(fries);
   }
 
   getImageUrl(burgerName: string): string {
