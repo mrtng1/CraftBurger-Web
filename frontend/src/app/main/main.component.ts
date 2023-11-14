@@ -2,12 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../Environments/environment";
 import {Router} from "@angular/router";
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  animations: [
+    trigger('scaleIn', [
+      transition(':enter', [
+        style({ transform: 'scale(0.8)', opacity: 0 }),
+        animate('200ms ease-out', style({ transform: 'scale(1)', opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class MainComponent implements OnInit {
   burgers: any[] = [];
