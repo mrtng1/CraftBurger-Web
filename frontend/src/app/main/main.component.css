@@ -56,3 +56,17 @@
   font-weight: bold;
   font-style: italic;
 }
+
+#aboutUsSection {
+  margin-top: 150px;
+  margin-bottom: 75px;
+}
+
+ #aboutUsSection p {
+   margin-bottom: 18px;
+ }
+ .skiltImage{
+   width: 346px;
+   height: 518px;
+   margin-left: 50px;
+ }
