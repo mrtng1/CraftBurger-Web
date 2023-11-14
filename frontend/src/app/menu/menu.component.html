@@ -1,3 +1,8 @@
+<div class="navigation">
+  <button class="nav-button selected" disabled>BURGERS</button>
+  <button class="nav-button" (click)="scrollToFries()">FRIES</button>
+</div>
+
 <div id="burgerGrid" class="grid-layout">
   <div *ngFor="let burger of burgers" class="grid-item">
     <img [src]="getImageUrl(burger.burgerName)"

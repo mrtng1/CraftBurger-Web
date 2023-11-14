@@ -58,4 +58,8 @@ export class MenuComponent implements OnInit {
   getImageUrl(burgerName: string): string {
     return this.burgerService.getImageUrl(burgerName);
   }
+
+  scrollToFries(): void {
+    document.getElementById('fries')?.scrollIntoView({ behavior: 'smooth' });
+  }
 }

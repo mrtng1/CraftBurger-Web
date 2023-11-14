@@ -41,7 +41,7 @@
 }
 
 #burgerGrid {
-  margin-top: 150px;
+  margin-top: 15px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -62,4 +62,31 @@
 .grid-item img {
   width: 100%;
   object-fit: cover;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+  margin-bottom: 20px;
+  margin-top: 120px; /* Adjusted margin */
+}
+
+.nav-button {
+  padding: 15px 30px; /* Increased padding for larger buttons */
+  margin: 0 10px;
+  border: none;
+  background-color: transparent; /* Invisible background */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase; /* Uppercase text */
+  font-size: 1.2em; /* Larger font size */
+}
+
+.nav-button.selected {
+  background-color: #ddd;
+  cursor: default;
+}
+
+.nav-button:hover:not(.selected) {
+  background-color: #eaeaea;
 }
