@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +7,13 @@ import {Component} from '@angular/core';
 })
 export class HeaderComponent {
   isCartVisible = false;
+  @Output() aboutUsClick = new EventEmitter<void>();
 
   toggleCart() {
     this.isCartVisible = !this.isCartVisible;
+  }
+
+  aboutUsClicked() {
+    this.aboutUsClick.emit();
   }
 }

@@ -3,6 +3,10 @@
     <a routerLink="/home" class="flex items-center">
       <img src="assets/logo/CraftBurger.png" height="100px" width="100px" style="margin-top: 25px;" alt="logo"/>
     </a>
+
+    <button mat-button routerLink="/menu" style="margin-left: 10px;">Menu</button>
+    <button mat-button (click)="aboutUsClicked()">About Us</button>
+
     <button mat-icon-button (click)="toggleCart()" class="shopping-cart">
       <mat-icon>shopping_cart</mat-icon>
     </button>

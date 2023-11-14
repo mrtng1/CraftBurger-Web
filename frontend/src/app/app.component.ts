@@ -8,4 +8,11 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'frontend';
+
+  scrollToAboutUs(): void {
+    const aboutUsSection = document.getElementById('aboutUsSection');
+    if (aboutUsSection) {
+      aboutUsSection.scrollIntoView({behavior: 'smooth'});
+    }
+  }
 }
