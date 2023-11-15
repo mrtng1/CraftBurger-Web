@@ -5,6 +5,8 @@ import {MainComponent} from "./main/main.component";
 import {MenuComponent} from "./menu/menu.component";
 import {CartComponent} from "./cart/cart.component";
 import {LoginComponent} from "./login/login.component";
+import {AdminComponent} from "./admin/admin.component";
+import {AuthGuard} from "./auth.guard";
 
 const routes: Routes = [
   {
@@ -31,6 +33,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

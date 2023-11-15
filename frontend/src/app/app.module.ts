@@ -16,6 +16,7 @@ import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { FormsModule } from '@angular/forms';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     MenuComponent,
     CartComponent,
     LoginComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
