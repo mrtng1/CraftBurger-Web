@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { BurgerService } from "../burger.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -24,7 +23,6 @@ export class MainComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private http: HttpClient, // Consider if you still need HttpClient
         private burgerService: BurgerService // Using BurgerService
     ) {}
 

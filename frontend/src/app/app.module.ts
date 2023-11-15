@@ -10,18 +10,18 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import { HttpClientModule } from '@angular/common/http';
-import { CartListComponent } from './cart-list/cart-list.component';
 import { InspectItemComponent } from './inspect-item/inspect-item.component';
 import { MenuComponent } from './menu/menu.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     MainComponent,
-    CartListComponent,
     InspectItemComponent,
     MenuComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

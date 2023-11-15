@@ -8,15 +8,9 @@
       <button mat-button (click)="aboutUsClicked()" class="px-3">About Us</button>
     </div>
 
-    <button mat-icon-button (click)="toggleCart()" class="shopping-cart">
+    <button mat-icon-button  routerLink="/cart" class="shopping-cart">
       <mat-icon>shopping_cart</mat-icon>
     </button>
   </mat-toolbar>
-
-  <div class="absolute top-full right-0 z-40">
-    <app-cart-list *ngIf="isCartVisible" class="fixed top-16 right-10 w-90 bg-gray-900 border border-red-600 shadow-lg p-5 z-99">
-    </app-cart-list>
-  </div>
 </div>
-
 <router-outlet></router-outlet>

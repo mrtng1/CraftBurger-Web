@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {BurgerService} from "../burger.service";
-import {FriesService} from "../fries.service";
+import { BurgerService } from '../burger.service';
+import { FriesService } from '../fries.service';
 
 @Component({
   selector: 'app-menu',
@@ -48,11 +48,32 @@ export class MenuComponent implements OnInit {
   }
 
   addToCart(burger: any) {
-    this.burgerService.addToCart(burger);
+    let cart = sessionStorage.getItem('cart');
+    let cartArray;
+
+    if (cart) {
+      cartArray = JSON.parse(cart);
+    } else {
+      cartArray = [];
+    }
+
+    cartArray.push(burger);
+    sessionStorage.setItem('cart', JSON.stringify(cartArray));
   }
 
   addToCartFries(fries: any) {
-    this.burgerService.addToCart(fries);
+    let cart = sessionStorage.getItem('cart');
+    let cartArray;
+
+    if (cart) {
+      cartArray = JSON.parse(cart);
+    } else {
+      cartArray = [];
+    }
+
+    cartArray.push(fries);
+    sessionStorage.setItem('cart', JSON.stringify(cartArray));
+    console.log('Cart Items:', cartArray);
   }
 
   getImageUrl(burgerName: string): string {

@@ -12,10 +12,6 @@ export class HeaderComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
-  toggleCart() {
-    this.isCartVisible = !this.isCartVisible;
-  }
-
   aboutUsClicked() {
     if (this.route.snapshot.routeConfig?.path === 'home') {
       this.aboutUsClick.emit();

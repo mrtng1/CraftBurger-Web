@@ -4,23 +4,23 @@
 </div>
 
 <div id="burgerGrid" class="grid-layout">
-  <div *ngFor="let burger of burgers" class="grid-item">
+  <div *ngFor="let burger of burgers; let i = index" class="grid-item">
     <img [src]="getImageUrl(burger.burgerName)"
          alt="{{ burger.burgerName }}"
          style="width: 100%; object-fit: cover;">
     <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
-    <p>Price: {{burger.burgerPrice}}</p>
-    <button mat-button color="warn" (click)="addToCart(burgers[currentIndex])">ADD TO CART</button>
+    <p>Price: {{ burger.burgerPrice }}</p>
+    <button mat-button color="warn" (click)="addToCart(burger)">ADD TO CART</button>
   </div>
 </div>
 
 <div id="fries" class="section">
   <div class="grid-layout">
-    <div *ngFor="let fry of fries" class="grid-item">
+    <div *ngFor="let fry of fries; let i = index" class="grid-item">
       <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
-      <p>{{fry.friesName}}</p>
-      <p>Price: {{fry.friesPrice}}</p>
-      <button mat-button color="warn" (click)="addToCartFries(fries[currentIndex])">ADD TO CART</button>
+      <p>{{ fry.friesName }}</p>
+      <p>Price: {{ fry.friesPrice }}</p>
+      <button mat-button color="warn" (click)="addToCartFries(fry)">ADD TO CART</button>
     </div>
   </div>
 </div>
