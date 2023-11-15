@@ -1,6 +1,10 @@
+using System.Security.Cryptography;
+using System.Text;
 using AspNetCoreRateLimit;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +22,21 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
     dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddSingleton<BurgerRepository>();
 builder.Services.AddSingleton<IBurgerService, BurgerService>();
@@ -42,6 +61,9 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseIpRateLimiting();
 
