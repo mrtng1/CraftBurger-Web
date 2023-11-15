@@ -1,1 +1,16 @@
-<p>login works!</p>
+<div class="login-container flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  <div class="login-box p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4">Login</h2>
+    <form (ngSubmit)="onLogin()" class="flex flex-col gap-4">
+      <div>
+        <label for="username" class="block mb-2 text-sm font-medium">Username</label>
+        <input type="text" id="username" [(ngModel)]="loginData.username" name="username" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <div>
+        <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+        <input type="password" id="password" [(ngModel)]="loginData.password" name="password" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <button type="submit" class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Log In</button>
+    </form>
+  </div>
+</div>
