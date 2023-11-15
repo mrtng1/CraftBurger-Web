@@ -33,18 +33,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                if (context.Request.Cookies.ContainsKey("SessionToken"))
-                {
-                    context.Token = context.Request.Cookies["SessionToken"];
-                }
-
-                return Task.CompletedTask;
-            }
-        };
 });
 
 builder.Services.AddSingleton<UserRepository>();
