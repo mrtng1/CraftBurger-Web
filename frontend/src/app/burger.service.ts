@@ -23,7 +23,7 @@ export class BurgerService {
 
     getImageUrl(burgerName: string): string {
         const formattedName = burgerName.toLowerCase().replace(/\s+/g, '-');
-        return `/assets/burgers/${formattedName}.JPG`;
+        return `/assets/burgers/${formattedName}.jpg`;
     }
 
     getBurgerDetails(burgerId: number): void {
