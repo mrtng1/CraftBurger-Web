@@ -3,6 +3,7 @@ using api.Models;
 using Microsoft.AspNetCore.Mvc;
 using service;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace backend.Controllers;
@@ -15,7 +16,7 @@ public class BurgerController : Controller
     {
         _service = service;
     }
-
+    
     [HttpGet]
     [Route("/api/burgers")]
     public async Task<IEnumerable<Burger>> GetBurgers()
@@ -35,6 +36,7 @@ public class BurgerController : Controller
         return Ok(burger);
     }
 
+    [Authorize]
     [HttpPost]
     [Route("/api/burger")]
     public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger)
@@ -49,6 +51,7 @@ public class BurgerController : Controller
         return CreatedAtAction(nameof(GetBurgerById), new { burgerId = newBurger.ID }, newBurger);
     }
 
+    [Authorize]
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromBody] Burger burger, [FromRoute] int burgerId)
@@ -68,6 +71,7 @@ public class BurgerController : Controller
         return Ok(updatedBurger);
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult> DeleteBurger([FromRoute] int burgerId)
