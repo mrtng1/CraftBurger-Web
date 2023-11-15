@@ -28,15 +28,8 @@ public class AuthController : ControllerBase
         if (user != null)
         {
             var token = GenerateJwtToken(user);
-            
-            Response.Cookies.Append("SessionToken", token, new CookieOptions 
-            { 
-                HttpOnly = true, 
-                Secure = true, 
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
-            });
-            
+
+            // Return the token in the response body
             return Ok(new { Token = token });
         }
         return Unauthorized();
