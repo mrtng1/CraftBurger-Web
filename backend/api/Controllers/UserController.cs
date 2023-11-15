@@ -28,6 +28,8 @@ public class AuthController : ControllerBase
         if (user != null)
         {
             var token = GenerateJwtToken(user);
+
+            // Return the token in the response body
             return Ok(new { Token = token });
         }
         return Unauthorized();
@@ -46,7 +48,6 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Handle exceptions (e.g., username already exists)
             return BadRequest(ex.Message);
         }
     }
