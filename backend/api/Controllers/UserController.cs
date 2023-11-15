@@ -28,6 +28,15 @@ public class AuthController : ControllerBase
         if (user != null)
         {
             var token = GenerateJwtToken(user);
+            
+            Response.Cookies.Append("SessionToken", token, new CookieOptions 
+            { 
+                HttpOnly = true, 
+                Secure = true, 
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+            
             return Ok(new { Token = token });
         }
         return Unauthorized();
@@ -46,7 +55,6 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Handle exceptions (e.g., username already exists)
             return BadRequest(ex.Message);
         }
     }

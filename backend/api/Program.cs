@@ -33,7 +33,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
-    });
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.ContainsKey("SessionToken"))
+                {
+                    context.Token = context.Request.Cookies["SessionToken"];
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+});
 
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
@@ -64,6 +76,15 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+/* !!!!!turn on before deployment!!!!!!
+ 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self'; object-src 'none';");
+    await next();
+});
+*/
 
 app.UseIpRateLimiting();
 
