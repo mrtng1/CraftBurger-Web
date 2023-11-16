@@ -3,8 +3,8 @@
     <img [src]="item.imageUrl" alt="{{ item.burgerName || item.friesName }}" width="200" height="200" class="object-cover mr-4">
     <div>
       <p class="font-semibold">{{ item.burgerName || item.friesName }}</p>
-      <p class="text-gray-600" *ngIf="item.burgerPrice !== undefined">Price: ${{ item.burgerPrice.toFixed(2) }}</p>
-      <p class="text-gray-600" *ngIf="item.friesPrice !== undefined">Price: ${{ item.friesPrice.toFixed(2) }}</p>
+      <p class="text-gray-600" *ngIf="item.burgerPrice !== undefined">Price: {{ item.burgerPrice.toFixed(2) }} kr</p>
+      <p class="text-gray-600" *ngIf="item.friesPrice !== undefined">Price: {{ item.friesPrice.toFixed(2) }} kr</p>
       <p>Quantity: {{ item.quantity }}</p>
     </div>
   </div>
@@ -15,5 +15,5 @@
 </div>
 
 <div class="mt-4">
-  <p class="text-xl font-semibold">Total Price: ${{ totalPrice.toFixed(2) }}</p>
+  <p class="text-xl font-semibold">Total Price: {{ totalPrice.toFixed(2) }} kr</p>
 </div>
