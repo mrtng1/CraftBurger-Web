@@ -7,4 +7,20 @@ import { Component } from '@angular/core';
 })
 export class AdminComponent {
 
+  create(): void {
+    console.log("create");
+  }
+
+  edit(): void {
+    console.log("edit");
+  }
+
+  delete(): void {
+    console.log("delete");
+  }
+
+  viewIngredients(): void {
+    console.log("view");
+  }
+
 }

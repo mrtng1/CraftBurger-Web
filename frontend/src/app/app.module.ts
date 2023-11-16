@@ -15,7 +15,7 @@ import { MenuComponent } from './menu/menu.component';
 import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
@@ -39,6 +39,7 @@ import { AdminComponent } from './admin/admin.component';
     HttpClientModule,
     MatSnackBarModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

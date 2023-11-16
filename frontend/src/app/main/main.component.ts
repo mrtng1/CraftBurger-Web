@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { BurgerService } from "../burger.service";
+import { BurgerService } from "../service/burger.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -38,10 +38,6 @@ export class MainComponent implements OnInit {
                 console.error('Error fetching burgers:', error);
             }
         });
-    }
-
-    redirectToMenu() {
-        this.router.navigate(['/menu']);
     }
 
     nextBurger() {
