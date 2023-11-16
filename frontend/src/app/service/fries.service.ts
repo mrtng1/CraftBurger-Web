@@ -19,28 +19,4 @@ export class FriesService {
     const url = `${environment.baseUrl}/api/fries/${friesId}`;
     return this.http.get<any>(url);
   }
-
-  addToCart(fries: any): void {
-    let cart = sessionStorage.getItem('cart');
-    let cartArray;
-
-    if (cart) {
-      cartArray = JSON.parse(cart);
-    } else {
-      cartArray = [];
-    }
-
-    cartArray.push(fries);
-    sessionStorage.setItem('cart', JSON.stringify(cartArray));
-  }
-
-  getImageUrl(fryName: string): string {
-    if (!fryName) {
-      return '/path/to/default-image.jpg'; // Or any suitable default
-    }
-    const formattedName = fryName.toLowerCase().replace(/\s+/g, '-');
-    return `/assets/fries/${formattedName}.JPG`;
-  }
-
-  // Additional utility methods for fries can be added here
 }

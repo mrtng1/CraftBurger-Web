@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BurgerService } from '../service/burger.service';
 import { FriesService } from '../service/fries.service';
 import { CartItem } from '../models/CartItem';
+import {ImageService} from "../service/image.service";
 
 @Component({
   selector: 'app-menu',
@@ -11,9 +12,11 @@ import { CartItem } from '../models/CartItem';
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
-  currentIndex: number = 0;
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService) {}
+  constructor(private burgerService: BurgerService,
+              public friesService: FriesService,
+              public imageService: ImageService
+              ) {}
 
   ngOnInit() {
     this.loadBurgers();
@@ -25,7 +28,7 @@ export class MenuComponent implements OnInit {
       next: (data) => {
         this.burgers = data.map(burger => ({
           ...burger,
-          imageUrl: this.burgerService.getImageUrl(burger.burgerName)
+          imageUrl: this.imageService.getImageUrl(burger.burgerName, "burger")
         }));
       },
       error: (error) => console.error('Error fetching burgers:', error)
@@ -37,7 +40,7 @@ export class MenuComponent implements OnInit {
       next: (data) => {
         this.fries = data.map(fry => ({
           ...fry,
-          imageUrl: this.friesService.getImageUrl(fry.friesName)
+          imageUrl: this.imageService.getImageUrl(fry.friesName, "fries")
         }));
       },
       error: (error) => console.error('Error fetching fries:', error)
@@ -75,7 +78,7 @@ export class MenuComponent implements OnInit {
 
 
   getImageUrl(burgerName: string): string {
-    return this.burgerService.getImageUrl(burgerName);
+    return this.imageService.getImageUrl(burgerName, "burger");
   }
 
   scrollToFries(): void {
