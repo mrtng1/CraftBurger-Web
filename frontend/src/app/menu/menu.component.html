@@ -10,7 +10,7 @@
          style="width: 100%; object-fit: cover;">
     <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
     <p>Price: {{ burger.burgerPrice }}</p>
-    <button mat-button color="warn" (click)="addToCart(burger)">ADD TO CART</button>
+    <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
   </div>
 </div>
 
@@ -20,7 +20,7 @@
       <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
       <p>{{ fry.friesName }}</p>
       <p>Price: {{ fry.friesPrice }}</p>
-      <button mat-button color="warn" (click)="addToCart(fry)">ADD TO CART</button>
+      <button mat-button color="warn" (click)="addToCart(fry, 'fry')">ADD TO CART</button>
     </div>
   </div>
 </div>
