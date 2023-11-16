@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BurgerService } from '../burger.service';
-import { FriesService } from '../fries.service';
+import { BurgerService } from '../service/burger.service';
+import { FriesService } from '../service/fries.service';
+import { CartItem } from '../models/CartItem';
+import {ImageService} from "../service/image.service";
 
 @Component({
   selector: 'app-menu',
@@ -10,9 +12,11 @@ import { FriesService } from '../fries.service';
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
-  currentIndex: number = 0;
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService) {}
+  constructor(private burgerService: BurgerService,
+              public friesService: FriesService,
+              public imageService: ImageService
+              ) {}
 
   ngOnInit() {
     this.loadBurgers();
@@ -24,7 +28,7 @@ export class MenuComponent implements OnInit {
       next: (data) => {
         this.burgers = data.map(burger => ({
           ...burger,
-          imageUrl: this.burgerService.getImageUrl(burger.burgerName)
+          imageUrl: this.imageService.getImageUrl(burger.burgerName, "burger")
         }));
       },
       error: (error) => console.error('Error fetching burgers:', error)
@@ -36,7 +40,7 @@ export class MenuComponent implements OnInit {
       next: (data) => {
         this.fries = data.map(fry => ({
           ...fry,
-          imageUrl: this.friesService.getImageUrl(fry.friesName)
+          imageUrl: this.imageService.getImageUrl(fry.friesName, "fries")
         }));
       },
       error: (error) => console.error('Error fetching fries:', error)
@@ -47,37 +51,34 @@ export class MenuComponent implements OnInit {
     this.burgerService.getBurgerDetails(burgerId);
   }
 
-  addToCart(burger: any) {
+  addToCart(item: CartItem, itemType: string) {
     let cart = sessionStorage.getItem('cart');
-    let cartArray;
+    let cartArray: CartItem[];
 
     if (cart) {
-      cartArray = JSON.parse(cart);
+      cartArray = JSON.parse(cart) as CartItem[];
     } else {
       cartArray = [];
     }
 
-    cartArray.push(burger);
-    sessionStorage.setItem('cart', JSON.stringify(cartArray));
-  }
+    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id);
 
-  addToCartFries(fries: any) {
-    let cart = sessionStorage.getItem('cart');
-    let cartArray;
-
-    if (cart) {
-      cartArray = JSON.parse(cart);
+    if (existingItemIndex !== -1) {
+      // Increment quantity if the item exists
+      cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
     } else {
-      cartArray = [];
+      // Add new item with quantity 1
+      const newItem = {...item, quantity: 1};
+      cartArray.push(newItem);
     }
 
-    cartArray.push(fries);
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
-    console.log('Cart Items:', cartArray);
+    console.log(`${itemType} added to cart:`, cartArray);
   }
+
 
   getImageUrl(burgerName: string): string {
-    return this.burgerService.getImageUrl(burgerName);
+    return this.imageService.getImageUrl(burgerName, "burger");
   }
 
   scrollToFries(): void {

@@ -3,6 +3,7 @@ using api.Models; // Assuming Fries model is in this namespace
 using Microsoft.AspNetCore.Mvc;
 using service; // Assuming IFriesService is in this namespace
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace backend.Controllers;
@@ -35,7 +36,8 @@ public class FriesController : Controller
         }
         return Ok(fries);
     }
-
+    
+    [Authorize]
     [HttpPost]
     [Route("/api/fries")]
     public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries)
@@ -49,6 +51,7 @@ public class FriesController : Controller
         return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.ID }, newFries);
     }
 
+    [Authorize]
     [HttpPut]
     [Route("/api/fries/{friesId}")]
     public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries)
@@ -72,6 +75,7 @@ public class FriesController : Controller
         return Ok(updatedFries);
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("/api/fries/{friesId}")]
     public async Task<ActionResult> DeleteFries([FromRoute] int friesId)

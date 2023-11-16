@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { BurgerService } from "../burger.service";
+import { ImageService } from "../service/image.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import {BurgerService} from "../service/burger.service";
 
 @Component({
     selector: 'app-main',
@@ -23,7 +24,8 @@ export class MainComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private burgerService: BurgerService // Using BurgerService
+        private burgerService: BurgerService,
+        private imageService: ImageService
     ) {}
 
     ngOnInit() {
@@ -31,17 +33,13 @@ export class MainComponent implements OnInit {
             next: (data) => {
                 this.burgers = data.map(burger => ({
                     ...burger,
-                    imageUrl: this.burgerService.getImageUrl(burger.burgerName)
+                    imageUrl: this.imageService.getImageUrl(burger.burgerName, "burger")
                 }));
             },
             error: (error) => {
                 console.error('Error fetching burgers:', error);
             }
         });
-    }
-
-    redirectToMenu() {
-        this.router.navigate(['/menu']);
     }
 
     nextBurger() {
