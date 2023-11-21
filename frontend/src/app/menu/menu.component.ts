@@ -13,10 +13,8 @@ export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
 
-  constructor(private burgerService: BurgerService,
-              public friesService: FriesService,
-              public imageService: ImageService
-              ) {}
+  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService)
+  {}
 
   ngOnInit() {
     this.loadBurgers();
@@ -53,29 +51,19 @@ export class MenuComponent implements OnInit {
 
   addToCart(item: CartItem, itemType: string) {
     let cart = sessionStorage.getItem('cart');
-    let cartArray: CartItem[];
-
-    if (cart) {
-      cartArray = JSON.parse(cart) as CartItem[];
-    } else {
-      cartArray = [];
-    }
+    let cartArray: CartItem[] = cart ? JSON.parse(cart) : [];
 
     const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id);
 
     if (existingItemIndex !== -1) {
-      // Increment quantity if the item exists
       cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
     } else {
-      // Add new item with quantity 1
-      const newItem = {...item, quantity: 1};
+      const newItem = { ...item, quantity: 1 };
       cartArray.push(newItem);
     }
 
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
-    console.log(`${itemType} added to cart:`, cartArray);
   }
-
 
   getImageUrl(burgerName: string): string {
     return this.imageService.getImageUrl(burgerName, "burger");
