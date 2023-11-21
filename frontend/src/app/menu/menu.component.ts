@@ -3,6 +3,7 @@ import { BurgerService } from '../service/burger.service';
 import { FriesService } from '../service/fries.service';
 import { CartItem } from '../models/CartItem';
 import {ImageService} from "../service/image.service";
+import {CartService} from "../service/cart.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +14,7 @@ export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService)
+  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService)
   {}
 
   ngOnInit() {
@@ -63,6 +64,7 @@ export class MenuComponent implements OnInit {
     }
 
     sessionStorage.setItem('cart', JSON.stringify(cartArray));
+    this.cartService.updateCartCount(cartArray.length);
   }
 
   getImageUrl(burgerName: string): string {

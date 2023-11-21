@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {CartService} from "../service/cart.service";
 
 @Component({
   selector: 'app-header',
@@ -10,15 +11,15 @@ export class HeaderComponent implements OnInit{
   @Output() aboutUsClick = new EventEmitter<void>();
   cartCount: number = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService) {}
 
   ngOnInit() {
-    this.updateCartCount();
-  }
-
-  updateCartCount() {
     const cart = sessionStorage.getItem('cart');
     this.cartCount = cart ? JSON.parse(cart).length : 0;
+
+    this.cartService.cartCount$.subscribe(count => {
+      this.cartCount = count;
+    });
   }
 
   aboutUsClicked() {

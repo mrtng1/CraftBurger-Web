@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {CartService} from "../service/cart.service";
 
 @Component({
   selector: 'app-cart',
@@ -7,6 +8,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
+
+  constructor(private cartService: CartService) {}
 
   ngOnInit() {
     this.loadCartItems();
@@ -44,5 +47,6 @@ export class CartComponent implements OnInit {
   removeItem(item: any) {
     this.cartItems = this.cartItems.filter((cartItem) => cartItem !== item);
     sessionStorage.setItem('cart', JSON.stringify(this.cartItems));
+    this.cartService.updateCartCount(this.cartItems.length);
   }
 }

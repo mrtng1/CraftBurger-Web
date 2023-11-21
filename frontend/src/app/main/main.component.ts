@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { ImageService } from "../service/image.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {BurgerService} from "../service/burger.service";
+import {CartService} from "../service/cart.service";
 
 @Component({
     selector: 'app-main',
@@ -22,11 +23,7 @@ export class MainComponent implements OnInit {
     burgers: any[] = [];
     currentIndex: number = 0;
 
-    constructor(
-        private router: Router,
-        private burgerService: BurgerService,
-        private imageService: ImageService
-    ) {}
+    constructor(private burgerService: BurgerService, private imageService: ImageService, private cartService: CartService) {}
 
     ngOnInit() {
         this.burgerService.getBurgers().subscribe({
@@ -71,5 +68,6 @@ export class MainComponent implements OnInit {
 
         cartArray.push(burger);
         sessionStorage.setItem('cart', JSON.stringify(cartArray));
+        this.cartService.updateCartCount(cartArray.length);
     }
 }

@@ -19,6 +19,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import {CartService} from "./service/cart.service";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
