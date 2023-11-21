@@ -2,23 +2,32 @@
   <h1 class="text-2xl font-semibold" style="color: #f8e8d3;">Order</h1>
   <div style="border-bottom: 1px solid #f8e8d3; width: 100%; margin-bottom: 20px;"></div>
 
-  <div *ngFor="let item of cartItems" class="flex items-center justify-between" style="border-bottom: 1px solid #f8e8d3; padding: 10px 0;">
-    <div class="flex items-center" style="color: #f8e8d3;">
-      <img [src]="item.imageUrl" alt="{{ item.burgerName || item.friesName }}" class="object-cover mr-4 square-image" style="width: 150px; height: 150px;">
-      <div style="width: 200px;">
-        <p class="font-semibold">{{ item.burgerName || item.friesName }}</p>
-        <p *ngIf="item.burgerPrice !== undefined">Price: {{ item.burgerPrice.toFixed(2) }} kr</p>
-        <p *ngIf="item.friesPrice !== undefined">Price: {{ item.friesPrice.toFixed(2) }} kr</p>
-        <p>Quantity: {{ item.quantity }}</p>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <!-- Cart Items -->
+    <div *ngFor="let item of cartItems" class="flex items-center justify-between" style="border-bottom: 1px solid #f8e8d3; padding: 10px 0;">
+      <div class="flex items-center" style="color: #f8e8d3;">
+        <img [src]="item.imageUrl" alt="{{ item.burgerName || item.friesName }}" class="object-cover mr-4 square-image" style="width: 150px; height: 150px;">
+        <div style="width: 200px;">
+          <p class="font-semibold">{{ item.burgerName || item.friesName }}</p>
+          <p *ngIf="item.burgerPrice !== undefined">Price: {{ item.burgerPrice.toFixed(2) }} kr</p>
+          <p *ngIf="item.friesPrice !== undefined">Price: {{ item.friesPrice.toFixed(2) }} kr</p>
+          <p>Quantity: {{ item.quantity }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        <button (click)="removeItem(item)" class="text-red-500 hover:text-red-700">Remove</button>
       </div>
     </div>
 
-    <div class="flex items-center">
-      <button (click)="removeItem(item)" class="text-red-500 hover:text-red-700">Remove</button>
+    <!-- Total Price -->
+    <div class="mt-4" style="color: #f8e8d3;">
+      <p class="text-xl font-semibold">Total Price: {{ totalPrice.toFixed(2) }} kr</p>
     </div>
   </div>
 
-  <div class="mt-4" style="color: #f8e8d3;">
-    <p class="text-xl font-semibold">Total Price: {{ totalPrice.toFixed(2) }} kr</p>
-  </div>
+  <ng-template #emptyCart>
+    <!-- Empty Cart Message -->
+    <p class="text-xl font-semibold" style="color: #f8e8d3;">Your cart is empty</p>
+  </ng-template>
 </div>
