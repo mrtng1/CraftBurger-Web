@@ -17,6 +17,8 @@ import { LoginComponent } from './login/login.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
+import { FooterComponent } from './footer/footer.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { AdminComponent } from './admin/admin.component';
     CartComponent,
     LoginComponent,
     AdminComponent,
+    FooterComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
