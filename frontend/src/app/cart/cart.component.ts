@@ -16,7 +16,20 @@ export class CartComponent implements OnInit {
     let cart = sessionStorage.getItem('cart');
     if (cart) {
       this.cartItems = JSON.parse(cart);
+      this.sortCartItems();
     }
+  }
+
+  sortCartItems() {
+    // Custom sorting function: burgers first, then fries
+    this.cartItems.sort((a, b) => {
+      const typeA = a.burgerName ? 'burger' : 'fries';
+      const typeB = b.burgerName ? 'burger' : 'fries';
+
+      if (typeA < typeB) return -1;
+      if (typeA > typeB) return 1;
+      return 0;
+    });
   }
 
   get totalPrice(): number {
@@ -24,10 +37,9 @@ export class CartComponent implements OnInit {
       const itemPrice = item.burgerPrice || item.friesPrice || 0;
       const quantity = item.quantity || 0;
 
-      return sum + (itemPrice * quantity);
+      return sum + itemPrice * quantity;
     }, 0);
   }
-
 
   removeItem(item: any) {
     this.cartItems = this.cartItems.filter((cartItem) => cartItem !== item);
