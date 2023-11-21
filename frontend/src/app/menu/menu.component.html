@@ -3,7 +3,7 @@
   <button class="nav-button" (click)="scrollToFries()">FRIES</button>
 </div>
 
-<div id="burgerGrid" class="grid-layout">
+<div id="burgerGrid" class="grid-layout" style="color: #f8e8d3">
   <div *ngFor="let burger of burgers; let i = index" class="grid-item">
     <img [src]="getImageUrl(burger.burgerName)"
          alt="{{ burger.burgerName }}"
@@ -15,7 +15,7 @@
 </div>
 
 <div id="fries" class="section">
-  <div class="grid-layout">
+  <div class="grid-layout" style="color: #f8e8d3">
     <div *ngFor="let fry of fries; let i = index" class="grid-item">
       <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
       <p>{{ fry.friesName }}</p>
