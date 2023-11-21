@@ -15,7 +15,7 @@ export class ImageService {
 
     const formattedName = itemName.toLowerCase().replace(/\s+/g, '-');
     const folderPath = itemType === 'burger' ? 'burgers' : 'fries';
-    const fileExtension = itemType === 'burger' ? 'jpg' : 'JPG';
+    const fileExtension = itemType === 'burger' ? 'jpg' : 'jpg';
 
     return `/assets/${folderPath}/${formattedName}.${fileExtension}`;
   }
