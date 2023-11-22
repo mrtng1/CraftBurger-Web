@@ -4,6 +4,7 @@ import { ImageService } from "../service/image.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {BurgerService} from "../service/burger.service";
 import {CartService} from "../service/cart.service";
+import {CartItem} from "../models/CartItem";
 
 @Component({
     selector: 'app-main',
@@ -56,18 +57,26 @@ export class MainComponent implements OnInit {
         return this.currentIndex === this.burgers.length - 1 ? 0 : this.currentIndex + 1;
     }
 
-    addToCart(burger: any) {
-        let cart = sessionStorage.getItem('cart');
-        let cartArray;
+  addToCart(burger: CartItem) {
+    let cart = sessionStorage.getItem('cart');
+    let cartArray: CartItem[];
 
-        if (cart) {
-            cartArray = JSON.parse(cart);
-        } else {
-            cartArray = [];
-        }
-
-        cartArray.push(burger);
-        sessionStorage.setItem('cart', JSON.stringify(cartArray));
-        this.cartService.updateCartCount(cartArray.length);
+    if (cart) {
+      cartArray = JSON.parse(cart) as CartItem[];
+    } else {
+      cartArray = [];
     }
+
+    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === burger.id);
+
+    if (existingItemIndex !== -1) {
+      cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
+    } else {
+      const newItem: CartItem = { ...burger, quantity: 1 };
+      cartArray.push(newItem);
+    }
+
+    sessionStorage.setItem('cart', JSON.stringify(cartArray));
+    this.cartService.updateCartCount(cartArray.length);
+  }
 }
