@@ -7,3 +7,19 @@
     <button mat-button (click)="deleteItem()">Delete Item</button>
   </div>
 </div>
+
+<h3>Menu Items</h3>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Type</th>
+  </tr>
+  <tr *ngFor="let item of menuItems">
+    <td>{{ item.id }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.price }} kr</td>
+    <td>{{ item.type }}</td>
+  </tr>
+</table>
