@@ -16,28 +16,34 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: MainComponent // The main page
+    component: MainComponent,
+    data: { showHeader: true }
   },
   {
     path: 'inspect/:burgerId',
-    component: InspectItemComponent
+    component: InspectItemComponent,
+    data: { showHeader: true }
   },
   {
     path: 'menu',
-    component: MenuComponent
+    component: MenuComponent,
+    data: { showHeader: true }
   },
   {
     path: 'cart',
-    component: CartComponent
+    component: CartComponent,
+    data: { showHeader: true }
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: { showHeader: false }
   },
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { showHeader: false }
   },
 ];
 
