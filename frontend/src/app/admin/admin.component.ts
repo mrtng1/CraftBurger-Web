@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin',
@@ -8,16 +9,17 @@ import { Component } from '@angular/core';
 export class AdminComponent {
   showSubMenu: boolean = false;
 
+  constructor(private router: Router) {}
   viewUserManagement(): void {
-    console.log("User Management");
+    this.router.navigate(['/admin/user-management']);
   }
 
   viewItemManagement(): void {
-    console.log("Item Management");
+    this.router.navigate(['/admin/item-management']);
   }
 
   viewOverview(): void {
-    console.log("Overview");
+    this.router.navigate(['/admin/overview']);
   }
 
   toggleSubMenu(): void {
