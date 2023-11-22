@@ -1,12 +1,25 @@
 <div class="relative">
-  <mat-toolbar class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center h-16 opacity-90" style="background-color: #ff3a02">
+  <mat-toolbar class="fixed top-0 left-0 right-0 z-50 flex items-center h-16 opacity-90" style="background-color: #ff3a02">
+    <div class="separator"></div>
+
     <button class="admin-menu" (click)="toggleSubMenu()">
       <mat-icon>dashboard</mat-icon>
     </button>
+
+    <div class="separator"></div>
+
+    <div class="admin-header">ADMIN</div>
+
+    <div class="separator"></div>
+
+    <div class="admin-header">MANAGEMENT</div>
   </mat-toolbar>
 
-  <mat-toolbar *ngIf="showSubMenu" class="fixed top-16 left-0 right-0 z-50 flex justify-between items-center h-16 opacity-90" style="background-color: #f8e8d3; opacity: 80%; margin-top: 60px;">
-    <button (click)="create()">User Management</button>
-    <button (click)="edit()">Item Management</button>
+  <mat-toolbar *ngIf="showSubMenu" class="fixed left-0 right-0 z-50 flex justify-start items-center h-16 opacity-90" style="background-color: #f8e8d3; opacity: 80%; margin-top: 60px;">
+    <button (click)="viewOverview()" style="margin-right: 40px;">Overview</button>
+    <button (click)="viewItemManagement()" style="margin-right: 40px;">Item Management</button>
+    <button (click)="viewUserManagement()" style="margin-right: 40px;">User Management</button>
   </mat-toolbar>
 </div>
+
+<app-user-management></app-user-management>

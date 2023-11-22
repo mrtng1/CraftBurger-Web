@@ -8,20 +8,16 @@ import { Component } from '@angular/core';
 export class AdminComponent {
   showSubMenu: boolean = false;
 
-  create(): void {
-    console.log("create");
+  viewUserManagement(): void {
+    console.log("User Management");
   }
 
-  edit(): void {
-    console.log("edit");
+  viewItemManagement(): void {
+    console.log("Item Management");
   }
 
-  delete(): void {
-    console.log("delete");
-  }
-
-  viewIngredients(): void {
-    console.log("view");
+  viewOverview(): void {
+    console.log("Overview");
   }
 
   toggleSubMenu(): void {
