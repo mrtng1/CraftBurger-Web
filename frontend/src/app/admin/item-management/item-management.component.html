@@ -8,7 +8,7 @@
   </div>
 
   <div class="fields-container">
-    <input type="text" [(ngModel)]="selectedItem.id" placeholder="Item ID" disabled>
+    <input type="text" [(ngModel)]="selectedItem.id" placeholder="Item ID" [disabled]="selectedItem.id == null || !isEditable">
     <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
     <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" step="0.01" min="0">
     <select [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
@@ -24,7 +24,6 @@
 </div>
 
 <div class="tables-container">
-<h3>Menu Items</h3>
 <table>
   <tr>
     <th>ID</th>
@@ -41,7 +40,6 @@
 </table>
 
 <div class="ingredients-table">
-  <h3>Burger Ingredients</h3>
   <table>
     <tr>
       <th>ID</th>

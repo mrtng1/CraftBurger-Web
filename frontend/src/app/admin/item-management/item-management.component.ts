@@ -6,6 +6,7 @@ import { BurgerService } from '../../service/burger.service';
 import { FriesService } from '../../service/fries.service';
 import { IngredientService } from "../../service/ingredient.service";
 import { Ingredient } from "../../models/Ingredient";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-item-management',
@@ -30,23 +31,24 @@ export class ItemManagementComponent implements OnInit {
   }
 
   fetchMenuItems(): void {
-    this.burgerService.getBurgers().subscribe(burgers => {
-      this.menuItems = burgers.map(burger => ({
-        id: burger.id,
-        name: burger.burgerName,
-        price: burger.burgerPrice,
-        type: 'Burger'
-      }));
-    });
-
-    this.friesService.getFries().subscribe(fries => {
-      const friesItems = fries.map(fry => ({
-        id: fry.id,
-        name: fry.friesName,
-        price: fry.friesPrice,
-        type: 'Fries'
-      }));
-      this.menuItems = [...this.menuItems, ...friesItems];
+    forkJoin({
+      burgers: this.burgerService.getBurgers(),
+      fries: this.friesService.getFries()
+    }).subscribe(({ burgers, fries }) => {
+      this.menuItems = [
+        ...burgers.map(burger => ({
+          id: burger.id,
+          name: burger.burgerName,
+          price: burger.burgerPrice,
+          type: 'Burger'
+        })),
+        ...fries.map(fry => ({
+          id: fry.id,
+          name: fry.friesName,
+          price: fry.friesPrice,
+          type: 'Fries'
+        }))
+      ];
     });
   }
 
@@ -73,9 +75,9 @@ export class ItemManagementComponent implements OnInit {
 
   createItem(): void {
     this.selectedItem = {
-      name: '',
-      price: 0.0,
-      type: ''
+      id: null,
+      burgerName: '',
+      burgerPrice: 0.01
     };
     this.isEditable = true;
   }
@@ -85,12 +87,31 @@ export class ItemManagementComponent implements OnInit {
   }
 
   deleteItem(): void {
-    console.log("delete item");
+    if (this.selectedItem && this.selectedItem.id) {
+      this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
+        this.fetchMenuItems();
+      });
+    }
   }
 
   saveItem(): void {
     if (this.isEditable) {
-      console.log("save item");
+      const burgerData = {
+        id: this.selectedItem.id || 0,
+        burgerName: this.selectedItem.name,
+        burgerPrice: this.selectedItem.price
+      };
+
+      if (burgerData.id) {
+        this.burgerService.updateBurger(burgerData.id, burgerData).subscribe(() => {
+          this.fetchMenuItems();
+        });
+      } else {
+        this.burgerService.createBurger(burgerData).subscribe(() => {
+          this.fetchMenuItems();
+        });
+      }
+      this.isEditable = false;
     }
   }
 }
