@@ -1,22 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HttpClient} from "@angular/common/http";
-import {MenuItem} from "../../models/MenuItem";
+import { FormsModule } from "@angular/forms";
+import { MenuItem } from "../../models/MenuItem";
 import { BurgerService } from '../../service/burger.service';
 import { FriesService } from '../../service/fries.service';
+import { IngredientService } from "../../service/ingredient.service";
+import { Ingredient } from "../../models/Ingredient";
 
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './item-management.component.html',
-  styleUrl: './item-management.component.css'
+  styleUrls: ['./item-management.component.css']
 })
-export class ItemManagementComponent {
+export class ItemManagementComponent implements OnInit {
   menuItems: MenuItem[] = [];
+  selectedItem: MenuItem | any = {};
+  isEditable: boolean = false;
+
+  ingredients: Ingredient[] = [];
 
   constructor(private burgerService: BurgerService,
-              private friesService: FriesService) {}
+              private friesService: FriesService,
+              private ingredientService: IngredientService) {}
 
   ngOnInit() {
     this.fetchMenuItems();
@@ -24,18 +31,17 @@ export class ItemManagementComponent {
 
   fetchMenuItems(): void {
     this.burgerService.getBurgers().subscribe(burgers => {
-      const burgerItems: MenuItem[] = burgers.map(burger => ({
-        id: burger.id, // Ensure the property names match
+      this.menuItems = burgers.map(burger => ({
+        id: burger.id,
         name: burger.burgerName,
         price: burger.burgerPrice,
         type: 'Burger'
       }));
-      this.menuItems = [...this.menuItems, ...burgerItems];
     });
 
     this.friesService.getFries().subscribe(fries => {
-      const friesItems: MenuItem[] = fries.map(fry => ({
-        id: fry.id, // Ensure the property names match
+      const friesItems = fries.map(fry => ({
+        id: fry.id,
         name: fry.friesName,
         price: fry.friesPrice,
         type: 'Fries'
@@ -43,15 +49,48 @@ export class ItemManagementComponent {
       this.menuItems = [...this.menuItems, ...friesItems];
     });
   }
+
+  loadIngredientsForBurger(burgerId: number): void {
+    this.ingredientService.getIngredientsByBurgerId(burgerId).subscribe(
+      data => {
+        this.ingredients = data;
+      },
+      error => {
+        console.error('Error fetching data:', error);
+      }
+    );
+  }
+
+  selectItem(item: MenuItem): void {
+    this.selectedItem = item;
+    this.isEditable = false;
+    if (item.type === 'Burger') {
+      this.loadIngredientsForBurger(item.id);
+    } else {
+      this.ingredients = [];
+    }
+  }
+
   createItem(): void {
-    console.log("Create Item clicked");
+    this.selectedItem = {
+      name: '',
+      price: 0.0,
+      type: ''
+    };
+    this.isEditable = true;
   }
 
   editItem(): void {
-    console.log("Edit Item clicked");
+    this.isEditable = true;
   }
 
   deleteItem(): void {
-    console.log("Delete Item clicked");
+    console.log("delete item");
+  }
+
+  saveItem(): void {
+    if (this.isEditable) {
+      console.log("save item");
+    }
   }
 }

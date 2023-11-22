@@ -3,11 +3,27 @@
 
   <div class="buttons-container">
     <button mat-button (click)="createItem()">Create Item</button>
-    <button mat-button (click)="editItem()">Edit Item</button>
-    <button mat-button (click)="deleteItem()">Delete Item</button>
+    <button mat-button (click)="editItem()" [disabled]="!selectedItem">Edit Item</button>
+    <button mat-button (click)="deleteItem()" [disabled]="!selectedItem">Delete Item</button>
   </div>
+
+  <div class="fields-container">
+    <input type="text" [(ngModel)]="selectedItem.id" placeholder="Item ID" disabled>
+    <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
+    <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" step="0.01" min="0">
+    <select [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
+      <option value="">Select Type</option>
+      <option value="Burger">Burger</option>
+      <option value="Fries">Fries</option>
+      <option value="Dip">Dip</option>
+      <option value="Sides">Sides</option>
+    </select>
+  </div>
+
+  <button mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
 </div>
 
+<div class="tables-container">
 <h3>Menu Items</h3>
 <table>
   <tr>
@@ -16,10 +32,25 @@
     <th>Price</th>
     <th>Type</th>
   </tr>
-  <tr *ngFor="let item of menuItems">
+  <tr *ngFor="let item of menuItems" (click)="selectItem(item)">
     <td>{{ item.id }}</td>
     <td>{{ item.name }}</td>
     <td>{{ item.price }} kr</td>
     <td>{{ item.type }}</td>
   </tr>
 </table>
+
+<div class="ingredients-table">
+  <h3>Burger Ingredients</h3>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    <tr *ngFor="let ingredient of ingredients">
+      <td>{{ ingredient.id }}</td>
+      <td>{{ ingredient.name }}</td>
+    </tr>
+  </table>
+</div>
+</div>
