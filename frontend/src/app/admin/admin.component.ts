@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  showSubMenu: boolean = false;
 
   create(): void {
     console.log("create");
@@ -23,4 +24,7 @@ export class AdminComponent {
     console.log("view");
   }
 
+  toggleSubMenu(): void {
+    this.showSubMenu = !this.showSubMenu;
+  }
 }
