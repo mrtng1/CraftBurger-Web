@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {InitializationService} from "./service/initialization.service";
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
+  constructor(private initializationService: InitializationService) {}
+
+  ngOnInit() {
+    this.initializationService.initializeCartCount();
+  }
+
   title = 'frontend';
 
   scrollToAboutUs(): void {

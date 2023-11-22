@@ -14,13 +14,19 @@ export class HeaderComponent implements OnInit{
   constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService) {}
 
   ngOnInit() {
+    console.log('Header Component: ngOnInit');
+
+    setTimeout(() => {
+      this.cartService.cartCount$.subscribe(count => {
+        console.log('Header Component: cartCount$ subscription callback', count);
+        this.cartCount = count;
+      });
+    }, 0);
+
     const cart = sessionStorage.getItem('cart');
     this.cartCount = cart ? JSON.parse(cart).length : 0;
-
-    this.cartService.cartCount$.subscribe(count => {
-      this.cartCount = count;
-    });
   }
+
 
   aboutUsClicked() {
     if (this.route.snapshot.routeConfig?.path === 'home') {

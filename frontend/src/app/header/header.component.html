@@ -1,11 +1,11 @@
 <div class="relative">
   <mat-toolbar class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center h-16 opacity-90" style="background-color: #ff3a02">
     <div class="flex items-center">
-      <a routerLink="/home" class="flex items-center">
+      <a routerLink="/home" class="flex items-center logo-container">
         <img src="assets/logo/CraftBurger.png" height="100px" width="100px" style="margin-top: 25px;" alt="logo"/>
       </a>
-      <button mat-button routerLink="/menu" class="px-3" style="margin-right: 18px;">Menu</button>
-      <button mat-button (click)="aboutUsClicked()" class="px-3">About Us</button>
+      <button mat-button routerLink="/menu" class="px-3 nav-button" style="margin-right: 18px;">Menu</button>
+      <button mat-button (click)="aboutUsClicked()" class="px-3 nav-button">About Us</button>
     </div>
 
     <button mat-icon-button routerLink="/cart" class="shopping-cart">
@@ -14,4 +14,3 @@
     </button>
   </mat-toolbar>
 </div>
-<router-outlet></router-outlet>
