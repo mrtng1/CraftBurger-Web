@@ -37,7 +37,6 @@ public class BurgerService : IBurgerService
             }
             catch (Exception)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("Could not create the burger");
             }
         }
@@ -50,12 +49,10 @@ public class BurgerService : IBurgerService
             }
             catch (NpgsqlException ex)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("A database error occurred while trying to get all burgers.", ex);
             }
             catch (Exception ex)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("An unexpected error occurred while trying to get all burgers.", ex);
             }
         }
@@ -74,7 +71,6 @@ public class BurgerService : IBurgerService
             }
             catch (Exception)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("Could not get the burger by ID");
             }
         }
@@ -99,7 +95,6 @@ public class BurgerService : IBurgerService
             }
             catch (Exception)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("Could not update the burger");
             }
         }
@@ -116,20 +111,7 @@ public class BurgerService : IBurgerService
             }
             catch (Exception)
             {
-                // Log the exception details here if necessary.
                 throw new Exception("Could not delete the burger");
-            }
-        }
-        
-        public async Task<IEnumerable<Ingredient>> GetIngredientsByBurgerId(int burgerId)
-        {
-            try
-            {
-                return await _burgerRepository.GetIngredientsByBurgerId(burgerId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while trying to get ingredients for the burger", ex);
             }
         }
     }

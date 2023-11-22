@@ -35,8 +35,7 @@ public class BurgerController : Controller
         }
         return Ok(burger);
     }
-
-    [Authorize]
+    
     [HttpPost]
     [Route("/api/burger")]
     public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger)
@@ -85,19 +84,5 @@ public class BurgerController : Controller
         {
             return NotFound("Burger not found");
         }
-    }
-    
-    [HttpGet]
-    [Route("/api/burger/{burgerId}/ingredients")]
-    public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredientsByBurgerId([FromRoute] int burgerId)
-    {
-        IEnumerable<Ingredient> ingredients = await _service.GetIngredientsByBurgerId(burgerId);
-
-        if (ingredients == null || !ingredients.Any())
-        {
-            return NotFound($"No ingredients found for burger with ID {burgerId}");
-        }
-
-        return Ok(ingredients);
     }
 }
