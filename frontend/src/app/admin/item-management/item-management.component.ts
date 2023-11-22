@@ -9,5 +9,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './item-management.component.css'
 })
 export class ItemManagementComponent {
+  createItem(): void {
+    console.log("Create Item clicked");
+  }
 
+  editItem(): void {
+    console.log("Edit Item clicked");
+  }
+
+  deleteItem(): void {
+    console.log("Delete Item clicked");
+  }
 }
