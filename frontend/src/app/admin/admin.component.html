@@ -1,7 +1,25 @@
-<div class="navigation">
-  <button class="nav-button" (click)="create()">Create</button>
-  <button class="nav-button" (click)="edit()">Edit</button>
-  <button class="nav-button" (click)="delete()">Delete</button>
-  <button class="nav-button" (click)="viewIngredients()">View Ingredients</button>
+<div class="relative">
+  <mat-toolbar class="fixed top-0 left-0 right-0 z-50 flex items-center h-16 opacity-90" style="background-color: #ff3a02">
+    <div class="separator"></div>
+
+    <button class="admin-menu" (click)="toggleSubMenu()">
+      <mat-icon>dashboard</mat-icon>
+    </button>
+
+    <div class="separator"></div>
+
+    <div class="admin-header">ADMIN</div>
+
+    <div class="separator"></div>
+
+    <div class="admin-header">MANAGEMENT</div>
+  </mat-toolbar>
+
+  <mat-toolbar *ngIf="showSubMenu" class="left-0 right-0 z-50 flex justify-start items-center h-16 opacity-90" style="position: fixed; top: 67px; background-color: #f8e8d3; opacity: 80%; z-index: 50;">
+    <button (click)="viewOverview()" style="margin-right: 40px;">Overview</button>
+    <button (click)="viewItemManagement()" style="margin-right: 40px;">Item Management</button>
+    <button (click)="viewUserManagement()" style="margin-right: 40px;">User Management</button>
+  </mat-toolbar>
 </div>
 
+<router-outlet></router-outlet>

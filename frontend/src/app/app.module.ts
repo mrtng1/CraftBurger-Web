@@ -20,6 +20,7 @@ import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import {CartService} from "./service/cart.service";
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {CartService} from "./service/cart.service";
     AdminComponent,
     FooterComponent,
     AboutUsComponent,
+    UserManagementComponent,
   ],
   imports: [
     BrowserModule,
