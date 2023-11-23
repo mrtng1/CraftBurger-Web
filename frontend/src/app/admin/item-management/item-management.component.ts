@@ -4,8 +4,6 @@ import { FormsModule } from "@angular/forms";
 import { MenuItem } from "../../models/MenuItem";
 import { BurgerService } from '../../service/burger.service';
 import { FriesService } from '../../service/fries.service';
-import { IngredientService } from "../../service/ingredient.service";
-import { Ingredient } from "../../models/Ingredient";
 import {forkJoin} from "rxjs";
 
 @Component({
@@ -20,11 +18,8 @@ export class ItemManagementComponent implements OnInit {
   selectedItem: MenuItem | any = {};
   isEditable: boolean = false;
 
-  ingredients: Ingredient[] = [];
-
   constructor(private burgerService: BurgerService,
-              private friesService: FriesService,
-              private ingredientService: IngredientService) {}
+              private friesService: FriesService) {}
 
   ngOnInit() {
     this.fetchMenuItems();
@@ -40,7 +35,8 @@ export class ItemManagementComponent implements OnInit {
           id: burger.id,
           name: burger.burgerName,
           price: burger.burgerPrice,
-          type: 'Burger'
+          type: 'Burger',
+          description: burger.burgerDescription
         })),
         ...fries.map(fry => ({
           id: fry.id,
@@ -52,32 +48,17 @@ export class ItemManagementComponent implements OnInit {
     });
   }
 
-  loadIngredientsForBurger(burgerId: number): void {
-    this.ingredientService.getIngredientsByBurgerId(burgerId).subscribe(
-      data => {
-        this.ingredients = data;
-      },
-      error => {
-        console.error('Error fetching data:', error);
-      }
-    );
-  }
-
   selectItem(item: MenuItem): void {
     this.selectedItem = item;
     this.isEditable = false;
-    if (item.type === 'Burger') {
-      this.loadIngredientsForBurger(item.id);
-    } else {
-      this.ingredients = [];
-    }
   }
 
   createItem(): void {
     this.selectedItem = {
       id: null,
-      burgerName: '',
-      burgerPrice: 0.01
+      name: '',
+      price: 0.01,
+      description: ''
     };
     this.isEditable = true;
   }
@@ -99,7 +80,8 @@ export class ItemManagementComponent implements OnInit {
       const burgerData = {
         id: this.selectedItem.id || 0,
         burgerName: this.selectedItem.name,
-        burgerPrice: this.selectedItem.price
+        burgerPrice: this.selectedItem.price,
+        burgerDescription: this.selectedItem.description
       };
 
       if (burgerData.id) {

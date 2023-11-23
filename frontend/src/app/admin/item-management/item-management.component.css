@@ -14,48 +14,15 @@
 
 .buttons-container {
   margin-top: 50px;
-}
-
-/* Container for both tables */
-.tables-container {
   display: flex;
-  justify-content: space-around; /* Adjusted for better spacing */
-  width: 100%;
-  margin-top: 20px;
-}
-
-/* Styles for individual tables */
-.menu-items-table, .ingredients-table {
-  width: 40%; /* Reduced width for smaller tables */
-  max-width: 40%;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #1b1b1b;
-}
-
-th, td {
-  border: 1px solid #f8e8d3;
-  padding: 8px;
-  text-align: left;
-  color: #f8e8d3;
-}
-
-th {
-  background-color: #ff3a02;
-}
-
-tr:nth-child(even) {
-  background-color: #1b1b1b;
+  gap: 10px;
 }
 
 .fields-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
 }
 
@@ -63,7 +30,7 @@ input, select {
   padding: 8px;
   border: 1px solid #f8e8d3;
   border-radius: 4px;
-  width: 200px;
+  width: 250px;
   background-color: #1b1b1b;
   color: #f8e8d3;
 }
@@ -87,4 +54,26 @@ button[disabled] {
   border-color: #cccccc;
   color: #cccccc;
   cursor: not-allowed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1b1b1b;
+  margin-top: 30px;
+}
+
+th, td {
+  border: 1px solid #f8e8d3;
+  padding: 8px;
+  text-align: left;
+  color: #f8e8d3;
+}
+
+th {
+  background-color: #ff3a02;
+}
+
+tr:nth-child(even) {
+  background-color: #1b1b1b;
 }

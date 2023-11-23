@@ -18,12 +18,12 @@
       <option value="Dip">Dip</option>
       <option value="Sides">Sides</option>
     </select>
+    <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
   </div>
 
   <button mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
 </div>
 
-<div class="tables-container">
 <table>
   <tr>
     <th>ID</th>
@@ -38,17 +38,3 @@
     <td>{{ item.type }}</td>
   </tr>
 </table>
-
-<div class="ingredients-table">
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-    </tr>
-    <tr *ngFor="let ingredient of ingredients">
-      <td>{{ ingredient.id }}</td>
-      <td>{{ ingredient.name }}</td>
-    </tr>
-  </table>
-</div>
-</div>
