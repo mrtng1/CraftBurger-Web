@@ -25,7 +25,7 @@ builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+        var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key"));
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -60,11 +60,6 @@ builder.Services.AddCors(options =>
         });
 });
 
-var app = builder.Build();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
 /* !!!!!turn on before deployment!!!!!!
  
 app.Use(async (context, next) =>
@@ -74,12 +69,23 @@ app.Use(async (context, next) =>
 });
 */
 
+var app = builder.Build();
+
+// First, apply CORS policy
+app.UseCors("SpecificOriginsPolicy");
+
+// Then, other middlewares in the correct order
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Rate limiting
 app.UseIpRateLimiting();
 
+// Swagger configuration
 app.UseSwagger();
-
 app.UseSwaggerUI();
 
+// Security headers and Content Security Policy
 var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(builder =>
@@ -88,6 +94,9 @@ var policyCollection = new HeaderPolicyCollection()
     });
 
 app.UseSecurityHeaders(policyCollection);
-app.UseCors("SpecificOriginsPolicy");
+
+// Map controllers
 app.MapControllers();
+
+// Run the application
 app.Run();
