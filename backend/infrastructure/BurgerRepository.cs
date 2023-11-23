@@ -33,7 +33,7 @@ public class BurgerRepository
 
     public async Task<Burger> CreateBurger(Burger burger)
     {
-        const string sql = "INSERT INTO burgers (burgername, burgerprice) VALUES (@BurgerName, @BurgerPrice) RETURNING *;";
+        const string sql = "INSERT INTO burgers (burgername, burgerprice, burgerdescription) VALUES (@BurgerName, @BurgerPrice, @BurgerDescription) RETURNING *;";
         using (var conn = _dataSource.OpenConnection())
         {
             return await conn.QuerySingleAsync<Burger>(sql, burger);
@@ -43,10 +43,10 @@ public class BurgerRepository
 
     public Burger UpdateBurger(int burgerId, Burger burger)
     {
-        const string sql = "UPDATE burgers SET burgername = @BurgerName, burgerprice = @BurgerPrice WHERE id = @BurgerId RETURNING *;";
+        const string sql = "UPDATE burgers SET burgername = @BurgerName, burgerprice = @BurgerPrice, burgerdescription = @BurgerDescription WHERE id = @BurgerId RETURNING *;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Burger>(sql, new { burger.BurgerName, burger.BurgerPrice, BurgerId = burgerId });
+            return conn.QuerySingleOrDefault<Burger>(sql, new { burger.BurgerName, burger.BurgerPrice, burger.BurgerDescription, BurgerId = burgerId });
         }
     }
 

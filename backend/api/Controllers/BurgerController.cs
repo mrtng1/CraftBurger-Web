@@ -49,8 +49,7 @@ public class BurgerController : Controller
         Burger newBurger = await _service.CreateBurger(burger);
         return CreatedAtAction(nameof(GetBurgerById), new { burgerId = newBurger.ID }, newBurger);
     }
-
-    [Authorize]
+    
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromBody] Burger burger, [FromRoute] int burgerId)
@@ -70,7 +69,7 @@ public class BurgerController : Controller
         return Ok(updatedBurger);
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpDelete]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult> DeleteBurger([FromRoute] int burgerId)
