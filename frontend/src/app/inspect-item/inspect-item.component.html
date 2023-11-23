@@ -4,9 +4,7 @@
   </div>
   <div class="burger-info">
     <h2>{{ burger.burgerName }}</h2>
-    <p>Price: {{ burger.burgerPrice }}</p>
-    <ul *ngIf="ingredients">
-      <li *ngFor="let ingredient of ingredients">{{ ingredient.name }}</li>
-    </ul>
+    <p>Price: {{ burger.burgerPrice }} kr</p>
+    <p>Description: {{ burger.burgerDescription }}</p>
   </div>
 </div>
