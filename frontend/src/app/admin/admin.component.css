@@ -15,3 +15,21 @@
   margin-left: 30px;
 }
 
+.route-header {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.slide-in {
+  height: 67px;
+  opacity: 0.8;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slide-out {
+  height: 0;
+  opacity: 0;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+

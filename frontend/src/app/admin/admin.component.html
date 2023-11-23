@@ -3,22 +3,29 @@
     <div class="separator"></div>
 
     <button class="admin-menu" (click)="toggleSubMenu()">
-      <mat-icon>dashboard</mat-icon>
+      <mat-icon>apps</mat-icon>
     </button>
 
     <div class="separator"></div>
 
-    <div class="admin-header">ADMIN</div>
+    <div class="admin-header" style="color: #f8e8d3">Admin</div>
 
     <div class="separator"></div>
 
-    <div class="admin-header">MANAGEMENT</div>
+    <div class="route-header" style="color: #f8e8d3">{{ selectedNavItem }}</div>
+
+    <button class="back" routerLink="/home" style="position: absolute; right: 30px;">
+      <mat-icon>reply_all</mat-icon>
+      <h1>Back</h1>
+    </button>
   </mat-toolbar>
 
-  <mat-toolbar *ngIf="showSubMenu" class="left-0 right-0 z-50 flex justify-start items-center h-16 opacity-90" style="position: fixed; top: 67px; background-color: #f8e8d3; opacity: 80%; z-index: 50;">
-    <button (click)="viewOverview()" style="margin-right: 40px;">Overview</button>
-    <button (click)="viewItemManagement()" style="margin-right: 40px;">Item Management</button>
-    <button (click)="viewUserManagement()" style="margin-right: 40px;">User Management</button>
+  <mat-toolbar [ngClass]="{'slide-in': showSubMenu, 'slide-out': !showSubMenu}" class="left-0 right-0 z-50 flex justify-start items-center h-16 opacity-90" style="position: fixed; top: 67px; background-color: #f8e8d3; opacity: 80%; z-index: 50;">
+    <div *ngIf="showSubMenu">
+      <button routerLink="/admin/overview" style="margin-right: 40px;">Overview</button>
+      <button routerLink="/admin/item-management" style="margin-right: 40px;">Item Management</button>
+      <button routerLink="/admin/user-management" style="margin-right: 40px;">User Management</button>
+    </div>
   </mat-toolbar>
 </div>
 
