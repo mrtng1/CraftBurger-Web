@@ -1,20 +1,23 @@
 <div class="navigation">
-  <button class="nav-button selected" disabled>BURGERS</button>
-  <button class="nav-button" (click)="scrollToFries()">FRIES</button>
+  <button class="nav-button" [class.selected]="selectedCategory === 'All'" (click)="updateSelectedCategory('All')">ALL</button>
+  <button class="nav-button" [class.selected]="selectedCategory === 'Burgers'" (click)="updateSelectedCategory('Burgers')">BURGERS</button>
+  <button class="nav-button" [class.selected]="selectedCategory === 'Fries'" (click)="updateSelectedCategory('Fries')">FRIES</button>
 </div>
 
 <div id="burgerGrid" class="grid-layout" style="color: #f8e8d3">
-  <div *ngFor="let burger of burgers; let i = index" class="grid-item">
-    <img [src]="getImageUrl(burger.burgerName)"
-         alt="{{ burger.burgerName }}"
-         style="width: 100%; object-fit: cover;">
-    <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
-    <p>Price: {{ burger.burgerPrice }}</p>
-    <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
-  </div>
+  <ng-container *ngFor="let burger of burgers; let i = index">
+    <div class="grid-item" *ngIf="shouldDisplayItem('Burgers')">
+      <img [src]="getImageUrl(burger.burgerName)"
+           alt="{{ burger.burgerName }}"
+           style="width: 100%; object-fit: cover;">
+      <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
+      <p>Price: {{ burger.burgerPrice }}</p>
+      <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
+    </div>
+  </ng-container>
 </div>
 
-<div id="fries" class="section">
+<div id="fries" class="section" *ngIf="shouldDisplayItem('Fries')" style="margin-top: 0;">
   <div class="grid-layout" style="color: #f8e8d3">
     <div *ngFor="let fry of fries; let i = index" class="grid-item">
       <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
@@ -24,3 +27,6 @@
     </div>
   </div>
 </div>
+
+
+
