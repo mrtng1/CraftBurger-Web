@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BurgerService } from '../service/burger.service';
 import { FriesService } from '../service/fries.service';
 import { CartItem } from '../models/CartItem';
-import {ImageService} from "../service/image.service";
-import {CartService} from "../service/cart.service";
+import { ImageService } from "../service/image.service";
+import { CartService } from "../service/cart.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,9 +13,9 @@ import {CartService} from "../service/cart.service";
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
+  selectedCategory: string = 'All';
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService)
-  {}
+  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService) {}
 
   ngOnInit() {
     this.loadBurgers();
@@ -71,7 +71,11 @@ export class MenuComponent implements OnInit {
     return this.imageService.getImageUrl(burgerName, "burger");
   }
 
-  scrollToFries(): void {
-    document.getElementById('fries')?.scrollIntoView({ behavior: 'smooth' });
+  updateSelectedCategory(category: string): void {
+    this.selectedCategory = category;
+  }
+
+  shouldDisplayItem(itemType: string): boolean {
+    return this.selectedCategory === 'All' || this.selectedCategory === itemType;
   }
 }

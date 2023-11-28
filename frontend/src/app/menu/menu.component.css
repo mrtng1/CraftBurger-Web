@@ -10,26 +10,6 @@
   align-items: center;
 }
 
-.prev-image,
-.next-image {
-  width: 120px;
-  height: 180px;
-  object-fit: cover;
-  filter: blur(2px);
-  margin: 0 5px;
-}
-
-.main-burger-image {
-  width: 346px;
-  height: 518px;
-  object-fit: cover;
-  margin: 0 5px;
-}
-
-.slider-transition {
-  transition: transform 2s ease;
-}
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -41,7 +21,6 @@
 }
 
 #burgerGrid {
-  margin-top: 15px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -49,14 +28,11 @@
 }
 
 #fries .grid-layout {
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 20px;
-}
-
-.grid-item {
-  /* Styles specific to grid items */
 }
 
 .grid-item img {
@@ -66,7 +42,7 @@
 
 .navigation {
   display: flex;
-  justify-content: flex-start; /* Align to the left */
+  justify-content: flex-start;
   margin-bottom: 20px;
   margin-top: 120px; /* Adjusted margin */
 }
@@ -75,18 +51,21 @@
   padding: 15px 30px; /* Increased padding for larger buttons */
   margin: 0 10px;
   border: none;
-  background-color: transparent; /* Invisible background */
+  background-color: transparent;
+  color: #f8e8d3;
   cursor: pointer;
   transition: background-color 0.3s;
-  text-transform: uppercase; /* Uppercase text */
-  font-size: 1.2em; /* Larger font size */
+  text-transform: uppercase;
+  font-size: 1.2em;
 }
 
 .nav-button.selected {
-  background-color: #ddd;
+  background-color: #f8e8d3;
   cursor: default;
+  color: #1b1b1b;
 }
 
 .nav-button:hover:not(.selected) {
-  background-color: #eaeaea;
+  color: #1b1b1b;
+  background-color: #f8e8d3;
 }

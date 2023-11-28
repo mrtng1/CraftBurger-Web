@@ -1,24 +1,35 @@
-.navigation {
-  display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  align-items: center; /* Center the buttons vertically */
-  margin-bottom: 20px;
-  margin-top: 120px;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.separator {
+  height: 50%;
+  width: 2px;
+  background-color: black;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.nav-button {
-  padding: 15px 30px;
-  margin: 0 10px;
-  border: 1px solid #ccc; /* Add a border for visibility */
-  background-color: #f5f5f5; /* Light background color for buttons */
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  text-transform: uppercase;
-  font-size: 1.2em;
-  flex-grow: 1; /* Make buttons take equal width */
+.admin-header {
+  margin-right: 30px;
+  margin-left: 30px;
 }
 
-.nav-button:hover {
-  background-color: #e0e0e0; /* Change background on hover */
-  transform: translateY(-2px); /* Slight raise effect on hover */
+.route-header {
+  margin-right: 30px;
+  margin-left: 30px;
 }
+
+.slide-in {
+  height: 67px;
+  opacity: 0.8;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slide-out {
+  height: 0;
+  opacity: 0;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+
