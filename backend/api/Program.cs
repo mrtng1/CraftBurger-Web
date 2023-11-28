@@ -44,6 +44,9 @@ builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
 
+builder.Services.AddSingleton<DipRepository>();
+builder.Services.AddSingleton<IDipService, DipService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
