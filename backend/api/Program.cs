@@ -49,9 +49,14 @@ builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
 
-// Add Azure Blob Storage configuration
-builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
-builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorage")));
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("AzureBlobStorage");
+    var containerName = configuration["BlobContainerName"];
+    return new BlobStorageService(connectionString, containerName);
+});
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
