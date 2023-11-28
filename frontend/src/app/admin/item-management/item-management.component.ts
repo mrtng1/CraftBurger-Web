@@ -91,18 +91,28 @@ export class ItemManagementComponent implements OnInit {
         data: 'Are you sure you want to delete this item?'
       });
 
-      this.isEditable = true;
-      this.isCreating = false;
-
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
-            this.fetchMenuItems();
-          });
+          switch (this.selectedItem.type) {
+            case 'Burger':
+              this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
+              break;
+            case 'Fries':
+              this.friesService.deleteFries(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
+              break;
+            case 'Dip':
+              this.dipService.deleteDip(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
+              break;
+            default:
+              console.error('Unknown item type for deletion');
+          }
         }
+        this.isEditable = false;
+        this.isCreating = false;
       });
     }
   }
+
 
   saveItem(): void {
     if (this.isEditable) {

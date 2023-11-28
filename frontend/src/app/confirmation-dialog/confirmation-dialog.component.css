@@ -1,0 +1,41 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Dialog Title */
+mat-dialog-title {
+  color: #fff;
+  background-color: #1b1b1b;
+  padding: 10px 20px;
+  margin: -24px -24px 20px -24px; /* Aligns with dialog edges */
+}
+
+/* Dialog Content */
+mat-dialog-content {
+  color: #fff;
+  background-color: #1b1b1b;
+  padding: 20px;
+}
+
+/* Dialog Actions */
+mat-dialog-actions {
+  background-color: #1b1b1b;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Button Styles */
+mat-dialog-actions .mat-button.confirm-button,
+mat-dialog-actions .mat-button.cancel-button {
+  border: 1px solid #ff3a02;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+mat-dialog-actions .mat-button.confirm-button:hover,
+mat-dialog-actions .mat-button.cancel-button:hover {
+  background-color: #ff3a02;
+  color: #1b1b1b;
+}
+
