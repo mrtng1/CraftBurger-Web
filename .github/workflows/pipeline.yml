@@ -5,45 +5,25 @@ on:
     branches:
       - main
       - develop
-  pull_request:
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Start Angular server
-      - name: Setup Node.js for Angular
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'  # adjust to your Node.js version for Angular
-
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
-      - name: Install Angular dependencies
-        run: npm install
-        working-directory: ./frontend
-
-      - name: Start Angular server
-        run: ng serve &
-        working-directory: ./frontend
-
-      - name: Wait for Angular server to start
-        run: sleep 30  # waits 30 seconds
-
-      # Build and run C# project
+      # Setup .NET environment
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '8.0.100-preview.7.23376.3'  # your .NET version
+          dotnet-version: '8.0.100-preview.7.23376.3'  # Replace with your .NET version
 
-      - name: Build C# project
-        run: dotnet build ./backend/backend.sln
+      # Build .NET project
+      - name: Build .NET project
+        run: dotnet build
 
-      # Placeholder for test steps
+      # Future placeholder for test steps
       # - name: Run tests
-      #   run: <command to run your tests>
+      #   run: <test command here>
