@@ -1,8 +1,8 @@
-﻿using api.Models;
-using Dapper;
+﻿using Dapper;
+using infrastructure.Models;
 using Npgsql;
 
-namespace infrastructure;
+namespace infrastructure.Repositories;
 
 public class UserRepository
 {
@@ -30,5 +30,4 @@ public class UserRepository
             await conn.ExecuteAsync(sql, user);
         }
     }
-
 }

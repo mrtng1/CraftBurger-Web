@@ -1,11 +1,8 @@
-﻿using api.Models;
-using Dapper;
+﻿using Dapper;
+using infrastructure.Models;
 using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace infrastructure;
+namespace infrastructure.Repositories;
 
 public class FriesRepository
 {

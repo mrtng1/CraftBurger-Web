@@ -1,29 +1,44 @@
 using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Http;
+using service.Interfaces.Blob;
 
 namespace service.Services.Blob;
 
-public class BlobService
+public class BlobStorageService : IBlobStorageService
 {
     private readonly BlobServiceClient _blobServiceClient;
+    private readonly string _containerName;
 
-    public BlobService(BlobServiceClient blobServiceClient)
+    public BlobStorageService(string connectionString, string containerName)
     {
-        _blobServiceClient = blobServiceClient ?? throw new ArgumentNullException(nameof(blobServiceClient));
+        _blobServiceClient = new BlobServiceClient(connectionString);
+        _containerName = containerName;
     }
 
-    public async Task<string> UploadImageAsync(string containerName, IFormFile file)
+    public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
     {
-        var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-        var blobName = Guid.NewGuid().ToString(); // Use a unique name for each image
+        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var blobClient = containerClient.GetBlobClient(fileName);
 
-        var blobClient = containerClient.GetBlobClient(blobName);
-
-        using (var stream = file.OpenReadStream())
-        {
-            await blobClient.UploadAsync(stream, true);
-        }
-
+        await blobClient.UploadAsync(fileStream, true);
         return blobClient.Uri.ToString();
+    }
+
+    public async Task<Stream> DownloadFileAsync(string fileName)
+    {
+        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var blobClient = containerClient.GetBlobClient(fileName);
+
+        // Directly return the Stream
+        return await blobClient.OpenReadAsync();
+    }
+
+    public async Task<bool> DeleteFileAsync(string fileName)
+    {
+        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var blobClient = containerClient.GetBlobClient(fileName);
+
+        // Correctly use the Response<bool>
+        var response = await blobClient.DeleteIfExistsAsync();
+        return response.Value; // Assuming your SDK version supports this pattern
     }
 }

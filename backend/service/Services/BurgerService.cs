@@ -1,8 +1,9 @@
-﻿using infrastructure; 
-using api.Models;
+﻿using infrastructure.Models;
+using infrastructure.Repositories;
 using Npgsql;
+using service.Interfaces;
 
-namespace service;
+namespace service.Services;
 
 public class BurgerService : IBurgerService
     {

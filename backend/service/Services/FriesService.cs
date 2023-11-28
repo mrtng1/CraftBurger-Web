@@ -1,7 +1,8 @@
-﻿using infrastructure;
-using api.Models;
+﻿using infrastructure.Models;
+using infrastructure.Repositories;
+using service.Interfaces;
 
-namespace service;
+namespace service.Services;
 
 public class FriesService : IFriesService
 {
