@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using api.Models; // Assuming Fries model is in this namespace
+﻿using infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
-using service; // Assuming IFriesService is in this namespace
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
+using service.Interfaces;
+using service.Interfaces.Blob;
 
 namespace backend.Controllers;
 
@@ -12,10 +10,12 @@ namespace backend.Controllers;
 public class FriesController : Controller
 {
     private readonly IFriesService _service;
+    private readonly IBlobStorageService _blobStorageService;
 
-    public FriesController(IFriesService service)
+    public FriesController(IFriesService service, IBlobStorageService blobStorageService)
     {
         _service = service;
+        _blobStorageService = blobStorageService;
     }
 
     [HttpGet]
@@ -24,7 +24,7 @@ public class FriesController : Controller
     {
         return await _service.GetAllFries();
     }
-    
+
     [HttpGet]
     [Route("/api/fries/{friesId}")]
     public async Task<ActionResult<Fries>> GetFriesById([FromRoute] int friesId)
@@ -36,20 +36,31 @@ public class FriesController : Controller
         }
         return Ok(fries);
     }
-    
-    [Authorize]
+
     [HttpPost]
     [Route("/api/fries")]
-    public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries)
+    public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries, IFormFile image)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
+        // Process the image upload
+        if (image != null && image.Length > 0)
+        {
+            // Save the image to Azure Blob Storage and get the URL
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), image.FileName);
+
+            // Set the image URL in the fries model
+            fries.ImageUrl = imageUrl;
+        }
+
+        // Create the fries
         Fries newFries = await _service.CreateFries(fries);
         return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.ID }, newFries);
     }
+
 
     [Authorize]
     [HttpPut]
@@ -60,7 +71,7 @@ public class FriesController : Controller
         {
             return BadRequest(ModelState);
         }
-        
+
         if (fries.ID != friesId)
         {
             return BadRequest("Mismatch between the ID in the route and the body.");

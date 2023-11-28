@@ -79,6 +79,7 @@
 
     <ItemGroup>
       <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
+      <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
       <PackageReference Include="Dapper" Version="2.1.15" />
       <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
       <PackageReference Include="Npgsql" Version="7.0.6" />

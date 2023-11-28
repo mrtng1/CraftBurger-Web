@@ -1,29 +1,29 @@
-using System.Diagnostics;
-using api.Models;
+using infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
-using service;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
+using service.Interfaces;
+using service.Interfaces.Blob;
 
 namespace backend.Controllers;
 
+[ApiController]
 public class BurgerController : Controller
 {
     private readonly IBurgerService _service;
+    private readonly IBlobStorageService _blobStorageService;
 
-    public BurgerController(IBurgerService service)
+    public BurgerController(IBurgerService service, IBlobStorageService blobStorageService)
     {
         _service = service;
+        _blobStorageService = blobStorageService;
     }
-    
+
     [HttpGet]
     [Route("/api/burgers")]
     public async Task<IEnumerable<Burger>> GetBurgers()
     {
         return await _service.GetAllBurgers();
     }
-    
+
     [HttpGet]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> GetBurgerById([FromRoute] int burgerId)
@@ -35,21 +35,27 @@ public class BurgerController : Controller
         }
         return Ok(burger);
     }
-    
+
     [HttpPost]
     [Route("/api/burger")]
-    public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger)
+    public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger, IFormFile image)
     {
         if (!ModelState.IsValid)
         {
-            
             return BadRequest(ModelState);
+        }
+
+        if (image != null)
+        {
+            // Handle file upload and set the ImageUrl
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), image.FileName);
+            burger.ImageUrl = imageUrl;
         }
 
         Burger newBurger = await _service.CreateBurger(burger);
         return CreatedAtAction(nameof(GetBurgerById), new { burgerId = newBurger.ID }, newBurger);
     }
-    
+
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromBody] Burger burger, [FromRoute] int burgerId)

@@ -1,15 +1,20 @@
-using System.Security.Cryptography;
 using System.Text;
 using AspNetCoreRateLimit;
-using NetEscapades.AspNetCore.SecurityHeaders;
 using infrastructure;
+using infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using service;
+using service.Interfaces;
+using service.Services;
+using service.Interfaces.Blob;
+using service.Services.Blob;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Load the app settings
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
@@ -33,7 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
-});
+    });
 
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
@@ -44,16 +49,20 @@ builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
 
+// Add Azure Blob Storage configuration
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorage")));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("SpecificOriginsPolicy", 
+    options.AddPolicy("SpecificOriginsPolicy",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200") 
+            builder.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
