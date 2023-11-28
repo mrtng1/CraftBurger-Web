@@ -5,6 +5,8 @@ import { MenuItem } from "../../models/MenuItem";
 import { BurgerService } from '../../service/burger.service';
 import { FriesService } from '../../service/fries.service';
 import {forkJoin} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogComponent} from "../../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-item-management',
@@ -17,9 +19,11 @@ export class ItemManagementComponent implements OnInit {
   menuItems: MenuItem[] = [];
   selectedItem: MenuItem | any = {};
   isEditable: boolean = false;
+  isCreating: boolean = false;
 
   constructor(private burgerService: BurgerService,
-              private friesService: FriesService) {}
+              private friesService: FriesService,
+              private dialog: MatDialog,) {}
 
   ngOnInit() {
     this.fetchMenuItems();
@@ -61,39 +65,61 @@ export class ItemManagementComponent implements OnInit {
       description: ''
     };
     this.isEditable = true;
+    this.isCreating = true;
   }
 
   editItem(): void {
     this.isEditable = true;
+    this.isCreating = false;
   }
 
   deleteItem(): void {
     if (this.selectedItem && this.selectedItem.id) {
-      this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
-        this.fetchMenuItems();
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: 'Are you sure you want to delete this item?'
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
+            this.fetchMenuItems();
+          });
+        }
       });
     }
   }
 
   saveItem(): void {
     if (this.isEditable) {
-      const burgerData = {
-        id: this.selectedItem.id || 0,
-        burgerName: this.selectedItem.name,
-        burgerPrice: this.selectedItem.price,
-        burgerDescription: this.selectedItem.description
-      };
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: 'Are you sure you want to save these changes?'
+      });
 
-      if (burgerData.id) {
-        this.burgerService.updateBurger(burgerData.id, burgerData).subscribe(() => {
-          this.fetchMenuItems();
-        });
-      } else {
-        this.burgerService.createBurger(burgerData).subscribe(() => {
-          this.fetchMenuItems();
-        });
-      }
-      this.isEditable = false;
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          const burgerData = {
+            id: this.selectedItem.id || 0,
+            burgerName: this.selectedItem.name,
+            burgerPrice: this.selectedItem.price,
+            burgerDescription: this.selectedItem.description
+          };
+
+          if (burgerData.id) {
+            this.burgerService.updateBurger(burgerData.id, burgerData).subscribe(() => {
+              this.fetchMenuItems();
+            });
+          } else {
+            this.burgerService.createBurger(burgerData).subscribe(() => {
+              this.fetchMenuItems();
+            });
+          }
+          this.isEditable = false;
+          this.selectedItem = {};
+          this.isCreating = false;
+        }
+      });
     }
   }
 }

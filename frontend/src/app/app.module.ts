@@ -21,6 +21,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import {CartService} from "./service/cart.service";
 import { UserManagementComponent } from './admin/user-management/user-management.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,8 @@ import { UserManagementComponent } from './admin/user-management/user-management
     MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [CartService],
   bootstrap: [AppComponent]

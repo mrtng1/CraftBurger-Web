@@ -45,7 +45,7 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
+button.active, button:hover {
   background-color: #ff3a02;
   color: #1b1b1b;
 }
@@ -64,7 +64,7 @@ table {
 }
 
 th, td {
-  border: 1px solid #f8e8d3;
+  border: 1px solid #1b1b1b;
   padding: 8px;
   text-align: left;
   color: #f8e8d3;
@@ -75,5 +75,25 @@ th {
 }
 
 tr:nth-child(even) {
+  background-color: #262626;
+}
+
+tr:hover {
+  background-color: #333333;
+  cursor: pointer;
+}
+
+.saveButton{
+  margin-top: 20px;
+}
+
+.itemDescription {
+  padding: 8px;
+  border: 1px solid #f8e8d3;
+  border-radius: 4px;
+  width: 250px;
+  height: 200px;
   background-color: #1b1b1b;
+  color: #f8e8d3;
+  resize: vertical;
 }

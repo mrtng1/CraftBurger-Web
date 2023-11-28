@@ -2,8 +2,8 @@
   <h2>Item Management</h2>
 
   <div class="buttons-container">
-    <button mat-button (click)="createItem()">Create Item</button>
-    <button mat-button (click)="editItem()" [disabled]="!selectedItem">Edit Item</button>
+    <button mat-button (click)="createItem()" [class.active]="isCreating">Create Item</button>
+    <button mat-button (click)="editItem()" [class.active]="isEditable && !isCreating" [disabled]="!selectedItem">Edit Item</button>
     <button mat-button (click)="deleteItem()" [disabled]="!selectedItem">Delete Item</button>
   </div>
 
@@ -11,17 +11,10 @@
     <input type="text" [(ngModel)]="selectedItem.id" placeholder="Item ID" [disabled]="selectedItem.id == null || !isEditable">
     <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
     <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" step="0.01" min="0">
-    <select [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
-      <option value="">Select Type</option>
-      <option value="Burger">Burger</option>
-      <option value="Fries">Fries</option>
-      <option value="Dip">Dip</option>
-      <option value="Sides">Sides</option>
-    </select>
-    <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
+    <textarea [(ngModel)]="selectedItem.description" class="itemDescription" placeholder="Item Description" [disabled]="!isEditable"></textarea>
   </div>
 
-  <button mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
+  <button class="saveButton" mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
 </div>
 
 <table>
@@ -29,12 +22,10 @@
     <th>ID</th>
     <th>Name</th>
     <th>Price</th>
-    <th>Type</th>
   </tr>
   <tr *ngFor="let item of menuItems" (click)="selectItem(item)">
     <td>{{ item.id }}</td>
     <td>{{ item.name }}</td>
     <td>{{ item.price }} kr</td>
-    <td>{{ item.type }}</td>
   </tr>
 </table>
