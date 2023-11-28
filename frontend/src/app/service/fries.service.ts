@@ -19,4 +19,16 @@ export class FriesService {
     const url = `${environment.baseUrl}/api/fries/${friesId}`;
     return this.http.get<any>(url);
   }
+  createFries(friesData: any): Observable<any> {
+    const url = `${environment.baseUrl}/api/fries`;
+    return this.http.post(url, friesData);
+  }
+  updateFries(friesId: number, friesData: any): Observable<any> {
+    const url = `${environment.baseUrl}/api/fries/${friesId}`;
+    return this.http.put(url, friesData);
+  }
+  deleteFries(friesId: number): Observable<any> {
+    const url = `${environment.baseUrl}/api/fries/${friesId}`;
+    return this.http.delete(url);
+  }
 }

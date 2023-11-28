@@ -7,6 +7,7 @@ import { FriesService } from '../../service/fries.service';
 import {forkJoin} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../confirmation-dialog/confirmation-dialog.component";
+import {DipService} from "../../service/dip.service";
 
 @Component({
   selector: 'app-item-management',
@@ -23,6 +24,7 @@ export class ItemManagementComponent implements OnInit {
 
   constructor(private burgerService: BurgerService,
               private friesService: FriesService,
+              private dipService: DipService,
               private dialog: MatDialog,) {}
 
   ngOnInit() {
@@ -32,8 +34,9 @@ export class ItemManagementComponent implements OnInit {
   fetchMenuItems(): void {
     forkJoin({
       burgers: this.burgerService.getBurgers(),
-      fries: this.friesService.getFries()
-    }).subscribe(({ burgers, fries }) => {
+      fries: this.friesService.getFries(),
+      dips: this.dipService.getDips()
+    }).subscribe(({ burgers, fries, dips }) => {
       this.menuItems = [
         ...burgers.map(burger => ({
           id: burger.id,
@@ -47,14 +50,22 @@ export class ItemManagementComponent implements OnInit {
           name: fry.friesName,
           price: fry.friesPrice,
           type: 'Fries'
+        })),
+        ...dips.map(dip => ({
+          id: dip.id,
+          name: dip.dipName,
+          price: dip.dipPrice,
+          type: 'Dip'
         }))
       ];
     });
   }
 
+
   selectItem(item: MenuItem): void {
     this.selectedItem = item;
-    this.isEditable = false;
+    this.isEditable = true;
+    this.isCreating = false;
   }
 
   createItem(): void {
@@ -80,6 +91,9 @@ export class ItemManagementComponent implements OnInit {
         data: 'Are you sure you want to delete this item?'
       });
 
+      this.isEditable = true;
+      this.isCreating = false;
+
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
@@ -99,22 +113,11 @@ export class ItemManagementComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          const burgerData = {
-            id: this.selectedItem.id || 0,
-            burgerName: this.selectedItem.name,
-            burgerPrice: this.selectedItem.price,
-            burgerDescription: this.selectedItem.description
-          };
-
-          if (burgerData.id) {
-            this.burgerService.updateBurger(burgerData.id, burgerData).subscribe(() => {
-              this.fetchMenuItems();
-            });
+          if (this.selectedItem.id) {
           } else {
-            this.burgerService.createBurger(burgerData).subscribe(() => {
-              this.fetchMenuItems();
-            });
+            this.createItemBasedOnType(this.selectedItem);
           }
+          this.fetchMenuItems();
           this.isEditable = false;
           this.selectedItem = {};
           this.isCreating = false;
@@ -122,4 +125,31 @@ export class ItemManagementComponent implements OnInit {
       });
     }
   }
+  createItemBasedOnType(item: any): void {
+    switch (item.type) {
+      case 'Burger':
+        this.burgerService.createBurger({
+          burgerName: item.name,
+          burgerPrice: item.price,
+          burgerDescription: item.description
+        }).subscribe(() => this.fetchMenuItems());
+        break;
+      case 'Fries':
+        this.friesService.createFries({
+          friesName: item.name,
+          friesPrice: item.price
+        }).subscribe(() => this.fetchMenuItems());
+        break;
+      case 'Dip':
+        this.dipService.createDip({
+          dipName: item.name,
+          dipPrice: item.price
+        }).subscribe(() => this.fetchMenuItems());
+        break;
+      default:
+        console.error('Unknown item type');
+    }
+  }
+
+
 }
