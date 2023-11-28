@@ -36,10 +36,18 @@ public class FriesRepository
 
     public async Task<Fries> CreateFries(Fries fries)
     {
-        const string sql = "INSERT INTO fries (friesname, friesprice) VALUES (@FriesName, @FriesPrice) RETURNING *;";
+        const string checkSql = "SELECT COUNT(*) FROM fries WHERE friesname = @FriesName;";
+        const string insertSql = "INSERT INTO fries (friesname, friesprice) VALUES (@FriesName, @FriesPrice) RETURNING *;";
+
         using (var conn = _dataSource.OpenConnection())
         {
-            return await conn.QuerySingleAsync<Fries>(sql, fries);
+            var exists = await conn.ExecuteScalarAsync<int>(checkSql, new { FriesName = fries.FriesName });
+            if (exists > 0)
+            {
+                throw new InvalidOperationException("A fries item with the same name already exists.");
+            }
+
+            return await conn.QuerySingleAsync<Fries>(insertSql, fries);
         }
     }
 

@@ -3,6 +3,7 @@ using api.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace service;
 
@@ -17,13 +18,37 @@ public class FriesService : IFriesService
 
     public async Task<Fries> CreateFries(Fries fries)
     {
-        // Add validation logic here as needed.
-        return await _friesRepository.CreateFries(fries);
+        if (fries == null)
+        {
+            throw new ArgumentNullException(nameof(fries), "Fries data is null");
+        }
+
+        if (string.IsNullOrEmpty(fries.FriesName))
+        {
+            throw new ArgumentException("Fries name must be provided", nameof(fries.FriesName));
+        }
+
+        if (fries.FriesPrice <= 0)
+        {
+            throw new ArgumentException("Price must be a positive value", nameof(fries.FriesPrice));
+        }
+
+        try
+        {
+            return await _friesRepository.CreateFries(fries);
+        }
+        catch (NpgsqlException ex)
+        {
+            throw new InvalidOperationException($"Database error occurred while creating fries: {ex.Message}", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"An error occurred while creating fries: {ex.Message}", ex);
+        }
     }
 
     public async Task<IEnumerable<Fries>> GetAllFries()
     {
-        // You could wrap this in Task.FromResult if GetAllFries is not made async in the repository
         return await Task.FromResult(_friesRepository.GetAllFries());
     }
 
@@ -39,7 +64,6 @@ public class FriesService : IFriesService
 
     public async Task<Fries> UpdateFries(int id, Fries friesUpdateInfo)
     {
-        // Add validation logic here as needed.
         var updatedFries = _friesRepository.UpdateFries(id, friesUpdateInfo);
         if (updatedFries == null) 
         {
@@ -50,7 +74,6 @@ public class FriesService : IFriesService
 
     public async Task<bool> DeleteFries(int id)
     {
-        // The DeleteFries method in the repository is not asynchronous, wrap it with Task.FromResult if not changed to async
         return await Task.FromResult(_friesRepository.DeleteFries(id));
     }
 }

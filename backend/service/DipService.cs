@@ -39,14 +39,10 @@ public class DipService : IDipService
         }
         catch (NpgsqlException ex)
         {
-            // Log database-specific exceptions here
-            // Example: _logger.LogError(ex, "Database error occurred while creating a dip.");
             throw new InvalidOperationException($"Database error occurred while creating a dip: {ex.Message}", ex);
         }
         catch (Exception ex)
         {
-            // Log general exceptions here
-            // Example: _logger.LogError(ex, "An error occurred while creating a dip.");
             throw new InvalidOperationException($"An error occurred while creating a dip: {ex.Message}", ex);
         }
     }

@@ -37,7 +37,6 @@ public class FriesController : Controller
         return Ok(fries);
     }
     
-    [Authorize]
     [HttpPost]
     [Route("/api/fries")]
     public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries)
@@ -50,8 +49,7 @@ public class FriesController : Controller
         Fries newFries = await _service.CreateFries(fries);
         return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.ID }, newFries);
     }
-
-    [Authorize]
+    
     [HttpPut]
     [Route("/api/fries/{friesId}")]
     public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries)
@@ -74,8 +72,7 @@ public class FriesController : Controller
 
         return Ok(updatedFries);
     }
-
-    [Authorize]
+    
     [HttpDelete]
     [Route("/api/fries/{friesId}")]
     public async Task<ActionResult> DeleteFries([FromRoute] int friesId)
