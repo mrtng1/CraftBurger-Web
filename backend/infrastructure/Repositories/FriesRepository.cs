@@ -33,7 +33,11 @@ public class FriesRepository
 
     public async Task<Fries> CreateFries(Fries fries)
     {
-        const string sql = "INSERT INTO fries (friesname, friesprice) VALUES (@FriesName, @FriesPrice) RETURNING *;";
+        const string sql = @"
+        INSERT INTO fries (friesname, friesprice, friesimgurl) 
+        VALUES (@FriesName, @FriesPrice, @FriesImageUrl) 
+        RETURNING *;";
+
         using (var conn = _dataSource.OpenConnection())
         {
             return await conn.QuerySingleAsync<Fries>(sql, fries);
@@ -42,10 +46,16 @@ public class FriesRepository
 
     public Fries UpdateFries(int friesId, Fries fries)
     {
-        const string sql = "UPDATE fries SET friesname = @FriesName, friesprice = @FriesPrice WHERE id = @FriesId RETURNING *;";
+        const string sql = @"
+        UPDATE fries 
+        SET friesname = @FriesName, friesprice = @FriesPrice, 
+            friesimgurl = @FriesImageUrl 
+        WHERE id = @FriesId 
+        RETURNING *;";
+
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Fries>(sql, new { fries.FriesName, fries.FriesPrice, FriesId = friesId });
+            return conn.QuerySingleOrDefault<Fries>(sql, new { fries.FriesName, fries.FriesPrice, fries.ImageUrl, FriesId = friesId });
         }
     }
 

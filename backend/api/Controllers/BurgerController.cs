@@ -47,8 +47,8 @@ public class BurgerController : Controller
 
         if (image != null)
         {
-            // Handle file upload and set the ImageUrl
-            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), image.FileName);
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
             burger.ImageUrl = imageUrl;
         }
 
@@ -58,15 +58,28 @@ public class BurgerController : Controller
 
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult<Burger>> UpdateBurger([FromBody] Burger burger, [FromRoute] int burgerId)
+    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromBody] Burger burger, IFormFile image)
     {
         if (!ModelState.IsValid || burger.ID != burgerId)
         {
             return BadRequest(ModelState);
         }
 
-        Burger updatedBurger = await _service.UpdateBurger(burgerId, burger);
+        if (image != null)
+        {
+            if (!string.IsNullOrEmpty(burger.ImageUrl))
+            {
+                Uri uri = new Uri(burger.ImageUrl);
+                string fileName = Path.GetFileName(uri.LocalPath);
+                await _blobStorageService.DeleteFileAsync(fileName);
+            }
 
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
+            burger.ImageUrl = imageUrl;
+        }
+
+        Burger updatedBurger = await _service.UpdateBurger(burgerId, burger);
         if (updatedBurger == null)
         {
             return NotFound("Burger not found");

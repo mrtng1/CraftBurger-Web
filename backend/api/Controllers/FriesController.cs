@@ -46,35 +46,38 @@ public class FriesController : Controller
             return BadRequest(ModelState);
         }
 
-        // Process the image upload
-        if (image != null && image.Length > 0)
+        if (image != null)
         {
-            // Save the image to Azure Blob Storage and get the URL
-            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), image.FileName);
-
-            // Set the image URL in the fries model
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
             fries.ImageUrl = imageUrl;
         }
 
-        // Create the fries
         Fries newFries = await _service.CreateFries(fries);
         return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.ID }, newFries);
     }
 
-
-    [Authorize]
     [HttpPut]
     [Route("/api/fries/{friesId}")]
-    public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries)
+    public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries, IFormFile image)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || fries.ID != friesId)
         {
             return BadRequest(ModelState);
         }
 
-        if (fries.ID != friesId)
+        if (image != null)
         {
-            return BadRequest("Mismatch between the ID in the route and the body.");
+            if (!string.IsNullOrEmpty(fries.ImageUrl))
+            {
+                Uri uri = new Uri(fries.ImageUrl);
+                string fileName = Path.GetFileName(uri.LocalPath);
+                await _blobStorageService.DeleteFileAsync(fileName);
+            }
+
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
+            fries.ImageUrl = imageUrl;
         }
 
         Fries updatedFries = await _service.UpdateFries(friesId, fries);
