@@ -40,6 +40,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration["AzureBlobStorageConnectionString"];
+    var containerName = configuration["BlobContainerName"];
+    return new BlobStorageService(connectionString, containerName);
+});
+
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
 
@@ -48,14 +56,6 @@ builder.Services.AddSingleton<IBurgerService, BurgerService>();
 
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
-
-builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
-{
-    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var connectionString = configuration.GetConnectionString("AzureBlobStorage");
-    var containerName = configuration["BlobContainerName"];
-    return new BlobStorageService(connectionString, containerName);
-});
 
 
 builder.Services.AddControllers();

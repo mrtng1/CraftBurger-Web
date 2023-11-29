@@ -19,6 +19,7 @@
       <option value="Sides">Sides</option>
     </select>
     <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
+    <input type="file" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*">
   </div>
 
   <button mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
