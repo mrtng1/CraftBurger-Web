@@ -9,6 +9,7 @@ using service.Services;
 using service.Interfaces.Blob;
 using service.Services.Blob;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 

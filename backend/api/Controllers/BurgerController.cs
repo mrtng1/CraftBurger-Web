@@ -38,7 +38,7 @@ public class BurgerController : Controller
 
     [HttpPost]
     [Route("/api/burger")]
-    public async Task<ActionResult<Burger>> CreateBurger([FromBody] Burger burger, IFormFile image)
+    public async Task<ActionResult<Burger>> CreateBurger([FromForm] Burger burger, [FromForm] IFormFile image)
     {
         if (!ModelState.IsValid)
         {
@@ -58,7 +58,7 @@ public class BurgerController : Controller
 
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromBody] Burger burger, IFormFile image)
+    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, IFormFile image)
     {
         if (!ModelState.IsValid || burger.ID != burgerId)
         {
@@ -88,7 +88,6 @@ public class BurgerController : Controller
         return Ok(updatedBurger);
     }
 
-    //[Authorize]
     [HttpDelete]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult> DeleteBurger([FromRoute] int burgerId)

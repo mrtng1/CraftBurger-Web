@@ -46,9 +46,6 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  getBurgerDetails(burgerId: number) {
-    this.burgerService.getBurgerDetails(burgerId);
-  }
 
   addToCart(item: CartItem, itemType: string) {
     let cart = sessionStorage.getItem('cart');

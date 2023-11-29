@@ -84,11 +84,11 @@ export class ItemManagementComponent implements OnInit {
   saveItem(): void {
     if (this.isEditable) {
       const formData = new FormData();
-      formData.append('name', this.selectedItem.name);
-      formData.append('price', this.selectedItem.price.toString());
-      formData.append('description', this.selectedItem.description);
+      formData.append('BurgerName', this.selectedItem.name);
+      formData.append('BurgerPrice', this.selectedItem.price.toString());
+      formData.append('BurgerDescription', this.selectedItem.description);
       if (this.selectedItem.imageFile) {
-        formData.append('image', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
+        formData.append('ImageUrl', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
       }
 
       if (this.selectedItem.type === 'Burger') {

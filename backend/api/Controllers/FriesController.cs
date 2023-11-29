@@ -39,7 +39,7 @@ public class FriesController : Controller
 
     [HttpPost]
     [Route("/api/fries")]
-    public async Task<ActionResult<Fries>> CreateFries([FromBody] Fries fries, IFormFile image)
+    public async Task<ActionResult<Fries>> CreateFries([FromForm] Fries fries, IFormFile image)
     {
         if (!ModelState.IsValid)
         {
@@ -59,7 +59,7 @@ public class FriesController : Controller
 
     [HttpPut]
     [Route("/api/fries/{friesId}")]
-    public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromBody] Fries fries, IFormFile image)
+    public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int friesId, [FromForm] Fries fries, IFormFile image)
     {
         if (!ModelState.IsValid || fries.ID != friesId)
         {

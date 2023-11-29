@@ -10,7 +10,7 @@
       <img [src]="getImageUrl(burger.burgerName)"
            alt="{{ burger.burgerName }}"
            style="width: 100%; object-fit: cover;">
-      <button (click)="getBurgerDetails(burger.id)">{{ burger.burgerName }}</button>
+      <p>{{ burger.burgerName }}</p>
       <p>Price: {{ burger.burgerPrice }}</p>
       <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
     </div>

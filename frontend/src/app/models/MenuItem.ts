@@ -4,5 +4,5 @@ export interface MenuItem {
   price: number;
   type: string;
   description?: string;
-  imageFile?: File;
+  imageUrl?: string;
 }
