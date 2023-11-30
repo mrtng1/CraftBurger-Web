@@ -14,7 +14,7 @@ public class Tests
         // Arrange
         var mockService = new Mock<IBurgerService>();
         var mockBlobService = new Mock<IBlobStorageService>();
-        var testBurger = new Burger { ID = 1, BurgerName = "Test Burger", BurgerPrice = 9.99m };
+        var testBurger = new Burger { id = 1, name = "Test Burger", price = 9.99m };
 
         mockService.Setup(service => service.GetBurgerById(1)).ReturnsAsync(testBurger);
         var controller = new BurgerController(mockService.Object, mockBlobService.Object);
@@ -27,9 +27,9 @@ public class Tests
         var burgerResult = Assert.IsType<Burger>(okResult.Value);
 
         // Compare individual properties
-        Assert.Equal(testBurger.ID, burgerResult.ID);
-        Assert.Equal(testBurger.BurgerName, burgerResult.BurgerName);
-        Assert.Equal(testBurger.BurgerPrice, burgerResult.BurgerPrice);
+        Assert.Equal(testBurger.id, burgerResult.id);
+        Assert.Equal(testBurger.name, burgerResult.name);
+        Assert.Equal(testBurger.price, burgerResult.price);
     }
 
     [Fact]
@@ -57,8 +57,8 @@ public class Tests
         var mockBlobService = new Mock<IBlobStorageService>();
         var mockBurgers = new List<Burger>
         {
-            new Burger { ID = 1, BurgerName = "Classic Burger", BurgerPrice = 5.99m },
-            new Burger { ID = 2, BurgerName = "Cheese Burger", BurgerPrice = 6.99m }
+            new Burger { id = 1, name = "Classic Burger", price = 5.99m },
+            new Burger { id = 2, name = "Cheese Burger", price = 6.99m }
         };
 
         mockService.Setup(service => service.GetAllBurgers()).ReturnsAsync(mockBurgers);
@@ -72,12 +72,12 @@ public class Tests
         Assert.Equal(2, okResult.Count); // Verify the correct count
 
         // Compare individual properties of each burger
-        Assert.Equal(mockBurgers[0].ID, okResult[0].ID);
-        Assert.Equal(mockBurgers[0].BurgerName, okResult[0].BurgerName);
-        Assert.Equal(mockBurgers[0].BurgerPrice, okResult[0].BurgerPrice);
+        Assert.Equal(mockBurgers[0].id, okResult[0].id);
+        Assert.Equal(mockBurgers[0].name, okResult[0].name);
+        Assert.Equal(mockBurgers[0].price, okResult[0].price);
 
-        Assert.Equal(mockBurgers[1].ID, okResult[1].ID);
-        Assert.Equal(mockBurgers[1].BurgerName, okResult[1].BurgerName);
-        Assert.Equal(mockBurgers[1].BurgerPrice, okResult[1].BurgerPrice);
+        Assert.Equal(mockBurgers[1].id, okResult[1].id);
+        Assert.Equal(mockBurgers[1].name, okResult[1].name);
+        Assert.Equal(mockBurgers[1].price, okResult[1].price);
     }
 }

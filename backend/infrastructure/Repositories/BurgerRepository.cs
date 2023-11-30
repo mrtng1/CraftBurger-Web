@@ -55,7 +55,7 @@ public class BurgerRepository
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Burger>(sql, new { burger.BurgerName, burger.BurgerPrice, burger.BurgerDescription, burger.ImageUrl, BurgerId = burgerId });
+            return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerName = burger.name, BurgerPrice = burger.price, BurgerDescription = burger.description, ImageUrl = burger.imageUrl, BurgerId = burgerId });
         }
     }
 

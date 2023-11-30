@@ -4,20 +4,23 @@ namespace infrastructure.Models;
 
 public class Burger
 {   
-    [Required(ErrorMessage = "Burger ID is required.")]
-    public int ID { get; set; }
+    // Burger ID
+    public int id { get; set; }
 
+    // Burger name
     [Required(ErrorMessage = "Burger name is required.")]
     [StringLength(100, ErrorMessage = "Burger name cannot exceed 100 characters.")]
-    public string BurgerName { get; set; }
+    public string name { get; set; }
 
+    // Burger price
     [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
-    public decimal BurgerPrice { get; set; }
+    public decimal price { get; set; }
 
+    // Burger description
     [Required(ErrorMessage = "Burger description is required.")]
     [StringLength(1000, ErrorMessage = "Burger description cannot exceed 1000 characters.")]
-    public string BurgerDescription { get; set; }
+    public string description { get; set; }
 
-    // New property for the image URL
-    public string ImageUrl { get; set; }
+    // Burger image URL
+    public string imageUrl { get; set; }
 }

@@ -21,14 +21,14 @@ public class BurgerService : IBurgerService
                 throw new ArgumentNullException(nameof(burger), "Burger data is null");
             }
 
-            if (string.IsNullOrEmpty(burger.BurgerName))
+            if (string.IsNullOrEmpty(burger.name))
             {
-                throw new ArgumentException("Burger name must be provided", nameof(burger.BurgerName));
+                throw new ArgumentException("Burger name must be provided", nameof(burger.name));
             }
 
-            if (burger.BurgerPrice <= 0)
+            if (burger.price <= 0)
             {
-                throw new ArgumentException("Price must be a positive value", nameof(burger.BurgerPrice));
+                throw new ArgumentException("Price must be a positive value", nameof(burger.price));
             }
 
             try

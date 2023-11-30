@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../Environments/environment";
 
+interface Burger {
+  id: number;
+  burgerName: string;
+  burgerPrice: number;
+  description: string;
+  image: File | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,8 +23,7 @@ export class BurgerService {
   }
 
   createBurger(burgerData: FormData): Observable<any> {
-    const url = `${environment.baseUrl}/api/burger`;
-    return this.http.post(url, burgerData);
+    return this.http.post<Burger>(`${environment.baseUrl}/api/burger`, burgerData);
   }
 
   updateBurger(burgerId: number, burgerData: FormData): Observable<any> {
