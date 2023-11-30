@@ -87,10 +87,8 @@ export class ItemManagementComponent implements OnInit {
       formData.append('BurgerName', this.selectedItem.name);
       formData.append('BurgerPrice', this.selectedItem.price.toString());
       formData.append('BurgerDescription', this.selectedItem.description);
-
-      // Change 'ImageUrl' to 'image'
       if (this.selectedItem.imageFile) {
-        formData.append('image', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
+        formData.append('ImageUrl', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
       }
 
       if (this.selectedItem.type === 'Burger') {
