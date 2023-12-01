@@ -35,7 +35,7 @@ public class BurgerRepository
     {
         const string sql = @"
         INSERT INTO burgers (burgername, burgerprice, burgerdescription, burgerimgurl) 
-        VALUES (@BurgerName, @BurgerPrice, @BurgerDescription, @BurgerImageUrl) 
+        VALUES (@name, @price, @description, @imageUrl) 
         RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())

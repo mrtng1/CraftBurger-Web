@@ -22,5 +22,5 @@ public class Burger
     public string description { get; set; }
 
     // Burger image URL
-    public string imageUrl { get; set; }
+    public string? imageUrl { get; set; }
 }

@@ -36,9 +36,11 @@ public class BurgerService : IBurgerService
                 Burger createdBurger = await Task.Run(() => _burgerRepository.CreateBurger(burger));
                 return createdBurger;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Could not create the burger");
+                // Log the detailed exception
+                Console.WriteLine($"Error occurred while creating burger: {ex.Message}");
+                throw; // or handle it as per your application's error handling strategy
             }
         }
 

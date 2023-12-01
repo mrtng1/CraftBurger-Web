@@ -40,20 +40,23 @@ public class BurgerController : Controller
     [Route("/api/burger")]
     public async Task<ActionResult<Burger>> CreateBurger([FromForm] Burger burger, [FromForm] IFormFile image)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return BadRequest(ModelState);
+            if (image != null)
+            {
+                // Upload the image file to Azure Blob Storage and get the URL
+                string uniqueFileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
+                burger.imageUrl = imageUrl; // Set the imageUrl in the burger object
+            }
+            
+            var createdBurger = await _service.CreateBurger(burger);
+            return CreatedAtAction(nameof(GetBurgerById), new { burgerId = createdBurger.id }, createdBurger);
         }
-
-        if (image != null)
+        catch (Exception)
         {
-            string uniqueFileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
-            burger.imageUrl = imageUrl;
+            return StatusCode(500, "Internal Server Error: Could not create the burger");
         }
-
-        Burger newBurger = await _service.CreateBurger(burger);
-        return CreatedAtAction(nameof(GetBurgerById), new { burgerId = newBurger.id }, newBurger);
     }
 
     [HttpPut]

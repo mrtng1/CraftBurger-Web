@@ -23,7 +23,8 @@ export class BurgerService {
   }
 
   createBurger(burgerData: FormData): Observable<any> {
-    return this.http.post<Burger>(`${environment.baseUrl}/api/burger`, burgerData);
+    const url = `${environment.baseUrl}/api/burger`;
+    return this.http.post(url, burgerData);
   }
 
   updateBurger(burgerId: number, burgerData: FormData): Observable<any> {
