@@ -7,15 +7,16 @@
 <div id="burgerGrid" class="grid-layout" style="color: #f8e8d3">
   <ng-container *ngFor="let burger of burgers; let i = index">
     <div class="grid-item" *ngIf="shouldDisplayItem('Burgers')">
-      <img [src]="getImageUrl(burger.burgerName)"
-           alt="{{ burger.burgerName }}"
+      <img [src]="burger.imageUrl"
+           alt="{{ burger.name }}"
            style="width: 100%; object-fit: cover;">
-      <p>{{ burger.burgerName }}</p>
-      <p>Price: {{ burger.burgerPrice }}</p>
+      <p>{{ burger.name }}</p>
+      <p>Price: {{ burger.price }}</p>
       <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
     </div>
   </ng-container>
 </div>
+
 
 <div id="fries" class="section" *ngIf="shouldDisplayItem('Fries')" style="margin-top: 0;">
   <div class="grid-layout" style="color: #f8e8d3">

@@ -15,7 +15,7 @@ public class BurgerRepository
 
     public IEnumerable<Burger> GetAllBurgers()
     {
-        const string sql = "SELECT * FROM burgers;";
+        const string sql = "SELECT id, burgername AS name, burgerprice AS price, burgerdescription AS description, burgerimgurl AS imageUrl FROM burgers;";
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.Query<Burger>(sql);
@@ -24,7 +24,7 @@ public class BurgerRepository
 
     public Burger GetBurgerById(int burgerId)
     {
-        const string sql = "SELECT * FROM burgers WHERE id = @BurgerId;";
+        const string sql = "SELECT * FROM burgers WHERE id = @id;";
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerId = burgerId });

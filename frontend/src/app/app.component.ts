@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InitializationService} from "./service/initialization.service";
+import {InitializationService} from "../service/initialization.service";
 import {filter, map, mergeMap} from "rxjs";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 

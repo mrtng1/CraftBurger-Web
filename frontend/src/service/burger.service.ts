@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from "../../Environments/environment";
-
-interface Burger {
-  id: number;
-  burgerName: string;
-  burgerPrice: number;
-  description: string;
-  image: File | null;
-}
+import { environment } from "../Environments/environment";
 
 @Injectable({
   providedIn: 'root'

@@ -19,7 +19,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-import {CartService} from "./service/cart.service";
+import {CartService} from "../service/cart.service";
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 
 @NgModule({
