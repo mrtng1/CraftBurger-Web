@@ -25,10 +25,10 @@ public class BurgerController : Controller
     }
 
     [HttpGet]
-    [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult<Burger>> GetBurgerById([FromRoute] int burgerId)
+    [Route("/api/burger/{id}")]
+    public async Task<ActionResult<Burger>> GetBurgerById([FromRoute] int id)
     {
-        Burger burger = await _service.GetBurgerById(burgerId);
+        Burger burger = await _service.GetBurgerById(id);
         if (burger == null)
         {
             return NotFound("Burger not found");
@@ -46,7 +46,7 @@ public class BurgerController : Controller
             {
                 // Upload the image file to Azure Blob Storage and get the URL
                 string uniqueFileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
+                string imageUrl = await _blobStorageService.UploadFileAsync("burgers", image.OpenReadStream(), uniqueFileName);
                 burger.imageUrl = imageUrl; // Set the imageUrl in the burger object
             }
             
@@ -61,49 +61,88 @@ public class BurgerController : Controller
 
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, IFormFile image)
+    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, [FromForm] IFormFile image)
     {
         if (!ModelState.IsValid || burger.id != burgerId)
         {
             return BadRequest(ModelState);
         }
 
-        if (image != null)
+        try
         {
-            if (!string.IsNullOrEmpty(burger.imageUrl))
+            // Retrieve the current burger data from the database
+            Burger currentBurger = await _service.GetBurgerById(burgerId);
+            if (currentBurger == null)
             {
-                Uri uri = new Uri(burger.imageUrl);
-                string fileName = Path.GetFileName(uri.LocalPath);
-                await _blobStorageService.DeleteFileAsync(fileName);
+                return NotFound("Burger not found");
             }
 
-            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            string imageUrl = await _blobStorageService.UploadFileAsync(image.OpenReadStream(), uniqueFileName);
-            burger.imageUrl = imageUrl;
-            Console.Write(imageUrl);
-        }
+            // Check if a new image is provided
+            if (image != null)
+            {
+                // Delete the old image if it exists
+                if (!string.IsNullOrEmpty(currentBurger.imageUrl))
+                {
+                    Uri uri = new Uri(currentBurger.imageUrl);
+                    string fileName = Path.GetFileName(uri.LocalPath);
+                    await _blobStorageService.DeleteFileAsync("burgers", fileName);
+                }
 
-        Burger updatedBurger = await _service.UpdateBurger(burgerId, burger);
-        if (updatedBurger == null)
+                // Upload the new image and update the burger object
+                string uniqueFileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                string newImageUrl = await _blobStorageService.UploadFileAsync("burgers", image.OpenReadStream(), uniqueFileName);
+                burger.imageUrl = newImageUrl;
+            }
+            else
+            {
+                // If no new image is provided, retain the existing imageUrl
+                burger.imageUrl = currentBurger.imageUrl;
+            }
+
+            // Update the burger in the database
+            Burger updatedBurger = await _service.UpdateBurger(burgerId, burger);
+            if (updatedBurger == null)
+            {
+                return NotFound("Burger not found");
+            }
+
+            return Ok(updatedBurger);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
+    }
+    
+    [HttpDelete]
+    [Route("/api/burger/{id}")]
+    public async Task<ActionResult> DeleteBurger([FromRoute] int id)
+    {
+        // Retrieve the burger item to get the image URL
+        Burger burger = await _service.GetBurgerById(id);
+        if (burger == null)
         {
             return NotFound("Burger not found");
         }
 
-        return Ok(updatedBurger);
-    }
+        // Delete the image from Azure Blob Storage if an imageUrl exists
+        if (!string.IsNullOrEmpty(burger.imageUrl))
+        {
+            Uri uri = new Uri(burger.imageUrl);
+            string fileName = Path.GetFileName(uri.LocalPath);
+            await _blobStorageService.DeleteFileAsync("burgers", fileName);
+        }
 
-    [HttpDelete]
-    [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult> DeleteBurger([FromRoute] int burgerId)
-    {
-        bool isDeleted = await _service.DeleteBurger(burgerId);
+        // Delete the burger item from the database
+        bool isDeleted = await _service.DeleteBurger(id);
         if (isDeleted)
         {
             return NoContent();
         }
         else
         {
-            return NotFound("Burger not found");
+            return StatusCode(500, "Error deleting the burger");
         }
     }
 }

@@ -22,21 +22,22 @@ public class FriesRepository
         }
     }
 
-    public Fries GetFriesById(int friesId)
+    public Fries GetFriesById(int id)
     {
-        const string sql = "SELECT * FROM fries WHERE id = @FriesId;";
+        const string sql = "SELECT * FROM fries WHERE id = @id;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Fries>(sql, new { FriesId = friesId });
+            return conn.QuerySingleOrDefault<Fries>(sql, new { id = id });
         }
     }
 
     public async Task<Fries> CreateFries(Fries fries)
     {
         const string sql = @"
-        INSERT INTO fries (friesname, friesprice, friesimgurl) 
-        VALUES (@FriesName, @FriesPrice, @FriesImageUrl) 
-        RETURNING *;";
+        INSERT INTO fries (name, price, imageurl) 
+        VALUES (@name, @price, @imageUrl) 
+        RETURNING *;
+        ";
 
         using (var conn = _dataSource.OpenConnection())
         {
@@ -44,27 +45,27 @@ public class FriesRepository
         }
     }
 
-    public Fries UpdateFries(int friesId, Fries fries)
+    public Fries UpdateFries(int id, Fries fries)
     {
         const string sql = @"
         UPDATE fries 
-        SET friesname = @FriesName, friesprice = @FriesPrice, 
-            friesimgurl = @FriesImageUrl 
+        SET name = @FriesName, price = @FriesPrice, 
+            imageurl = @FriesImageUrl 
         WHERE id = @FriesId 
         RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Fries>(sql, new { fries.FriesName, fries.FriesPrice, fries.ImageUrl, FriesId = friesId });
+            return conn.QuerySingleOrDefault<Fries>(sql, new { FriesName = fries.name, FriesPrice = fries.price, FriesImageUrl = fries.imageUrl, FriesId = id });
         }
     }
 
-    public bool DeleteFries(int friesId)
+    public bool DeleteFries(int id)
     {
-        const string sql = "DELETE FROM fries WHERE id = @FriesId;";
+        const string sql = "DELETE FROM fries WHERE id = @id;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Execute(sql, new { FriesId = friesId }) > 0;
+            return conn.Execute(sql, new { id = id }) > 0;
         }
     }
 }

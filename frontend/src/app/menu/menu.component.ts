@@ -34,10 +34,7 @@ export class MenuComponent implements OnInit {
   loadFries() {
     this.friesService.getFries().subscribe({
       next: (data) => {
-        this.fries = data.map(fry => ({
-          ...fry,
-          imageUrl: this.imageService.getImageUrl(fry.friesName, "fries")
-        }));
+        this.fries = data;
       },
       error: (error) => console.error('Error fetching fries:', error)
     });

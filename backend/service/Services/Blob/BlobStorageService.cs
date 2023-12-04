@@ -6,39 +6,32 @@ namespace service.Services.Blob;
 public class BlobStorageService : IBlobStorageService
 {
     private readonly BlobServiceClient _blobServiceClient;
-    private readonly string _containerName;
 
-    public BlobStorageService(string connectionString, string containerName)
+    public BlobStorageService(string connectionString)
     {
         _blobServiceClient = new BlobServiceClient(connectionString);
-        _containerName = containerName;
     }
 
-    public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
+    private BlobContainerClient GetContainerClient(string containerName)
     {
-        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        return _blobServiceClient.GetBlobContainerClient(containerName);
+    }
+
+    public async Task<string> UploadFileAsync(string containerName, Stream fileStream, string fileName)
+    {
+        var containerClient = GetContainerClient(containerName);
         var blobClient = containerClient.GetBlobClient(fileName);
 
         await blobClient.UploadAsync(fileStream, true);
         return blobClient.Uri.ToString();
     }
-
-    public async Task<Stream> DownloadFileAsync(string fileName)
+    
+    public async Task<bool> DeleteFileAsync(string containerName, string fileName)
     {
-        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+        var containerClient = GetContainerClient(containerName);
         var blobClient = containerClient.GetBlobClient(fileName);
 
-        // Directly return the Stream
-        return await blobClient.OpenReadAsync();
-    }
-
-    public async Task<bool> DeleteFileAsync(string fileName)
-    {
-        var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
-        var blobClient = containerClient.GetBlobClient(fileName);
-
-        // Correctly use the Response<bool>
         var response = await blobClient.DeleteIfExistsAsync();
-        return response.Value; // Assuming your SDK version supports this pattern
+        return response.Value;
     }
 }

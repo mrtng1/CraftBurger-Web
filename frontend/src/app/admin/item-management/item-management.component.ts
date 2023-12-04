@@ -32,16 +32,16 @@ export class ItemManagementComponent implements OnInit {
       this.menuItems = [
         ...burgers.map(burger => ({
           id: burger.id,
-          name: burger.burgerName,
-          price: burger.burgerPrice,
+          name: burger.name,
+          price: burger.price,
           type: 'Burger',
           description: burger.description,
           image: burger.image
         })),
         ...fries.map(fry => ({
           id: fry.id,
-          name: fry.friesName,
-          price: fry.friesPrice,
+          name: fry.name,
+          price: fry.price,
           type: 'Fries',
           description: fry.description,
           image: fry.image
@@ -71,6 +71,9 @@ export class ItemManagementComponent implements OnInit {
       } else if (this.selectedItem.type === 'Fries') {
         this.friesService.deleteFries(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
       }
+
+      this.isEditable = false;
+      this.selectedItem = {};
     }
   }
 
@@ -89,27 +92,41 @@ export class ItemManagementComponent implements OnInit {
       const formData = new FormData();
       formData.append('name', this.selectedItem.name);
       formData.append('price', this.selectedItem.price.toString());
-      formData.append('description', this.selectedItem.description);
+
+      if (this.selectedItem.type === 'Burger') {
+        formData.append('description', this.selectedItem.description);
+      }
+
       if (this.selectedItem.imageFile) {
         formData.append('image', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
       }
 
       if (this.selectedItem.type === 'Burger') {
-        if (this.selectedItem.id) {
-          this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
-        } else {
-          this.burgerService.createBurger(formData).subscribe(() => this.fetchMenuItems());
-        }
+        this.handleBurgerItem(formData);
       } else if (this.selectedItem.type === 'Fries') {
-        if (this.selectedItem.id) {
-          this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
-        } else {
-          this.friesService.createFries(formData).subscribe(() => this.fetchMenuItems());
-        }
+        this.handleFriesItem(formData);
       }
 
       this.isEditable = false;
       this.selectedItem = {};
+    }
+  }
+
+  handleBurgerItem(formData: FormData): void {
+    if (this.selectedItem.id) {
+      this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
+    } else {
+      this.burgerService.createBurger(formData).subscribe(() => this.fetchMenuItems());
+    }
+  }
+
+  handleFriesItem(formData: FormData): void {
+    if (this.selectedItem.id) {
+      console.log(formData);
+      this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
+    } else {
+      console.log(formData);
+      this.friesService.createFries(formData).subscribe(() => this.fetchMenuItems());
     }
   }
 }

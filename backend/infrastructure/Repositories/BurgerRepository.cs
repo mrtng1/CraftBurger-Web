@@ -15,26 +15,26 @@ public class BurgerRepository
 
     public IEnumerable<Burger> GetAllBurgers()
     {
-        const string sql = "SELECT id, burgername AS name, burgerprice AS price, burgerdescription AS description, burgerimgurl AS imageUrl FROM burgers;";
+        const string sql = "SELECT * FROM burgers;";
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.Query<Burger>(sql);
         }
     }
 
-    public Burger GetBurgerById(int burgerId)
+    public Burger GetBurgerById(int id)
     {
         const string sql = "SELECT * FROM burgers WHERE id = @id;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerId = burgerId });
+            return conn.QuerySingleOrDefault<Burger>(sql, new { id = id });
         }
     }
 
     public async Task<Burger> CreateBurger(Burger burger)
     {
         const string sql = @"
-        INSERT INTO burgers (burgername, burgerprice, burgerdescription, burgerimgurl) 
+        INSERT INTO burgers (name, price, description, imageurl) 
         VALUES (@name, @price, @description, @imageUrl) 
         RETURNING *;";
 
@@ -44,27 +44,27 @@ public class BurgerRepository
         }
     }
 
-    public Burger UpdateBurger(int burgerId, Burger burger)
+    public Burger UpdateBurger(int id, Burger burger)
     {
         const string sql = @"
         UPDATE burgers 
-        SET burgername = @BurgerName, burgerprice = @BurgerPrice, 
-            burgerdescription = @BurgerDescription, burgerimgurl = @BurgerImageUrl 
-        WHERE id = @BurgerId 
+        SET name = @BurgerName, price = @BurgerPrice, 
+            description = @BurgerDescription, imageurl = @BurgerImageUrl 
+        WHERE id = @id 
         RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerName = burger.name, BurgerPrice = burger.price, BurgerDescription = burger.description, ImageUrl = burger.imageUrl, BurgerId = burgerId });
+            return conn.QuerySingleOrDefault<Burger>(sql, new { BurgerName = burger.name, BurgerPrice = burger.price, BurgerDescription = burger.description, BurgerImageUrl = burger.imageUrl, BurgerId = id });
         }
     }
 
-    public bool DeleteBurger(int burgerId)
+    public bool DeleteBurger(int id)
     {
-        const string sql = "DELETE FROM burgers WHERE id = @BurgerId;";
+        const string sql = "DELETE FROM burgers WHERE id = @id;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Execute(sql, new { BurgerId = burgerId }) > 0;
+            return conn.Execute(sql, new { id = id }) > 0;
         }
     }
 }

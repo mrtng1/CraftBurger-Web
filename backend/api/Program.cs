@@ -45,8 +45,7 @@ builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvi
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
     var connectionString = configuration["AzureBlobStorageConnectionString"];
-    var containerName = configuration["BlobContainerName"];
-    return new BlobStorageService(connectionString, containerName);
+    return new BlobStorageService(connectionString);
 });
 
 builder.Services.AddSingleton<UserRepository>();

@@ -19,8 +19,8 @@ export class FriesService {
     return this.http.post(url, friesData);
   }
 
-  updateFries(friesId: number, friesData: FormData): Observable<any> {
-    const url = `${environment.baseUrl}/api/fries/${friesId}`;
+  updateFries(id: number, friesData: FormData): Observable<any> {
+    const url = `${environment.baseUrl}/api/fries/${id}`;
     return this.http.put(url, friesData);
   }
 

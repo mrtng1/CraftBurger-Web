@@ -21,9 +21,11 @@
 <div id="fries" class="section" *ngIf="shouldDisplayItem('Fries')" style="margin-top: 0;">
   <div class="grid-layout" style="color: #f8e8d3">
     <div *ngFor="let fry of fries; let i = index" class="grid-item">
-      <img [src]="fry.imageUrl" alt="{{ fry.fryName }}" style="width: 100%; object-fit: cover;">
-      <p>{{ fry.friesName }}</p>
-      <p>Price: {{ fry.friesPrice }}</p>
+      <img [src]="fry.imageUrl"
+           alt="{{ fry.name }}"
+           style="width: 100%; object-fit: cover;">
+      <p>{{ fry.name }}</p>
+      <p>Price: {{ fry.price }}</p>
       <button mat-button color="warn" (click)="addToCart(fry, 'fry')">ADD TO CART</button>
     </div>
   </div>
