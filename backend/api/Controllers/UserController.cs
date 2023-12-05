@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
         {
             var token = GenerateJwtToken(user);
 
-            // Return the token in the response body
+            // Return the SessionToken in the response body
             return Ok(new { Token = token });
         }
         return Unauthorized();
@@ -62,11 +62,29 @@ public class AuthController : ControllerBase
             {
                 new Claim(ClaimTypes.Name, user.Username)
             }),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Expires = DateTime.UtcNow.AddHours(24),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+    
+    [HttpPost("validateToken")]
+    public IActionResult ValidateToken([FromBody] TokenDTO tokenDto)
+    {
+        if (string.IsNullOrEmpty(tokenDto.Token))
+        {
+            return BadRequest("Token is required.");
+        }
+
+        if (_userService.ValidateToken(tokenDto.Token))
+        {
+            return Ok(true); // Token is valid
+        }
+        else
+        {
+            return Ok(false); // Token is not valid
+        }
     }
 }

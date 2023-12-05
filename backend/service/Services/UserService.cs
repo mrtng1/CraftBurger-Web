@@ -1,5 +1,8 @@
-﻿using infrastructure.Models;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using infrastructure.Models;
 using infrastructure.Repositories;
+using Microsoft.IdentityModel.Tokens;
 using service.Interfaces;
 
 namespace service.Services;
@@ -14,8 +17,9 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public UserService(string jwtKey)
+    public UserService(UserRepository userRepository, string jwtKey)
     {
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         _jwtKey = jwtKey ?? throw new ArgumentNullException(nameof(jwtKey));
     }
 
@@ -64,6 +68,39 @@ public class UserService : IUserService
         {
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+    }
+    
+    public bool ValidateToken(string SessionToken)
+    {
+        if (string.IsNullOrEmpty(_jwtKey))
+        {
+            throw new InvalidOperationException("JWT key is not set.");
+        }
+        
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtKey);
+        try
+        {
+            tokenHandler.ValidateToken(SessionToken, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                // Set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            // Add additional checks if needed (e.g., check if the username exists in your database)
+
+            return true;
+        }
+        catch
+        {
+            // Token is not valid
+            return false;
         }
     }
 }
