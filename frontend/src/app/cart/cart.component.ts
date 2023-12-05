@@ -37,7 +37,7 @@ export class CartComponent implements OnInit {
 
   get totalPrice(): number {
     return this.cartItems.reduce((sum, item) => {
-      const itemPrice = item.burgerPrice || item.friesPrice || 0;
+      const itemPrice = item.price || 0;
       const quantity = item.quantity || 0;
 
       return sum + itemPrice * quantity;
