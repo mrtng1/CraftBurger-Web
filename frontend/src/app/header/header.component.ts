@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {CartService} from "../service/cart.service";
+import {CartService} from "../../service/cart.service";
 
 @Component({
   selector: 'app-header',

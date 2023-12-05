@@ -1,4 +1,4 @@
-﻿namespace api.Models;
+﻿namespace infrastructure.Models;
 
 public class LoginDTO
 {

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { ImageService } from "../service/image.service";
+import { ImageService } from "../../service/image.service";
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import {BurgerService} from "../service/burger.service";
-import {CartService} from "../service/cart.service";
-import {CartItem} from "../models/CartItem";
+import {BurgerService} from "../../service/burger.service";
+import {CartService} from "../../service/cart.service";
+import {CartItem} from "../../models/CartItem";
 
 @Component({
     selector: 'app-main',
@@ -27,16 +27,15 @@ export class MainComponent implements OnInit {
     constructor(private burgerService: BurgerService, private imageService: ImageService, private cartService: CartService) {}
 
     ngOnInit() {
+        this.loadBurgers();
+    }
+
+    loadBurgers() {
         this.burgerService.getBurgers().subscribe({
             next: (data) => {
-                this.burgers = data.map(burger => ({
-                    ...burger,
-                    imageUrl: this.imageService.getImageUrl(burger.burgerName, "burger")
-                }));
+                this.burgers = data;
             },
-            error: (error) => {
-                console.error('Error fetching burgers:', error);
-            }
+            error: (error) => console.error('Error fetching burgers:', error)
         });
     }
 

@@ -1,7 +1,8 @@
-﻿using api.Models;
-using infrastructure;
+﻿using infrastructure.Models;
+using infrastructure.Repositories;
+using service.Interfaces;
 
-namespace service;
+namespace service.Services;
 
 public class UserService : IUserService
 {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {CartService} from "../service/cart.service";
+import {CartService} from "../../service/cart.service";
 
 @Component({
   selector: 'app-cart',

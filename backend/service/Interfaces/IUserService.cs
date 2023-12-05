@@ -1,6 +1,6 @@
-﻿using api.Models;
+﻿using infrastructure.Models;
 
-namespace service;
+namespace service.Interfaces;
 
 public interface IUserService
 {

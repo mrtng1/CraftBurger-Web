@@ -1,8 +1,9 @@
-﻿using infrastructure; 
-using api.Models;
+﻿using infrastructure.Models;
+using infrastructure.Repositories;
 using Npgsql;
+using service.Interfaces;
 
-namespace service;
+namespace service.Services;
 
 public class BurgerService : IBurgerService
     {
@@ -20,14 +21,14 @@ public class BurgerService : IBurgerService
                 throw new ArgumentNullException(nameof(burger), "Burger data is null");
             }
 
-            if (string.IsNullOrEmpty(burger.BurgerName))
+            if (string.IsNullOrEmpty(burger.name))
             {
-                throw new ArgumentException("Burger name must be provided", nameof(burger.BurgerName));
+                throw new ArgumentException("Burger name must be provided", nameof(burger.name));
             }
 
-            if (burger.BurgerPrice <= 0)
+            if (burger.price <= 0)
             {
-                throw new ArgumentException("Price must be a positive value", nameof(burger.BurgerPrice));
+                throw new ArgumentException("Price must be a positive value", nameof(burger.price));
             }
 
             try
@@ -35,9 +36,11 @@ public class BurgerService : IBurgerService
                 Burger createdBurger = await Task.Run(() => _burgerRepository.CreateBurger(burger));
                 return createdBurger;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Could not create the burger");
+                // Log the detailed exception
+                Console.WriteLine($"Error occurred while creating burger: {ex.Message}");
+                throw; // or handle it as per your application's error handling strategy
             }
         }
 

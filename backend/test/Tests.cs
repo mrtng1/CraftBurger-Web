@@ -1,12 +1,10 @@
-﻿using api.Models;
-using backend.Controllers;
-using infrastructure;
+﻿using backend.Controllers;
+using infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using service;
+using service.Interfaces;
+using service.Interfaces.Blob;
 using Xunit;
-
-namespace test;
 
 public class Tests
 {
@@ -15,10 +13,11 @@ public class Tests
     {
         // Arrange
         var mockService = new Mock<IBurgerService>();
-        var testBurger = new Burger { ID = 1, BurgerName = "Test Burger", BurgerPrice = 9.99m };
+        var mockBlobService = new Mock<IBlobStorageService>();
+        var testBurger = new Burger { id = 1, name = "Test Burger", price = 9.99m };
 
         mockService.Setup(service => service.GetBurgerById(1)).ReturnsAsync(testBurger);
-        var controller = new BurgerController(mockService.Object);
+        var controller = new BurgerController(mockService.Object, mockBlobService.Object);
 
         // Act
         var result = await controller.GetBurgerById(1);
@@ -26,7 +25,11 @@ public class Tests
         // Assert
         var okResult = Assert.IsType<ActionResult<Burger>>(result).Result as OkObjectResult;
         var burgerResult = Assert.IsType<Burger>(okResult.Value);
-        Assert.Equal(testBurger, burgerResult);
+
+        // Compare individual properties
+        Assert.Equal(testBurger.id, burgerResult.id);
+        Assert.Equal(testBurger.name, burgerResult.name);
+        Assert.Equal(testBurger.price, burgerResult.price);
     }
 
     [Fact]
@@ -34,30 +37,32 @@ public class Tests
     {
         // Arrange
         var mockService = new Mock<IBurgerService>();
+        var mockBlobService = new Mock<IBlobStorageService>();
         mockService.Setup(service => service.GetBurgerById(It.IsAny<int>())).ReturnsAsync((Burger)null);
-        var controller = new BurgerController(mockService.Object);
+        var controller = new BurgerController(mockService.Object, mockBlobService.Object);
 
         // Act
-        var result = await controller.GetBurgerById(99); 
+        var result = await controller.GetBurgerById(99);
 
         // Assert
         Assert.IsType<ActionResult<Burger>>(result);
         Assert.IsType<NotFoundObjectResult>(result.Result);
     }
-    
+
     [Fact]
     public async Task GetBurgers_ReturnsOk_WithListOfBurgers()
     {
         // Arrange
         var mockService = new Mock<IBurgerService>();
+        var mockBlobService = new Mock<IBlobStorageService>();
         var mockBurgers = new List<Burger>
         {
-            new Burger { ID = 1, BurgerName = "Classic Burger", BurgerPrice = 5.99m },
-            new Burger { ID = 2, BurgerName = "Cheese Burger", BurgerPrice = 6.99m }
+            new Burger { id = 1, name = "Classic Burger", price = 5.99m },
+            new Burger { id = 2, name = "Cheese Burger", price = 6.99m }
         };
 
         mockService.Setup(service => service.GetAllBurgers()).ReturnsAsync(mockBurgers);
-        var controller = new BurgerController(mockService.Object);
+        var controller = new BurgerController(mockService.Object, mockBlobService.Object);
 
         // Act
         var result = await controller.GetBurgers();
@@ -65,6 +70,14 @@ public class Tests
         // Assert
         var okResult = Assert.IsType<List<Burger>>(result);
         Assert.Equal(2, okResult.Count); // Verify the correct count
-        Assert.Equal(mockBurgers, okResult); // Verify the actual data
+
+        // Compare individual properties of each burger
+        Assert.Equal(mockBurgers[0].id, okResult[0].id);
+        Assert.Equal(mockBurgers[0].name, okResult[0].name);
+        Assert.Equal(mockBurgers[0].price, okResult[0].price);
+
+        Assert.Equal(mockBurgers[1].id, okResult[1].id);
+        Assert.Equal(mockBurgers[1].name, okResult[1].name);
+        Assert.Equal(mockBurgers[1].price, okResult[1].price);
     }
 }
