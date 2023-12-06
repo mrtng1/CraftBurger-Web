@@ -24,7 +24,7 @@ public class UserRepository
 
     public async Task CreateUserAsync(User user)
     {
-        const string sql = "INSERT INTO users (username, passwordhash, passwordsalt) VALUES (@Username, @PasswordHash, @PasswordSalt);";
+        const string sql = "INSERT INTO users (username, email, passwordhash, passwordsalt) VALUES (@Username, @Email, @PasswordHash, @PasswordSalt);";
         using (var conn = _dataSource.OpenConnection())
         {
             await conn.ExecuteAsync(sql, user);
