@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {CartService} from "../../service/cart.service";
+import {MailService} from "../../service/mail.service";
 
 @Component({
   selector: 'app-cart',
@@ -9,7 +10,7 @@ import {CartService} from "../../service/cart.service";
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private mailService: MailService) {}
 
   ngOnInit() {
     this.loadCartItems();
@@ -48,5 +49,37 @@ export class CartComponent implements OnInit {
     this.cartItems = this.cartItems.filter((cartItem) => cartItem !== item);
     sessionStorage.setItem('cart', JSON.stringify(this.cartItems));
     this.cartService.updateCartCount(this.cartItems.length);
+  }
+
+  completeOrder() {
+    const userEmail = this.getUserEmailFromToken();
+    if (!userEmail) {
+      console.error('No user email found in token');
+      return;
+    }
+    const subject = 'Your Order Confirmation';
+    const body = `Your order total is: ${this.totalPrice}`;
+
+    this.mailService.sendEmail(userEmail, subject, body).subscribe({
+      next: (response) => console.log('Email sent successfully', response),
+      error: (error) => console.error('Error sending email', error)
+    });
+  }
+
+  private getUserEmailFromToken(): string | null {
+    const token = localStorage.getItem('SessionToken');
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = token.split('.')[1];
+      const decodedJson = atob(payload);
+      const decodedToken = JSON.parse(decodedJson);
+      return decodedToken.email;
+    } catch (e) {
+      console.error('Error decoding token', e);
+      return null;
+    }
   }
 }
