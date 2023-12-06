@@ -8,9 +8,6 @@
   </div>
 
   <div class="fields-container">
-    <input type="text" [(ngModel)]="selectedItem.id" placeholder="Item ID" [disabled]="selectedItem.id == null || !isEditable">
-    <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
-    <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" step="0.01" min="0">
     <select [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
       <option value="">Select Type</option>
       <option value="Burger">Burger</option>
@@ -18,7 +15,18 @@
       <option value="Dip">Dip</option>
       <option value="Sides">Sides</option>
     </select>
-    <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
+
+    <span class="error-message" *ngIf="validateName()">{{ validateName() }}</span>
+    <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
+
+    <span class="error-message" *ngIf="validatePrice()">{{ validatePrice() }}</span>
+    <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" min="0">
+
+    <div class="input-group" *ngIf="selectedItem.type === 'Burger'">
+      <span class="error-message" *ngIf="validateDescription()">{{ validateDescription() }}</span>
+      <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
+    </div>
+
     <input type="file" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*">
   </div>
 

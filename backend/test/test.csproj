@@ -10,7 +10,10 @@
       <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
       <PackageReference Include="Dapper" Version="2.1.15" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+      <PackageReference Include="Microsoft.Playwright" Version="1.40.0" />
+      <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.40.0" />
       <PackageReference Include="Moq" Version="4.20.69" />
+      <PackageReference Include="NUnit" Version="4.0.1" />
       <PackageReference Include="xunit" Version="2.6.1" />
     </ItemGroup>
 

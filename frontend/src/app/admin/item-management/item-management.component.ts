@@ -5,6 +5,7 @@ import { MenuItem } from '../../../models/MenuItem';
 import { BurgerService } from '../../../service/burger.service';
 import { FriesService } from '../../../service/fries.service';
 import { forkJoin } from 'rxjs';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-item-management',
@@ -18,7 +19,11 @@ export class ItemManagementComponent implements OnInit {
   selectedItem: MenuItem | any = {};
   isEditable: boolean = false;
 
-  constructor(private burgerService: BurgerService, private friesService: FriesService) {}
+  constructor(
+      private burgerService: BurgerService,
+      private friesService: FriesService,
+      private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.fetchMenuItems();
@@ -56,7 +61,7 @@ export class ItemManagementComponent implements OnInit {
   }
 
   createItem(): void {
-    this.selectedItem = { id: null, name: '', price: 0.01, description: '', type: 'Burger' };
+    this.selectedItem = { id: null, name: '', price: '', description: '', type: '' };
     this.isEditable = true;
   }
 
@@ -87,8 +92,55 @@ export class ItemManagementComponent implements OnInit {
     }
   }
 
+  validateName(): string | null {
+    if (!this.selectedItem.name) {
+      return 'Name is required.';
+    }
+    if (this.selectedItem.name.length > 30) {
+      return 'Name cannot exceed 30 characters.';
+    }
+    if (!/^[a-zA-Z ]+$/.test(this.selectedItem.name)) {
+      return 'Name must contain letters and spaces only.';
+    }
+    return null;
+  }
+
+  validatePrice(): string | null {
+    if (!this.selectedItem.price) {
+      return 'Price is required.';
+    }
+    if (this.selectedItem.type === 'Burger' && (this.selectedItem.price < 70 || this.selectedItem.price > 200)) {
+      return 'Price for a burger must be between 70 and 200.';
+    }
+    if (this.selectedItem.type === 'Fries' && (this.selectedItem.price < 10 || this.selectedItem.price > 100)) {
+      return 'Price for fries must be between 10 and 100.';
+    }
+    return null;
+  }
+
+  validateDescription(): string | null {
+    if (!this.selectedItem.description) {
+      return 'Description is required.';
+    }
+    if (this.selectedItem.description.length > 500) {
+      return 'Description cannot exceed 500 characters.';
+    }
+    return null;
+  }
+
+
   saveItem(): void {
     if (this.isEditable) {
+      const priceError = this.validatePrice();
+      const nameError = this.validateName();
+      const descriptionError = this.validateDescription();
+
+      const errorMessage = priceError ?? nameError ?? descriptionError;
+      if (errorMessage) {
+        this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+        return;
+      }
+
       const formData = new FormData();
       formData.append('name', this.selectedItem.name);
       formData.append('price', this.selectedItem.price.toString());
@@ -114,19 +166,32 @@ export class ItemManagementComponent implements OnInit {
 
   handleBurgerItem(formData: FormData): void {
     if (this.selectedItem.id) {
-      this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
+      this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => {
+        this.fetchMenuItems();
+      });
     } else {
-      this.burgerService.createBurger(formData).subscribe(() => this.fetchMenuItems());
+      this.burgerService.createBurger(formData).subscribe(() => {
+        this.fetchMenuItems();
+        this.snackBar.open('Burger created successfully!', 'Close', { duration: 3000 });
+      }, error => {
+        this.snackBar.open('Error creating burger. Please try again.', 'Close', { duration: 3000 });
+      });
     }
   }
 
   handleFriesItem(formData: FormData): void {
     if (this.selectedItem.id) {
-      console.log(formData);
-      this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => this.fetchMenuItems());
+      this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => {
+        this.fetchMenuItems();
+      });
     } else {
       console.log(formData);
-      this.friesService.createFries(formData).subscribe(() => this.fetchMenuItems());
+      this.friesService.createFries(formData).subscribe(() => {
+        this.fetchMenuItems();
+        this.snackBar.open('Fries created successfully!', 'Close', { duration: 3000 });
+      }, error => {
+        this.snackBar.open('Error creating fries. Please try again.', 'Close', { duration: 3000 });
+      });
     }
   }
 }
