@@ -58,34 +58,37 @@ export class CartComponent implements OnInit {
       return;
     }
 
-    const subject = 'Your Order Confirmation';
-    let body = `Hello ${userDetails.name || 'Customer'},\n\nThank you for your order. Here are the details:\n`;
+    const subject = 'Din ordrebekræftelse';
+    let body = `<html><body style="background-color: #1b1b1b; color: white;">`;
+    body += `<p>Hej ${userDetails.name || 'Kunde'},</p>`;
+    body += `<p>Tak for din ordre. Her er detaljerne:</p>`;
 
-    // Adding each cart item to the email body
     this.cartItems.forEach(item => {
-      body += `Item: ${item.name}\nQuantity: ${item.quantity}\nPrice: ${item.price} kr\n\n`;
-      // If item has an image URL, add it to the body
+      body += `<div style="margin-bottom: 10px;">`;
       if(item.imageUrl) {
-        body += `Image: ${item.imageUrl}\n\n`;
+        body += `<img src="${item.imageUrl}" alt="${item.name}" style="width: 100px; height: auto; float: left; margin-right: 10px;">`;
       }
+      body += `<p>${item.name}<br>Mængde: ${item.quantity}<br>Pris: ${item.price} kr</p>`;
+      body += `</div><div style="clear: both;"></div>`;
     });
 
-    // Formatting the date in dd/mm/yyyy format
     const formattedDate = new Date().toLocaleDateString('da-DK', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
 
-    body += `Total Price: ${this.totalPrice} kr\n\n`;
-    body += `Order Date: ${formattedDate}\n\n`;
-    body += `Thank you for shopping with us!`;
+    body += `<p>Total Pris: ${this.totalPrice} kr</p>`;
+    body += `<p>Ordredato: ${formattedDate}</p>`;
+    body += `<p>Vi ser frem til at se dig igen!</p>`;
+    body += `</body></html>`;
 
     this.mailService.sendEmail(userDetails.email, subject, body).subscribe({
       next: (response) => console.log('Email sent successfully', response),
       error: (error) => console.error('Error sending email', error)
     });
   }
+
 
   private getUserDetailsFromToken(): { email: string | null, name: string | null } {
     const token = localStorage.getItem('SessionToken');
