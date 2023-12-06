@@ -39,16 +39,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] CreateDTO createDTO)
     {
         if (string.IsNullOrWhiteSpace(createDTO.Password))
-            return BadRequest("Password is required");
+            return BadRequest(new { message = "Password is required" });
 
         try
         {
-            await _userService.CreateUserAsync(createDTO.Username, createDTO.Password);
-            return Ok("User created successfully");
+            await _userService.CreateUserAsync(createDTO.Username, createDTO.Email, createDTO.Password);
+            return Ok(new { message = "User created successfully" });
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
