@@ -38,16 +38,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] CreateDTO createDTO)
     {
         if (string.IsNullOrWhiteSpace(createDTO.Password))
-            return BadRequest("Password is required");
+            return BadRequest(new { message = "Password is required" });
 
         try
         {
-            await _userService.CreateUserAsync(createDTO.Username, createDTO.Password);
-            return Ok("User created successfully");
+            await _userService.CreateUserAsync(createDTO.Username, createDTO.Email, createDTO.Password);
+            return Ok(new { message = "User created successfully" });
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -60,7 +60,8 @@ public class AuthController : ControllerBase
         {
             new Claim(ClaimTypes.Name, user.Username),
             // Add an admin claim if the user is an admin
-            new Claim("IsAdmin", user.Id == 1 ? "true" : "false")
+            new Claim("IsAdmin", user.Id == 1 ? "true" : "false"),
+            new Claim(ClaimTypes.Email, user.Email)
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

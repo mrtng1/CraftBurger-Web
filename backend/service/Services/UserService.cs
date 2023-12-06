@@ -47,7 +47,7 @@ public class UserService : IUserService
         return true;
     }
     
-    public async Task CreateUserAsync(string username, string password)
+    public async Task CreateUserAsync(string username, string email, string password)
     {
         byte[] passwordHash, passwordSalt;
         CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -55,6 +55,7 @@ public class UserService : IUserService
         var user = new User
         {
             Username = username,
+            Email = email,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt
         };

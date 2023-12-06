@@ -1,4 +1,5 @@
 using infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Interfaces.Blob;
@@ -16,7 +17,7 @@ public class BurgerController : Controller
         _service = service;
         _blobStorageService = blobStorageService;
     }
-
+    
     [HttpGet]
     [Route("/api/burgers")]
     public async Task<IEnumerable<Burger>> GetBurgers()

@@ -1,6 +1,6 @@
 import {CanActivate, CanActivateFn, Router} from '@angular/router';
 import {Injectable} from "@angular/core";
-import {map} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {environment} from "../Environments/environment";
 import {HttpClient} from "@angular/common/http";
 
@@ -11,24 +11,39 @@ import {HttpClient} from "@angular/common/http";
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, private http: HttpClient) {}
 
-  canActivate(): boolean {
+  canActivate(): Observable<boolean> {
     const token = localStorage.getItem('SessionToken');
-
     if (!token) {
       this.router.navigate(['/login']);
-      return false;
+      return of(false);
     }
 
-    // Call backend to validate the token
-    this.http.post<boolean>(`${environment.baseUrl}/Auth/validateToken`, { Token: token })
-      .pipe(map(isValid => {
+    const decodedToken = this.decodeToken(token);
+
+    // Check if 'IsAdmin' claim is 'true'
+    if (decodedToken.IsAdmin !== 'true') {
+      this.router.navigate(['/home']);
+      return of(false);
+    }
+
+    return this.http.post<boolean>(`${environment.baseUrl}/Auth/validateToken`, { Token: token }).pipe(
+      map(isValid => {
         if (!isValid) {
           this.router.navigate(['/login']);
         }
         return isValid;
-      })).subscribe();
+      })
+    );
+  }
 
-    // This might need refinement for asynchronous handling
-    return true;
+  private decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decodedJson = atob(payload);
+      return JSON.parse(decodedJson);
+    } catch (e) {
+      console.error('Error decoding token', e);
+      return null;
+    }
   }
 }
