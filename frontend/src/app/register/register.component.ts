@@ -47,7 +47,7 @@ export class RegisterComponent {
         }
       );
   }
-
+ //email validation check
   private isEmailValid(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
