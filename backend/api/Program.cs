@@ -10,6 +10,7 @@ using service.Interfaces.Blob;
 using service.Services.Blob;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http.Features;
+using service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,7 @@ builder.Services.AddSingleton<BurgerRepository>();
 builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
+builder.Services.AddSingleton<MailService>();
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
 {
