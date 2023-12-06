@@ -29,7 +29,6 @@ public class AuthController : ControllerBase
         {
             var token = GenerateJwtToken(user);
 
-            // Return the token in the response body
             return Ok(new { Token = token });
         }
         return Unauthorized();
@@ -56,17 +55,40 @@ public class AuthController : ControllerBase
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_configuration["JWT_KEY"]);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            // Add an admin claim if the user is an admin
+            new Claim("IsAdmin", user.Id == 1 ? "true" : "false")
+        };
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            }),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(24),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+    
+    [HttpPost("validateToken")]
+    public IActionResult ValidateToken([FromBody] TokenDTO tokenDto)
+    {
+        if (string.IsNullOrEmpty(tokenDto.Token))
+        {
+            return BadRequest("Token is required.");
+        }
+
+        if (_userService.ValidateToken(tokenDto.Token))
+        {
+            return Ok(true); // Token is valid
+        }
+        else
+        {
+            return Ok(false); // Token is not valid
+        }
     }
 }
