@@ -52,34 +52,57 @@ export class CartComponent implements OnInit {
   }
 
   completeOrder() {
-    const userEmail = this.getUserEmailFromToken();
-    if (!userEmail) {
+    const userDetails = this.getUserDetailsFromToken();
+    if (!userDetails.email) {
       console.error('No user email found in token');
       return;
     }
-    const subject = 'Your Order Confirmation';
-    const body = `Your order total is: ${this.totalPrice}`;
 
-    this.mailService.sendEmail(userEmail, subject, body).subscribe({
+    const subject = 'Your Order Confirmation';
+    let body = `Hello ${userDetails.name || 'Customer'},\n\nThank you for your order. Here are the details:\n`;
+
+    // Adding each cart item to the email body
+    this.cartItems.forEach(item => {
+      body += `Item: ${item.name}\nQuantity: ${item.quantity}\nPrice: ${item.price} kr\n\n`;
+      // If item has an image URL, add it to the body
+      if(item.imageUrl) {
+        body += `Image: ${item.imageUrl}\n\n`;
+      }
+    });
+
+    // Formatting the date in dd/mm/yyyy format
+    const formattedDate = new Date().toLocaleDateString('da-DK', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    body += `Total Price: ${this.totalPrice} kr\n\n`;
+    body += `Order Date: ${formattedDate}\n\n`;
+    body += `Thank you for shopping with us!`;
+
+    this.mailService.sendEmail(userDetails.email, subject, body).subscribe({
       next: (response) => console.log('Email sent successfully', response),
       error: (error) => console.error('Error sending email', error)
     });
   }
 
-  private getUserEmailFromToken(): string | null {
+  private getUserDetailsFromToken(): { email: string | null, name: string | null } {
     const token = localStorage.getItem('SessionToken');
     if (!token) {
-      return null;
+      return { email: null, name: null };
     }
 
     try {
       const payload = token.split('.')[1];
       const decodedJson = atob(payload);
       const decodedToken = JSON.parse(decodedJson);
-      return decodedToken.email;
+      const email = decodedToken.email;
+      const name = decodedToken.unique_name || decodedToken.name; // Use the appropriate key here
+      return { email, name };
     } catch (e) {
       console.error('Error decoding token', e);
-      return null;
+      return { email: null, name: null };
     }
   }
 }
