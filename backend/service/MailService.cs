@@ -10,13 +10,14 @@ public class MailService
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse("easv.webshop@gmail.com");
-            email.To.Add(new MailboxAddress("", to));
+            email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
-            email.Body = new TextPart("plain") { Text = body };
+
+            // Change here to send HTML email
+            email.Body = new TextPart("html") { Text = body };
 
             using (var smtp = new MailKit.Net.Smtp.SmtpClient())
             {
-                //smtp.Connect("smtp.gmail.com", 587, false);
                 smtp.Connect("smtp.gmail.com", 465, true);
                 smtp.Authenticate("easv.webshop@gmail.com", "wssrjeqiusxdpqra");
                 smtp.Send(email);
