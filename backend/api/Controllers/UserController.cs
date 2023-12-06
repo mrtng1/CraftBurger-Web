@@ -29,7 +29,6 @@ public class AuthController : ControllerBase
         {
             var token = GenerateJwtToken(user);
 
-            // Return the SessionToken in the response body
             return Ok(new { Token = token });
         }
         return Unauthorized();
@@ -56,12 +55,17 @@ public class AuthController : ControllerBase
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_configuration["JWT_KEY"]);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            // Add an admin claim if the user is an admin
+            new Claim("IsAdmin", user.Id == 1 ? "true" : "false")
+        };
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddHours(24),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
