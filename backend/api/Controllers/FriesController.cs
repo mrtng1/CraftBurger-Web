@@ -54,7 +54,7 @@ public class FriesController : Controller
             }
 
             Fries newFries = await _service.CreateFries(fries);
-            return CreatedAtAction(nameof(GetFriesById), new { friesId = newFries.id }, newFries);
+            return Ok(newFries);
         }
         catch (Exception)
         {
@@ -138,7 +138,7 @@ public class FriesController : Controller
         bool isDeleted = await _service.DeleteFries(id);
         if (isDeleted)
         {
-            return NoContent();
+            return Ok(isDeleted);
         }
         else
         {

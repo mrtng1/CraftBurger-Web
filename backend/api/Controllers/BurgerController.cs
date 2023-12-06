@@ -51,7 +51,7 @@ public class BurgerController : Controller
             }
             
             var createdBurger = await _service.CreateBurger(burger);
-            return CreatedAtAction(nameof(GetBurgerById), new { burgerId = createdBurger.id }, createdBurger);
+            return Ok(createdBurger);
         }
         catch (Exception)
         {
@@ -61,7 +61,7 @@ public class BurgerController : Controller
 
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
-    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, [FromForm] IFormFile image)
+    public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, [FromForm] IFormFile? image)
     {
         if (!ModelState.IsValid || burger.id != burgerId)
         {
@@ -138,7 +138,7 @@ public class BurgerController : Controller
         bool isDeleted = await _service.DeleteBurger(id);
         if (isDeleted)
         {
-            return NoContent();
+            return Ok(isDeleted);
         }
         else
         {

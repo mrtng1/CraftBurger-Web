@@ -65,15 +65,11 @@ public class BurgerService : IBurgerService
             try
             {
                 var burger = await Task.Run(() => _burgerRepository.GetBurgerById(id));
-                if (burger == null) throw new KeyNotFoundException("Burger not found");
-                return burger;
-            }
-            catch (KeyNotFoundException)
-            {
-                throw;
+                return burger; // simply return the burger, which could be null
             }
             catch (Exception)
             {
+                // Handle other exceptions if necessary, but don't throw for not found
                 throw new Exception("Could not get the burger by ID");
             }
         }
