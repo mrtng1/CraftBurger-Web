@@ -10,6 +10,7 @@ import {AuthGuard} from "./auth.guard";
 import {ItemManagementComponent} from "./admin/item-management/item-management.component";
 import {UserManagementComponent} from "./admin/user-management/user-management.component";
 import {OverviewComponent} from "./admin/overview/overview.component";
+import {RegisterComponent} from "./register/register.component";
 
 const routes: Routes = [
   {
@@ -40,6 +41,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: { showHeader: false }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
     data: { showHeader: false }
   },
   {
