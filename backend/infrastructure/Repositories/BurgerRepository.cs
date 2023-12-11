@@ -49,8 +49,8 @@ public class BurgerRepository
         const string sql = @"
         UPDATE burgers 
         SET name = @BurgerName, price = @BurgerPrice, 
-            description = @BurgerDescription, imageurl = @BurgerImageUrl 
-        WHERE id = @id 
+                   description = @BurgerDescription, imageurl = @BurgerImageUrl 
+        WHERE id = @BurgerId 
         RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())

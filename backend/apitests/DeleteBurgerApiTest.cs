@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using System.Net;
 using NUnit.Framework;
 using FluentAssertions;
-using apitests;
 
 namespace ApiTests
 {
@@ -15,19 +14,18 @@ namespace ApiTests
         {
             using var httpClient = new HttpClient();
 
-            // Step 1: Create a burger
-            int burgerId = await CreateBurger(httpClient);
+            int id = await CreateBurger(httpClient);
 
-            // Step 2: Delete the burger
-            var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/burger/{burgerId}");
+            var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/burger/{id}");
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            // Step 3: Verify deletion
-            var getResponse = await httpClient.GetAsync($"{Helper.ApiBaseUrl}/burger/{burgerId}");
+            var getResponse = await httpClient.GetAsync($"{Helper.ApiBaseUrl}/burger/{id}");
             getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            
+            Console.WriteLine("'Delete Burger API Test' completed successfully.");
         }
 
-        private async Task<int> CreateBurger(HttpClient httpClient)
+        private static async Task<int> CreateBurger(HttpClient httpClient)
         {
             using var formData = new MultipartFormDataContent();
             formData.Add(new StringContent("Test Burger"), "name");

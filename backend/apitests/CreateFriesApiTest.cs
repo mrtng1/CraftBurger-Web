@@ -4,13 +4,13 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace apitests;
+namespace ApiTests;
 
 [TestFixture]
 public class CreateFriesApiTest
 {
-    [TestCase("Fries", 36)]
-    public async Task BurgerCanSuccessfullyBeCreatedFromHttpRequest(string name, decimal price)
+    [TestCase("Test Fries", 35)]
+    public async Task FriesCanSuccessfullyBeCreated(string name, decimal price)
     {
         using var httpClient = new HttpClient();
         using var formData = new MultipartFormDataContent();
@@ -31,5 +31,7 @@ public class CreateFriesApiTest
         createdFries.Should().NotBeNull();
         createdFries.name.Should().Be(name);
         createdFries.price.Should().Be(price);
+        
+        Console.WriteLine("'Create Fries API Test' completed successfully.");
     }
 }

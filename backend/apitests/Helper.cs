@@ -1,13 +1,12 @@
 ﻿using Npgsql;
 using Dapper;
 
-namespace apitests;
+namespace ApiTests;
 
 public static class Helper
 {
     public static readonly NpgsqlDataSource DataSource;
-    public static readonly string ClientAppBaseUrl = "http://localhost:4200"; // Adjust as needed
-    public static readonly string ApiBaseUrl = "http://localhost:5113/api"; // Adjust as needed
+    public static readonly string ApiBaseUrl = "http://localhost:5113/api";
 
     static Helper()
     {
@@ -22,7 +21,7 @@ public static class Helper
         {
             var uri = new Uri(rawConnectionString);
             var properlyFormattedConnectionString = string.Format(
-                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=false;",
+                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=true;MaxPoolSize=2;",
                 uri.Host,
                 uri.AbsolutePath.Trim('/'),
                 uri.UserInfo.Split(':')[0],

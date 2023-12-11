@@ -62,10 +62,10 @@ public class FriesRepository
 
     public bool DeleteFries(int id)
     {
-        const string sql = "DELETE FROM fries WHERE id = @id;";
+        const string sql = "DELETE FROM fries WHERE id = @FriesId;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Execute(sql, new { id = id }) > 0;
+            return conn.Execute(sql, new { FriesId = id }) > 0;
         }
     }
 }

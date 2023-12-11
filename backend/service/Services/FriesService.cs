@@ -15,13 +15,11 @@ public class FriesService : IFriesService
 
     public async Task<Fries> CreateFries(Fries fries)
     {
-        // Add validation logic here as needed.
         return await _friesRepository.CreateFries(fries);
     }
 
     public async Task<IEnumerable<Fries>> GetAllFries()
     {
-        // You could wrap this in Task.FromResult if GetAllFries is not made async in the repository
         return await Task.FromResult(_friesRepository.GetAllFries());
     }
 
@@ -37,7 +35,6 @@ public class FriesService : IFriesService
 
     public async Task<Fries> UpdateFries(int id, Fries friesUpdateInfo)
     {
-        // Add validation logic here as needed.
         var updatedFries = _friesRepository.UpdateFries(id, friesUpdateInfo);
         if (updatedFries == null) 
         {
@@ -48,7 +45,17 @@ public class FriesService : IFriesService
 
     public async Task<bool> DeleteFries(int id)
     {
-        // The DeleteFries method in the repository is not asynchronous, wrap it with Task.FromResult if not changed to async
-        return await Task.FromResult(_friesRepository.DeleteFries(id));
+        try
+        {
+            return await Task.Run(() => _friesRepository.DeleteFries(id));
+        }
+        catch (KeyNotFoundException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Could not delete the fries");
+        }
     }
 }

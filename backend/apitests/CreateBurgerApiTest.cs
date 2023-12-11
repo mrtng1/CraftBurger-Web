@@ -1,16 +1,22 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Net;
 using NUnit.Framework;
 using FluentAssertions;
-using apitests;
-using System.Net.Http.Json;
+using Dapper;
 
-namespace ApiTests
-{
-    [TestFixture]
+namespace ApiTests;
+
+[TestFixture]
     public class CreateBurgerApiTest
     {
-        [TestCase("Veggie", 95, "A veggie burger")]
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            Helper.TriggerRebuild();
+        }
+
+        [TestCase("Test Burger", 95, "Created test burger description")]
         public async Task BurgerCanSuccessfullyBeCreatedFromHttpRequest(string name, decimal price, string description)
         {
             using var httpClient = new HttpClient();
@@ -34,6 +40,16 @@ namespace ApiTests
             createdBurger.name.Should().Be(name);
             createdBurger.price.Should().Be(price);
             createdBurger.description.Should().Be(description);
+
+            using (var conn = Helper.DataSource.OpenConnection())
+            {
+                var burgerInDb = conn.QueryFirstOrDefault<Burger>("SELECT * FROM burgers WHERE name = @name", new { name });
+                burgerInDb.Should().NotBeNull();
+                burgerInDb.name.Should().Be(name);
+                burgerInDb.price.Should().Be(price);
+                burgerInDb.description.Should().Be(description);
+            }
+
+            Console.WriteLine("'Create Burger API Test' completed successfully.");
         }
     }
-}

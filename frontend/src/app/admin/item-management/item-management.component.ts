@@ -19,6 +19,9 @@ export class ItemManagementComponent implements OnInit {
   selectedItem: MenuItem | any = {};
   isEditable: boolean = false;
 
+  defaultImageUrl: string = 'https://example.com/path-to-your-default-image.jpg';
+
+
   constructor(
       private burgerService: BurgerService,
       private friesService: FriesService,
@@ -119,8 +122,12 @@ export class ItemManagementComponent implements OnInit {
   }
 
   validateDescription(): string | null {
+    if (this.selectedItem.type !== 'Burger') {
+      return null;
+    }
+
     if (!this.selectedItem.description) {
-      return 'Description is required.';
+      return 'Description is required for burgers.';
     }
     if (this.selectedItem.description.length > 500) {
       return 'Description cannot exceed 500 characters.';
@@ -128,12 +135,15 @@ export class ItemManagementComponent implements OnInit {
     return null;
   }
 
-
   saveItem(): void {
     if (this.isEditable) {
       const priceError = this.validatePrice();
       const nameError = this.validateName();
-      const descriptionError = this.validateDescription();
+      let descriptionError = null;
+
+      if (this.selectedItem.type === 'Burger') {
+        descriptionError = this.validateDescription();
+      }
 
       const errorMessage = priceError ?? nameError ?? descriptionError;
       if (errorMessage) {
@@ -144,10 +154,6 @@ export class ItemManagementComponent implements OnInit {
       const formData = new FormData();
       formData.append('name', this.selectedItem.name);
       formData.append('price', this.selectedItem.price.toString());
-
-      if (this.selectedItem.type === 'Burger') {
-        formData.append('description', this.selectedItem.description);
-      }
 
       if (this.selectedItem.imageFile) {
         formData.append('image', this.selectedItem.imageFile, this.selectedItem.imageFile.name);
@@ -166,23 +172,31 @@ export class ItemManagementComponent implements OnInit {
 
   handleBurgerItem(formData: FormData): void {
     if (this.selectedItem.id) {
+      formData.append('id', this.selectedItem.id)
       this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
+        this.snackBar.open('Burger updated successfully!', 'Close', { duration: 4000 });
+      }, error => {
+        this.snackBar.open('Error while updating burger. Please try again.', 'Close', { duration: 4000 });
       });
     } else {
       this.burgerService.createBurger(formData).subscribe(() => {
         this.fetchMenuItems();
-        this.snackBar.open('Burger created successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Burger created successfully!', 'Close', { duration: 4000 });
       }, error => {
-        this.snackBar.open('Error creating burger. Please try again.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error while creating burger. Please try again.', 'Close', { duration: 4000 });
       });
     }
   }
 
   handleFriesItem(formData: FormData): void {
     if (this.selectedItem.id) {
+      formData.append('id', this.selectedItem.id)
       this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
+        this.snackBar.open('Fries updated successfully!', 'Close', { duration: 3000 });
+      }, error => {
+        this.snackBar.open('Error while updating fries. Please try again.', 'Close', { duration: 3000 });
       });
     } else {
       console.log(formData);
@@ -190,7 +204,7 @@ export class ItemManagementComponent implements OnInit {
         this.fetchMenuItems();
         this.snackBar.open('Fries created successfully!', 'Close', { duration: 3000 });
       }, error => {
-        this.snackBar.open('Error creating fries. Please try again.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error while creating fries. Please try again.', 'Close', { duration: 3000 });
       });
     }
   }

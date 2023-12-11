@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Interfaces.Blob;
 

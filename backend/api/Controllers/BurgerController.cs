@@ -60,12 +60,17 @@ public class BurgerController : Controller
         }
     }
 
+    
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, [FromForm] IFormFile? image)
     {
         if (!ModelState.IsValid || burger.id != burgerId)
         {
+            var modelStateErrors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            // Log the errors for debugging
+            Console.WriteLine("ModelState Errors: " + string.Join(", ", modelStateErrors));
+
             return BadRequest(ModelState);
         }
 

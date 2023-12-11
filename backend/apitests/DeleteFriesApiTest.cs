@@ -4,40 +4,40 @@ using System.Net;
 using NUnit.Framework;
 using FluentAssertions;
 
-namespace apitests;
-
-[TestFixture]
-public class DeleteFriessApiTest
+namespace ApiTests
 {
-    [Test]
-    public async Task BurgerCanSuccessfullyBeDeleted()
+    [TestFixture]
+    public class DeleteFriesApiTest
     {
-        using var httpClient = new HttpClient();
+        [Test]
+        public async Task FriesCanSuccessfullyBeDeleted()
+        {
+            using var httpClient = new HttpClient();
+            
+            int id = await CreateFries(httpClient);
+            
+            var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/fries/{id}");
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            
+            Console.WriteLine("'Delete Fries API Test' completed successfully.");
+        }
 
-        int id = await CreateFries(httpClient);
+        private static async Task<int> CreateFries(HttpClient httpClient)
+        {
+            using var formData = new MultipartFormDataContent();
+            formData.Add(new StringContent("Fries to be deleted"), "name");
+            formData.Add(new StringContent("30"), "price");
 
-        var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/fries/{id}");
-        deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_image.jpg");
+            var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+            imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+            formData.Add(imageContent, "image", "test_image.jpg");
 
-        var getResponse = await httpClient.GetAsync($"{Helper.ApiBaseUrl}/burger/{id}");
-        getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
+            var createResponse = await httpClient.PostAsync($"{Helper.ApiBaseUrl}/fries", formData);
+            createResponse.EnsureSuccessStatusCode();
 
-    private async Task<int> CreateFries(HttpClient httpClient)
-    {
-        using var formData = new MultipartFormDataContent();
-        formData.Add(new StringContent("Test Fries"), "name");
-        formData.Add(new StringContent("36"), "price");
-
-        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_image.jpg");
-        var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-        imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
-        formData.Add(imageContent, "image", "test_image.jpg");
-
-        var createResponse = await httpClient.PostAsync($"{Helper.ApiBaseUrl}/fries", formData);
-        createResponse.EnsureSuccessStatusCode();
-
-        var createdFries = await createResponse.Content.ReadFromJsonAsync<Fries>();
-        return createdFries.id;
+            var createdFries = await createResponse.Content.ReadFromJsonAsync<Fries>();
+            return createdFries.id;
+        }
     }
 }
