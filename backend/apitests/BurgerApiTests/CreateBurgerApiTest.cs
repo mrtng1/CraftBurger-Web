@@ -5,7 +5,7 @@ using NUnit.Framework;
 using FluentAssertions;
 using Dapper;
 
-namespace ApiTests;
+namespace ApiTests.BurgerApiTests;
 
 [TestFixture]
     public class CreateBurgerApiTest
@@ -16,7 +16,7 @@ namespace ApiTests;
             Helper.TriggerRebuild();
         }
 
-        [TestCase("Test Burger", 95, "Created test burger description")]
+        [TestCase("Create Test Burger", 95, "Create test burger description")]
         public async Task BurgerCanSuccessfullyBeCreatedFromHttpRequest(string name, decimal price, string description)
         {
             using var httpClient = new HttpClient();
@@ -32,7 +32,6 @@ namespace ApiTests;
             formData.Add(imageContent, "image", "test_image.jpg");
 
             var httpResponse = await httpClient.PostAsync(Helper.ApiBaseUrl + "/burger", formData);
-            
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var createdBurger = await httpResponse.Content.ReadFromJsonAsync<Burger>();
@@ -49,7 +48,6 @@ namespace ApiTests;
                 burgerInDb.price.Should().Be(price);
                 burgerInDb.description.Should().Be(description);
             }
-
             Console.WriteLine("'Create Burger API Test' completed successfully.");
         }
     }

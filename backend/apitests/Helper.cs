@@ -59,5 +59,13 @@ CREATE TABLE burgers (
     price DECIMAL NOT NULL,
     description VARCHAR(500) NOT NULL,
     imageurl VARCHAR(2083) NULL
+);
+
+DROP TABLE IF EXISTS fries CASCADE;
+CREATE TABLE fries (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    price DECIMAL NOT NULL,
+    imageurl VARCHAR(2083) NULL
 );";
 }

@@ -139,13 +139,8 @@ export class ItemManagementComponent implements OnInit {
     if (this.isEditable) {
       const priceError = this.validatePrice();
       const nameError = this.validateName();
-      let descriptionError = null;
 
-      if (this.selectedItem.type === 'Burger') {
-        descriptionError = this.validateDescription();
-      }
-
-      const errorMessage = priceError ?? nameError ?? descriptionError;
+      const errorMessage = priceError ?? nameError;
       if (errorMessage) {
         this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
         return;
@@ -164,18 +159,21 @@ export class ItemManagementComponent implements OnInit {
       } else if (this.selectedItem.type === 'Fries') {
         this.handleFriesItem(formData);
       }
-
-      this.isEditable = false;
-      this.selectedItem = {};
     }
   }
 
   handleBurgerItem(formData: FormData): void {
+    if (this.selectedItem.type === 'Burger') {
+      formData.append('description', this.selectedItem.description);
+    }
+
     if (this.selectedItem.id) {
       formData.append('id', this.selectedItem.id)
       this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
         this.snackBar.open('Burger updated successfully!', 'Close', { duration: 4000 });
+        this.isEditable = false;
+        this.selectedItem = {};
       }, error => {
         this.snackBar.open('Error while updating burger. Please try again.', 'Close', { duration: 4000 });
       });
@@ -183,6 +181,8 @@ export class ItemManagementComponent implements OnInit {
       this.burgerService.createBurger(formData).subscribe(() => {
         this.fetchMenuItems();
         this.snackBar.open('Burger created successfully!', 'Close', { duration: 4000 });
+        this.isEditable = false;
+        this.selectedItem = {};
       }, error => {
         this.snackBar.open('Error while creating burger. Please try again.', 'Close', { duration: 4000 });
       });
@@ -195,6 +195,8 @@ export class ItemManagementComponent implements OnInit {
       this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
         this.snackBar.open('Fries updated successfully!', 'Close', { duration: 3000 });
+        this.isEditable = false;
+        this.selectedItem = {};
       }, error => {
         this.snackBar.open('Error while updating fries. Please try again.', 'Close', { duration: 3000 });
       });
@@ -203,6 +205,8 @@ export class ItemManagementComponent implements OnInit {
       this.friesService.createFries(formData).subscribe(() => {
         this.fetchMenuItems();
         this.snackBar.open('Fries created successfully!', 'Close', { duration: 3000 });
+        this.isEditable = false;
+        this.selectedItem = {};
       }, error => {
         this.snackBar.open('Error while creating fries. Please try again.', 'Close', { duration: 3000 });
       });

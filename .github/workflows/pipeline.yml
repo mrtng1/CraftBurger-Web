@@ -5,21 +5,15 @@ on:
     branches:
       - main
       - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/build.yml
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Setup .NET environment
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '8.0.100-preview.7.23376.3'
-
-      # Build .NET project
-      - name: Build .NET project
-        run: dotnet build ./backend/backend.sln
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml

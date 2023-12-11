@@ -1,5 +1,4 @@
 using infrastructure.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Interfaces.Blob;
