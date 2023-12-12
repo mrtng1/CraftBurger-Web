@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ApiTests;
+namespace test.Models;
 
 public class Burger
 {   

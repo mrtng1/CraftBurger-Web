@@ -19,9 +19,6 @@ export class ItemManagementComponent implements OnInit {
   selectedItem: MenuItem | any = {};
   isEditable: boolean = false;
 
-  defaultImageUrl: string = 'https://example.com/path-to-your-default-image.jpg';
-
-
   constructor(
       private burgerService: BurgerService,
       private friesService: FriesService,
@@ -75,9 +72,19 @@ export class ItemManagementComponent implements OnInit {
   deleteItem(): void {
     if (this.selectedItem && this.selectedItem.id) {
       if (this.selectedItem.type === 'Burger') {
-        this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
+        this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
+          this.fetchMenuItems();
+          this.snackBar.open('Burger deleted successfully!', 'Close', { duration: 3000 });
+        }, error => {
+          this.snackBar.open('Error while deleting burger. Please try again.', 'Close', { duration: 3000 });
+        });
       } else if (this.selectedItem.type === 'Fries') {
-        this.friesService.deleteFries(this.selectedItem.id).subscribe(() => this.fetchMenuItems());
+        this.friesService.deleteFries(this.selectedItem.id).subscribe(() => {
+          this.fetchMenuItems();
+          this.snackBar.open('Fries deleted successfully!', 'Close', {duration: 3000});
+        }, error => {
+          this.snackBar.open('Error while deleting fries. Please try again.', 'Close', {duration: 3000});
+        });
       }
 
       this.isEditable = false;
@@ -92,6 +99,13 @@ export class ItemManagementComponent implements OnInit {
       this.selectedItem.imageFile = fileList[0];
     } else {
       this.selectedItem.imageFile = null;
+    }
+  }
+
+  resetFileInput(): void {
+    let fileInput = <HTMLInputElement>document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 
@@ -174,6 +188,7 @@ export class ItemManagementComponent implements OnInit {
         this.snackBar.open('Burger updated successfully!', 'Close', { duration: 4000 });
         this.isEditable = false;
         this.selectedItem = {};
+        this.resetFileInput();
       }, error => {
         this.snackBar.open('Error while updating burger. Please try again.', 'Close', { duration: 4000 });
       });
@@ -183,6 +198,7 @@ export class ItemManagementComponent implements OnInit {
         this.snackBar.open('Burger created successfully!', 'Close', { duration: 4000 });
         this.isEditable = false;
         this.selectedItem = {};
+        this.resetFileInput();
       }, error => {
         this.snackBar.open('Error while creating burger. Please try again.', 'Close', { duration: 4000 });
       });
@@ -197,16 +213,17 @@ export class ItemManagementComponent implements OnInit {
         this.snackBar.open('Fries updated successfully!', 'Close', { duration: 3000 });
         this.isEditable = false;
         this.selectedItem = {};
+        this.resetFileInput();
       }, error => {
         this.snackBar.open('Error while updating fries. Please try again.', 'Close', { duration: 3000 });
       });
     } else {
-      console.log(formData);
       this.friesService.createFries(formData).subscribe(() => {
         this.fetchMenuItems();
         this.snackBar.open('Fries created successfully!', 'Close', { duration: 3000 });
         this.isEditable = false;
         this.selectedItem = {};
+        this.resetFileInput()
       }, error => {
         this.snackBar.open('Error while creating fries. Please try again.', 'Close', { duration: 3000 });
       });

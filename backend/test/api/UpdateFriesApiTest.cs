@@ -3,8 +3,9 @@ using System.Net.Http.Json;
 using Dapper;
 using NUnit.Framework;
 using FluentAssertions;
+using test.Models;
 
-namespace ApiTests.FriesApiTests;
+namespace test.api;
 
 [TestFixture]
 public class UpdateFriesApiTest

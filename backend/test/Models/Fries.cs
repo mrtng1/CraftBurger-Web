@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace test.Models;
+
 public class Fries
 {
     // Fries ID

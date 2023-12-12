@@ -4,8 +4,9 @@ using System.Net;
 using Dapper;
 using NUnit.Framework;
 using FluentAssertions;
+using test.Models;
 
-namespace ApiTests.FriesApiTests;
+namespace test.api;
 
 [TestFixture]
 public class DeleteFriesApiTest

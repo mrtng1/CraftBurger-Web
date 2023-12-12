@@ -2,13 +2,13 @@
   <h2>Item Management</h2>
 
   <div class="buttons-container">
-    <button mat-button (click)="createItem()">Create Item</button>
-    <button mat-button (click)="editItem()" [disabled]="!selectedItem">Edit Item</button>
-    <button mat-button (click)="deleteItem()" [disabled]="!selectedItem">Delete Item</button>
+    <button mat-button id="createItemButton" (click)="createItem()">Create Item</button>
+    <button mat-button id="editItemButton" (click)="editItem()" [disabled]="!selectedItem">Edit Item</button>
+    <button mat-button id="deleteItemButton" (click)="deleteItem()" [disabled]="!selectedItem">Delete Item</button>
   </div>
 
   <div class="fields-container">
-    <select [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
+    <select id="selectType" [(ngModel)]="selectedItem.type" [disabled]="!isEditable">
       <option value="">Select Type</option>
       <option value="Burger">Burger</option>
       <option value="Fries">Fries</option>
@@ -17,20 +17,20 @@
     </select>
 
     <span class="error-message" *ngIf="validateName()">{{ validateName() }}</span>
-    <input type="text" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
+    <input type="text" id="nameInput" [(ngModel)]="selectedItem.name" placeholder="Item Name" [disabled]="!isEditable">
 
     <span class="error-message" *ngIf="validatePrice()">{{ validatePrice() }}</span>
-    <input type="number" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" min="0">
+    <input type="number" id="priceInput" [(ngModel)]="selectedItem.price" placeholder="Item Price" [disabled]="!isEditable" min="0">
 
     <div class="input-group" *ngIf="selectedItem.type === 'Burger'">
       <span class="error-message" *ngIf="validateDescription()">{{ validateDescription() }}</span>
-      <input type="text" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
+      <input type="text" id="descriptionInput" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
     </div>
 
-    <input type="file" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*">
+    <input type="file" id="fileInput" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*">
   </div>
 
-  <button mat-button (click)="saveItem()" [disabled]="!isEditable">Save</button>
+  <button mat-button id="saveButton" (click)="saveItem()" [disabled]="!isEditable">Save</button>
 </div>
 
 <table>

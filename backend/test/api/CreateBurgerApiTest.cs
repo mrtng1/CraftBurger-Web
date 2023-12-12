@@ -1,11 +1,12 @@
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Net;
-using NUnit.Framework;
-using FluentAssertions;
 using Dapper;
+using FluentAssertions;
+using NUnit.Framework;
+using test.Models;
 
-namespace ApiTests.BurgerApiTests;
+namespace test.api;
 
 [TestFixture]
     public class CreateBurgerApiTest
