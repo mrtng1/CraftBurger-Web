@@ -58,20 +58,18 @@ export class MainComponent implements OnInit {
 
   addToCart(burger: CartItem) {
     let cart = sessionStorage.getItem('cart');
-    let cartArray: CartItem[];
+    let cartArray: CartItem[] = cart ? JSON.parse(cart) : [];
 
-    if (cart) {
-      cartArray = JSON.parse(cart) as CartItem[];
-    } else {
-      cartArray = [];
-    }
-
-    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === burger.id);
+    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === burger.id && cartItem.itemType === 'burger');
 
     if (existingItemIndex !== -1) {
       cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
     } else {
-      const newItem: CartItem = { ...burger, quantity: 1 };
+      const newItem: CartItem = {
+        ...burger,
+        quantity: 1,
+        itemType: 'burger'
+      };
       cartArray.push(newItem);
     }
 

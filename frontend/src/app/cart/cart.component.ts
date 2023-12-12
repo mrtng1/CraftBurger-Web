@@ -59,19 +59,23 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    const orderDetails = this.cartItems.map(item => ({
+      ItemId: item.id,
+      Quantity: item.quantity,
+      ItemType: item.itemType
+    }));
+
     const order = {
-      UserId: parseInt(userDetails.userId), // Tilføj parseInt her
+      UserId: parseInt(userDetails.userId),
       TotalPrice: this.totalPrice,
       OrderDate: new Date(),
-      OrderDetails: this.cartItems.map(item => ({
-        ItemId: item.id,
-        Quantity: item.quantity
-      }))
+      OrderDetails: orderDetails
     };
 
-    console.log('Order being sent:', order); // Tilføj denne logning
 
-    // Først opret ordren
+
+    console.log('Order being sent:', order);
+
     this.orderService.createOrder(order).subscribe({
       next: (orderResponse) => {
         console.log('Order created successfully', orderResponse);
@@ -106,7 +110,7 @@ export class CartComponent implements OnInit {
 
     body += `<p>Total Pris: ${this.totalPrice} kr</p>`;
     body += `<p>Ordredato: ${formattedDate}</p>`;
-    body += `<p>Ordrenummer: ${orderResponse.OrderId}</p>`; // Tilføj ordrenummeret til mailen
+    body += `<p>Ordrenummer: ${orderResponse.OrderId}</p>`;
     body += `<p>Vi ser frem til at se dig igen!</p>`;
     body += `</body></html>`;
 
@@ -128,7 +132,7 @@ export class CartComponent implements OnInit {
       const decodedToken = JSON.parse(decodedJson);
       const email = decodedToken.email;
       const name = decodedToken.unique_name || decodedToken.name;
-      const userId = decodedToken.nameid; // Brug 'nameid' i stedet for 'nameidentifier' eller 'sub'
+      const userId = decodedToken.nameid;
       return { email, name, userId };
     } catch (e) {
       console.error('Error decoding token', e);
