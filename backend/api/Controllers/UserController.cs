@@ -59,9 +59,9 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.Username),
-            // Add an admin claim if the user is an admin
             new Claim("IsAdmin", user.Id == 1 ? "true" : "false"),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

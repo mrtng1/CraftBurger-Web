@@ -50,6 +50,8 @@ builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
 builder.Services.AddSingleton<MailService>();
+builder.Services.AddSingleton<OrderRepository>();
+builder.Services.AddSingleton<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
 {

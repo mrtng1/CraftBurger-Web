@@ -72,6 +72,7 @@ public class UserService : IUserService
         }
     }
     
+    
     public bool ValidateToken(string SessionToken)
     {
         if (string.IsNullOrEmpty(_jwtKey))

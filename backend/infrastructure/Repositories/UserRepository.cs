@@ -12,6 +12,16 @@ public class UserRepository
     {
         _dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource), "DataSource is null");
     }
+    
+    public async Task<bool> UserExists(int userId)
+    {
+        const string sql = "SELECT COUNT(1) FROM users WHERE id = @UserId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            int count = await conn.ExecuteScalarAsync<int>(sql, new { UserId = userId });
+            return count > 0;
+        }
+    }
 
     public async Task<User> GetUserByUsernameAsync(string username)
     {
