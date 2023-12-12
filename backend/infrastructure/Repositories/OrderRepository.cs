@@ -38,8 +38,8 @@ public class OrderRepository
     public async Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetail)
     {
         const string sql = @"
-    INSERT INTO orderdetails (orderid, itemid, quantity) 
-    VALUES (@OrderId, @ItemId, @Quantity) 
+    INSERT INTO orderdetails (orderid, itemid, quantity, itemtype) 
+    VALUES (@OrderId, @ItemId, @Quantity, @ItemType) 
     RETURNING *;";
         using (var conn = _dataSource.OpenConnection())
         {

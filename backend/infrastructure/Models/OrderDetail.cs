@@ -16,4 +16,7 @@ public class OrderDetail
     [Required]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
     public int Quantity { get; set; }
+    
+    [Required]
+    public string ItemType { get; set; } //'burgers', 'fries', 'dips', 'sides'
 }
