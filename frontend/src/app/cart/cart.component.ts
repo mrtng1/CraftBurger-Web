@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {CartService} from "../../service/cart.service";
 import {MailService} from "../../service/mail.service";
+import {OrderService} from "../../service/order.service";
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,7 @@ import {MailService} from "../../service/mail.service";
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private cartService: CartService, private mailService: MailService) {}
+  constructor(private cartService: CartService, private mailService: MailService, private orderService: OrderService) {}
 
   ngOnInit() {
     this.loadCartItems();
@@ -53,10 +54,39 @@ export class CartComponent implements OnInit {
 
   completeOrder() {
     const userDetails = this.getUserDetailsFromToken();
-    if (!userDetails.email) {
-      console.error('No user email found in token');
+    if (!userDetails.email || !userDetails.userId) {
+      console.error('No user email or user ID found in token');
       return;
     }
+
+    const orderDetails = this.cartItems.map(item => ({
+      ItemId: item.id,
+      Quantity: item.quantity,
+      ItemType: item.itemType
+    }));
+
+    const order = {
+      UserId: parseInt(userDetails.userId),
+      TotalPrice: this.totalPrice,
+      OrderDate: new Date(),
+      OrderDetails: orderDetails
+    };
+
+
+
+    console.log('Order being sent:', order);
+
+    this.orderService.createOrder(order).subscribe({
+      next: (orderResponse) => {
+        console.log('Order created successfully', orderResponse);
+        this.sendConfirmationEmail(userDetails, orderResponse);
+      },
+      error: (error) => console.error('Error creating order', error)
+    });
+  }
+
+
+  private sendConfirmationEmail(userDetails: { email: string | null, name: string | null, userId: string | null }, orderResponse: any) {
 
     const subject = 'Din ordrebekræftelse';
     let body = `<html><body style="background-color: #1b1b1b; color: white;">`;
@@ -65,7 +95,7 @@ export class CartComponent implements OnInit {
 
     this.cartItems.forEach(item => {
       body += `<div style="margin-bottom: 10px;">`;
-      if(item.imageUrl) {
+      if (item.imageUrl) {
         body += `<img src="${item.imageUrl}" alt="${item.name}" style="width: 100px; height: auto; float: left; margin-right: 10px;">`;
       }
       body += `<p>${item.name}<br>Mængde: ${item.quantity}<br>Pris: ${item.price} kr</p>`;
@@ -80,20 +110,20 @@ export class CartComponent implements OnInit {
 
     body += `<p>Total Pris: ${this.totalPrice} kr</p>`;
     body += `<p>Ordredato: ${formattedDate}</p>`;
+    body += `<p>Ordrenummer: ${orderResponse.OrderId}</p>`;
     body += `<p>Vi ser frem til at se dig igen!</p>`;
     body += `</body></html>`;
 
-    this.mailService.sendEmail(userDetails.email, subject, body).subscribe({
+    this.mailService.sendEmail(userDetails.email as string, subject, body).subscribe({
       next: (response) => console.log('Email sent successfully', response),
       error: (error) => console.error('Error sending email', error)
     });
   }
 
-
-  private getUserDetailsFromToken(): { email: string | null, name: string | null } {
+  private getUserDetailsFromToken(): { email: string | null, name: string | null, userId: string | null } {
     const token = localStorage.getItem('SessionToken');
     if (!token) {
-      return { email: null, name: null };
+      return { email: null, name: null, userId: null };
     }
 
     try {
@@ -101,11 +131,13 @@ export class CartComponent implements OnInit {
       const decodedJson = atob(payload);
       const decodedToken = JSON.parse(decodedJson);
       const email = decodedToken.email;
-      const name = decodedToken.unique_name || decodedToken.name; // Use the appropriate key here
-      return { email, name };
+      const name = decodedToken.unique_name || decodedToken.name;
+      const userId = decodedToken.nameid;
+      return { email, name, userId };
     } catch (e) {
       console.error('Error decoding token', e);
-      return { email: null, name: null };
+      return { email: null, name: null, userId: null };
     }
   }
+
 }
