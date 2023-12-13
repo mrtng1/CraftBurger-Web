@@ -41,4 +41,19 @@ public class OrderService : IOrderService
 
         return createdOrder;
     }
+    
+    public async Task<IEnumerable<Order>> GetAllUserOrders()
+    {
+        return await _orderRepository.GetAllUserOrders();
+    }
+    
+    public async Task<IEnumerable<OrderDetail>> GetAllOrderDetails()
+    {
+        return await _orderRepository.GetAllOrderDetails();
+    }
+
+    public async Task<Order> GetOrderById(int id)
+    {
+        return await _orderRepository.GetOrderById(id);
+    }
 }

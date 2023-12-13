@@ -30,4 +30,54 @@ public class OrderController : Controller
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
     }
+    
+    [HttpGet]
+    [Route("/api/userOrders")]
+    public async Task<ActionResult<IEnumerable<Order>>> GetAllUserOrders()
+    {
+        try
+        {
+            var orders = await _orderService.GetAllUserOrders();
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
+    }
+    
+    [HttpGet]
+    [Route("/api/orderDetails")]
+    public async Task<ActionResult<IEnumerable<Order>>> GetAllOrderDetails()
+    {
+        try
+        {
+            var orders = await _orderService.GetAllOrderDetails();
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("/api/order/{id}")]
+    public async Task<ActionResult<Order>> GetOrderById(int id)
+    {
+        try
+        {
+            var order = await _orderService.GetOrderById(id);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {id} not found.");
+            }
+
+            return Ok(order);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
+    }
 }

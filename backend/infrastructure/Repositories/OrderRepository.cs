@@ -26,15 +26,6 @@ public class OrderRepository
         }
     }
     
-    public async Task<IEnumerable<OrderDetail>> GetOrderDetails(int orderId)
-    {
-        const string sql = "SELECT * FROM orderdetails WHERE orderid = @orderId;";
-        using (var conn = _dataSource.OpenConnection())
-        {
-            return await conn.QueryAsync<OrderDetail>(sql, new { orderId });
-        }
-    }
-    
     public async Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetail)
     {
         const string sql = @"
@@ -44,6 +35,33 @@ public class OrderRepository
         using (var conn = _dataSource.OpenConnection())
         {
             return await conn.QuerySingleAsync<OrderDetail>(sql, orderDetail);
+        }
+    }
+    
+    public async Task<IEnumerable<Order>> GetAllUserOrders()
+    {
+        const string sql = "SELECT * FROM userorders;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QueryAsync<Order>(sql);
+        }
+    }
+    
+    public async Task<IEnumerable<OrderDetail>> GetAllOrderDetails()
+    {
+        const string sql = "SELECT * FROM orderdetails;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QueryAsync<OrderDetail>(sql);
+        }
+    }
+
+    public async Task<Order> GetOrderById(int orderId)
+    {
+        const string sql = "SELECT * FROM userorders WHERE orderid = @OrderId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QuerySingleOrDefaultAsync<Order>(sql, new { OrderId = orderId });
         }
     }
 }
