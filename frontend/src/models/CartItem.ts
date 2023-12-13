@@ -5,4 +5,5 @@ export interface CartItem {
   friesName?: string;
   friesPrice?: number;
   quantity?: number;
+  itemType?: string;
 }

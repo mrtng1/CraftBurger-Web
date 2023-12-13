@@ -44,12 +44,17 @@ export class MenuComponent implements OnInit {
     let cart = sessionStorage.getItem('cart');
     let cartArray: CartItem[] = cart ? JSON.parse(cart) : [];
 
-    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id);
+    const newItem = {
+      ...item,
+      quantity: 1,
+      itemType: itemType
+    };
+
+    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id && cartItem.itemType === itemType);
 
     if (existingItemIndex !== -1) {
       cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
     } else {
-      const newItem = { ...item, quantity: 1 };
       cartArray.push(newItem);
     }
 
