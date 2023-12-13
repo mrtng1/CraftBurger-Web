@@ -3,7 +3,14 @@ module.exports = {
     './src/**/*.{html,ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'f8e8d3': '#f8e8d3',
+      },
+      fontFamily: {
+        avenir: ['Avenir Next', 'sans-serif'],
+      },
+    },
   },
   variants: {
     extend: {},

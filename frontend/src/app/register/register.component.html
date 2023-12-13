@@ -1,0 +1,29 @@
+<div class="login-container flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  <div class="login-box p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4">REGISTER</h2>
+    <form (ngSubmit)="onRegister()" class="flex flex-col gap-4">
+      <!-- Full Name -->
+      <div>
+        <label for="fullName" class="block mb-2 text-sm font-medium">Full Name</label>
+        <input type="text" id="fullName" [(ngModel)]="registerData.fullName" name="fullName" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <!-- Email -->
+      <div>
+        <label for="email" class="block mb-2 text-sm font-medium">Email</label>
+        <input type="email" id="email" [(ngModel)]="registerData.email" name="email" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <!-- Password -->
+      <div>
+        <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+        <input type="password" id="password" [(ngModel)]="registerData.password" name="password" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <!-- Confirm Password -->
+      <div>
+        <label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
+        <input type="password" id="confirmPassword" [(ngModel)]="registerData.confirmPassword" name="confirmPassword" class="border border-gray-300 p-2 rounded-md w-full" required>
+      </div>
+      <!-- Register Button -->
+      <button type="submit" class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Register</button>
+    </form>
+  </div>
+</div>

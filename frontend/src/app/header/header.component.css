@@ -2,9 +2,19 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.logo-container {
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
 
+.logo-container:hover {
+  transform: scale(1.05);
+}
 
+.nav-button {
+  transition: color 0.3s ease-in-out;
+}
 
-
-
-
+.nav-button:hover {
+  color: #f8e8d3;
+}

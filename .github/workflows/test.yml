@@ -1,0 +1,35 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.100-preview.7.23376.3'
+
+      - name: Install dependencies
+        run: dotnet restore ./backend/apitests/apitests.csproj
+
+      - name: Build the test project
+        run: dotnet build --no-restore ./backend/apitests/apitests.csproj
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal ./backend/apitests/apitests.csproj
+        env:
+          pgconn: ${{ secrets.PGCONN }}

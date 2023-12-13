@@ -1,0 +1,18 @@
+.burger-container {
+  display: flex;
+  align-items: center;
+  margin-top: 120px; /* Adjust top margin as needed */
+}
+
+.burger-image {
+  margin-right: 20px; /* Space between image and text */
+}
+
+.burger-info {
+  text-align: left;
+}
+
+.burger-info ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0;
+}

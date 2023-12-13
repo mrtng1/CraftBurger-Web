@@ -2,7 +2,81 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.burger-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
+.prev-button,
+.next-button {
+  color: #f8e8d3;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
 
+.prev-button {
+  left: 40px;
+}
 
+.next-button {
+  right: 40px;
+}
 
+.prev-image,
+.next-image {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  filter: blur(2px);
+  margin: 0 5px;
+}
+
+.main-burger-image {
+  width: 346px;
+  height: 518px;
+  object-fit: cover;
+  margin: 0 5px;
+}
+
+.slider-transition {
+  transition: transform 2s ease;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.avenir-next {
+  font-family: 'Avenir Next Condensed', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
+#aboutUsSection {
+  margin-top: 80px;
+  margin-bottom: 75px;
+}
+
+ #aboutUsSection p {
+   margin-bottom: 18px;
+ }
+ .skiltImage{
+   width: 346px;
+   height: 518px;
+   margin-left: 50px;
+ }
+
+.contact-section {
+  color: white; /* Text color */
+  padding: 6px;
+  margin-top: 12px;
+}
+
+.contact-section * {
+  color: inherit; /* Ensures all child elements inherit the white text color */
+}

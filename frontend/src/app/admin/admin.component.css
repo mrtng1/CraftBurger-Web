@@ -1,0 +1,35 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.separator {
+  height: 50%;
+  width: 2px;
+  background-color: black;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.admin-header {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.route-header {
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.slide-in {
+  height: 67px;
+  opacity: 0.8;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slide-out {
+  height: 0;
+  opacity: 0;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+

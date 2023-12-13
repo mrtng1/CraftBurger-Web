@@ -1,10 +1,32 @@
-<div class="flex flex-col items-center p-4">
-  <h1 class="text-3xl mt-10">Truffle Burger</h1>
-  <div class="flex justify-center items-center">
-    <img id="burger-img" src="/assets/burgers/truffle-burger.png" alt="Burger Image" class="w-96 h-96 drop-shadow-md">
+<div class="flex flex-col items-center p-5 avenir-next custom-margin-top">
+  <h2 class="text-3xl" style="color: #f8e8d3; margin-top: 80px; margin-bottom: 20px">{{ burgers[currentIndex]?.name }}</h2>
+
+  <div class="burger-container">
+    <!-- Previous Button -->
+    <button (click)="previousBurger()" mat-icon-button class="prev-button">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- Previous Burger -->
+    <img [src]="burgers[previousIndex]?.imageUrl" alt="{{ burgers[previousIndex]?.name }}" class="side-burger-image prev-image">
+
+    <!-- Current Burger with Animation -->
+    <div *ngFor="let burger of burgers; let i = index">
+      <img *ngIf="i === currentIndex"
+           [src]="burger.imageUrl"
+           alt="{{ burger.name }}"
+           class="main-burger-image drop-shadow-md"
+           [@scaleIn]>
+    </div>
+
+    <!-- Next Burger -->
+    <img [src]="burgers[nextIndex]?.imageUrl" alt="{{ burgers[nextIndex]?.name }}" class="side-burger-image next-image">
+
+    <!-- Next Button -->
+    <button (click)="nextBurger()" mat-icon-button class="next-button">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
-  <div>
-    <button mat-button color="warn">Order Now</button>
-    <button mat-button color="warn">Browse Menu</button>
-  </div>
-</div>
+
+  <div class="mt-4" style="display: flex; justify-content: center; gap: 32px;">
+    <button mat-button color="warn" (click)="addToCart(burgers[

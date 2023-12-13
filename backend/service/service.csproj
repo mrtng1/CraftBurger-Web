@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="Dapper" Version="2.1.15" />
+      <PackageReference Include="MailKit" Version="4.3.0" />
       <PackageReference Include="Npgsql" Version="7.0.6" />
     </ItemGroup>
 

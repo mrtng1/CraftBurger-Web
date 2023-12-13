@@ -1,0 +1,71 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.burger-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.avenir-next {
+  font-family: 'Avenir Next Condensed', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
+#burgerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+#fries .grid-layout {
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.grid-item img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  margin-top: 120px; /* Adjusted margin */
+}
+
+.nav-button {
+  padding: 15px 30px; /* Increased padding for larger buttons */
+  margin: 0 10px;
+  border: none;
+  background-color: transparent;
+  color: #f8e8d3;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+.nav-button.selected {
+  background-color: #f8e8d3;
+  cursor: default;
+  color: #1b1b1b;
+}
+
+.nav-button:hover:not(.selected) {
+  color: #1b1b1b;
+  background-color: #f8e8d3;
+}

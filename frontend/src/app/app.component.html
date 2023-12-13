@@ -1,4 +1,2 @@
-<app-header></app-header>
-<app-main></app-main>
-
-
+<app-header class="header" *ngIf="showHeader" (aboutUsClick)="scrollToAboutUs()"></app-header>
+<router-outlet></router-outlet>
