@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from "../../../service/order.service";
+import {FriesService} from "../../../service/fries.service";
+import {BurgerService} from "../../../service/burger.service";
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +18,12 @@ export class OverviewComponent implements OnInit {
   mostPreferredItemType: string | undefined;
   averageOrderPrice: number | undefined;
 
-  constructor(private orderService: OrderService) {}
+  selectedOrderDetails: any[] = [];
+  showOrderDetails: boolean = false;
+
+  constructor(private orderService: OrderService,
+              private burgerService: BurgerService,
+              private friesService: FriesService) {}
 
   ngOnInit() {
     this.loadOrders();
@@ -69,5 +76,24 @@ export class OverviewComponent implements OnInit {
       const totalSum = this.orders.reduce((sum, order) => sum + order.totalPrice, 0);
       this.averageOrderPrice = totalSum / this.orders.length;
     }
+  }
+
+  onOrderClick(orderId: number) {
+    this.showOrderDetails = true;
+    this.selectedOrderDetails = []; // Reset previous details
+
+    const details = this.orderDetails.filter(detail => detail.orderId === orderId);
+
+    details.forEach(detail => {
+      if (detail.itemType === 'burger') {
+        this.burgerService.getBurgerById(detail.itemId).subscribe(burger => {
+          this.selectedOrderDetails.push({ ...burger, quantity: detail.quantity });
+        });
+      } else if (detail.itemType === 'fries') {
+        this.friesService.getFriesById(detail.itemId).subscribe(fries => {
+          this.selectedOrderDetails.push({ ...fries, quantity: detail.quantity });
+        });
+      }
+    });
   }
 }

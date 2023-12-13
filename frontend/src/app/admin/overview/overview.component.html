@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let order of orders">
+    <tr *ngFor="let order of orders" (click)="onOrderClick(order.orderId)">
       <td>{{ order.orderId }}</td>
       <td>{{ order.userId }}</td>
       <td>{{ order.totalPrice | currency }}</td>
@@ -22,6 +22,28 @@
     <p>No orders available.</p>
   </ng-template>
 
+  <!-- Order Details Section -->
+  <div *ngIf="showOrderDetails">
+    <h3>Order Details</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let detail of selectedOrderDetails">
+        <td>{{ detail.name }}</td>
+        <td>{{ detail.price | currency }}</td>
+        <td>{{ detail.quantity }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Statistics Section -->
   <div class="stats-container mt-10">
     <h3>Order Statistics</h3>
     <p *ngIf="mostCommonOrderHour">Most common order time: {{ mostCommonOrderHour }}</p>

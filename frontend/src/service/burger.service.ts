@@ -14,6 +14,11 @@ export class BurgerService {
     return this.http.get<any[]>(url);
   }
 
+  getBurgerById(burgerId: number): Observable<any> {
+    const url = `${environment.baseUrl}/api/burger/${burgerId}`;
+    return this.http.get<any>(url);
+  }
+
   createBurger(burgerData: FormData): Observable<any> {
     const url = `${environment.baseUrl}/api/burger`;
     return this.http.post(url, burgerData);

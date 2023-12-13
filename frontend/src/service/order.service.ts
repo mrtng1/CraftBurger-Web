@@ -28,15 +28,4 @@ export class OrderService {
     const url = `${environment.baseUrl}/api/order/${orderId}`;
     return this.http.get(url);
   }
-
-  updateOrder(orderId: number, orderData: any): Observable<any> {
-    const url = `${environment.baseUrl}/api/order/${orderId}`;
-    return this.http.put(url, orderData);
-  }
-
-  deleteOrder(orderId: number): Observable<any> {
-    const url = `${environment.baseUrl}/api/order/${orderId}`;
-    return this.http.delete(url);
-  }
-
 }
