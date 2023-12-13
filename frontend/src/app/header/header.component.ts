@@ -7,7 +7,7 @@ import {CartService} from "../../service/cart.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   @Output() aboutUsClick = new EventEmitter<void>();
   cartCount: number = 0;
 
@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit{
     const cart = sessionStorage.getItem('cart');
     this.cartCount = cart ? JSON.parse(cart).length : 0;
   }
-
 
   aboutUsClicked() {
     if (this.route.snapshot.routeConfig?.path === 'home') {
