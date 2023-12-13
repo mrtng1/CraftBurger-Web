@@ -1,1 +1,32 @@
+<div class="item-management-container">
+  <h2>Order List</h2>
+  <table *ngIf="orders.length > 0; else noOrdersTemplate" class="orders-table">
+    <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User ID</th>
+      <th>Total Price</th>
+      <th>Order Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.orderId }}</td>
+      <td>{{ order.userId }}</td>
+      <td>{{ order.totalPrice | currency }}</td>
+      <td>{{ order.orderDate | date }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <ng-template #noOrdersTemplate>
+    <p>No orders available.</p>
+  </ng-template>
 
+  <div class="stats-container mt-10">
+    <h3>Order Statistics</h3>
+    <p *ngIf="mostCommonOrderHour">Most common order time: {{ mostCommonOrderHour }}</p>
+    <p *ngIf="mostPreferredItemType">Most preferred item type: {{ mostPreferredItemType }}</p>
+    <p *ngIf="averageOrderPrice">Average order price: {{ averageOrderPrice | currency }}</p>
+    <p *ngIf="!mostCommonOrderHour && !mostPreferredItemType && !averageOrderPrice">No statistics available.</p>
+  </div>
+</div>
