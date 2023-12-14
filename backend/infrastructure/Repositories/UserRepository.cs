@@ -31,6 +31,15 @@ public class UserRepository
             return await conn.QuerySingleOrDefaultAsync<User>(sql, new { Username = username });
         }
     }
+    
+    public async Task<User> GetUserByIdAsync(int userId)
+    {
+        const string sql = "SELECT * FROM users WHERE id = @UserId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
+        }
+    }
 
     public async Task CreateUserAsync(User user)
     {

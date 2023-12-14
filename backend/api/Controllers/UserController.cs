@@ -20,6 +20,17 @@ public class AuthController : ControllerBase
         _userService = userService;
         _configuration = configuration;
     }
+    
+    [HttpGet("getUserById/{id}")]
+    public async Task<IActionResult> GetUserById(int id)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user != null)
+        {
+            return Ok(user);
+        }
+        return NotFound("User not found.");
+    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
