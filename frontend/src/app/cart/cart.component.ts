@@ -59,6 +59,9 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    const orderDate = new Date();
+    orderDate.setHours(orderDate.getHours() + 1)
+
     const orderDetails = this.cartItems.map(item => ({
       ItemId: item.id,
       Quantity: item.quantity,
@@ -68,7 +71,7 @@ export class CartComponent implements OnInit {
     const order = {
       UserId: parseInt(userDetails.userId),
       TotalPrice: this.totalPrice,
-      OrderDate: new Date(),
+      OrderDate: orderDate,
       OrderDetails: orderDetails
     };
 
