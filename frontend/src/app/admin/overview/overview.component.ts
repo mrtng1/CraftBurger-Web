@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from "../../../service/order.service";
 import {FriesService} from "../../../service/fries.service";
 import {BurgerService} from "../../../service/burger.service";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-overview',
@@ -23,7 +24,9 @@ export class OverviewComponent implements OnInit {
 
   constructor(private orderService: OrderService,
               private burgerService: BurgerService,
-              private friesService: FriesService) {}
+              private friesService: FriesService,
+              private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.loadOrders();
@@ -33,6 +36,11 @@ export class OverviewComponent implements OnInit {
   loadOrders() {
     this.orderService.getAllUserOrders().subscribe(data => {
       this.orders = data;
+      this.orders.forEach(order => {
+        this.userService.getUserById(order.userId).subscribe(user => {
+          order.userName = user.username;
+        });
+      });
       this.calculateOrderTimeStatistics();
       this.calculateAverageOrderPrice();
     }, error => {

@@ -12,7 +12,7 @@
     <tbody>
     <tr *ngFor="let order of orders" (click)="onOrderClick(order.orderId)">
       <td>{{ order.orderId }}</td>
-      <td>{{ order.userId }}</td>
+      <td>{{ order.userName }}</td>
       <td>{{ order.totalPrice | currency }}</td>
       <td>{{ order.orderDate | date }}</td>
     </tr>
