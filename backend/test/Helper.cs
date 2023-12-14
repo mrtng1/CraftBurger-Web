@@ -7,7 +7,7 @@ public static class Helper
 {
     public static readonly NpgsqlDataSource DataSource;
     public static readonly string ClientBaseUrl = "http://localhost:4200/";
-    public static readonly string ApiBaseUrl = "http://localhost:5113/api";
+    public static readonly string ApiBaseUrl = "http://localhost:5000/api";
 
     static Helper()
     {
