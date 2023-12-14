@@ -14,6 +14,11 @@ export class FriesService {
     return this.http.get<any[]>(url);
   }
 
+  getFriesById(friesId: number): Observable<any> {
+    const url = `${environment.baseUrl}/api/fries/${friesId}`;
+    return this.http.get<any>(url);
+  }
+
   createFries(friesData: FormData): Observable<any> {
     const url = `${environment.baseUrl}/api/fries`;
     return this.http.post(url, friesData);
