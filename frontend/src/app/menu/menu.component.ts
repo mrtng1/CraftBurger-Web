@@ -4,6 +4,7 @@ import { FriesService } from '../../service/fries.service';
 import { CartItem } from '../../models/CartItem';
 import { ImageService } from "../../service/image.service";
 import { CartService } from "../../service/cart.service";
+import {DipService} from "../../service/dip.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,13 +14,16 @@ import { CartService } from "../../service/cart.service";
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
+  dips: any[] = [];
   selectedCategory: string = 'All';
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService) {}
+  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService,
+  private dipService: DipService) {}
 
   ngOnInit() {
     this.loadBurgers();
     this.loadFries();
+    this.loadDips();
   }
 
   loadBurgers() {
@@ -37,6 +41,15 @@ export class MenuComponent implements OnInit {
         this.fries = data;
       },
       error: (error) => console.error('Error fetching fries:', error)
+    });
+  }
+
+  loadDips() {
+    this.dipService.getDips().subscribe({
+      next: (data) => {
+        this.dips = data;
+      },
+      error: (error) => console.error('Error fetching dips:', error)
     });
   }
 
