@@ -13,7 +13,7 @@
     <tr *ngFor="let order of orders" (click)="onOrderClick(order.orderId)">
       <td>{{ order.orderId }}</td>
       <td>{{ order.userName }}</td>
-      <td>{{ order.totalPrice | currency }}</td>
+      <td>{{ order.totalPrice}} kr</td>
       <td>{{ order.orderDate | date }}</td>
     </tr>
     </tbody>
@@ -36,7 +36,7 @@
       <tbody>
       <tr *ngFor="let detail of selectedOrderDetails">
         <td>{{ detail.name }}</td>
-        <td>{{ detail.price | currency }}</td>
+        <td>{{ detail.price}} kr</td>
         <td>{{ detail.quantity }}</td>
       </tr>
       </tbody>
@@ -48,7 +48,7 @@
     <h3>Order Statistics</h3>
     <p *ngIf="mostCommonOrderHour">Most common order time: {{ mostCommonOrderHour }}</p>
     <p *ngIf="mostPreferredItemType">Most preferred item type: {{ mostPreferredItemType }}</p>
-    <p *ngIf="averageOrderPrice">Average order price: {{ averageOrderPrice | currency }}</p>
+    <p *ngIf="averageOrderPrice">Average order price: {{ averageOrderPrice}} kr</p>
     <p *ngIf="!mostCommonOrderHour && !mostPreferredItemType && !averageOrderPrice">No statistics available.</p>
   </div>
 </div>

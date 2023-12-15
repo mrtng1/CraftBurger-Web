@@ -27,7 +27,7 @@
       <input type="text" id="descriptionInput" [(ngModel)]="selectedItem.description" placeholder="Item Description" [disabled]="!isEditable">
     </div>
 
-    <input type="file" id="fileInput" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*">
+    <input type="file" id="fileInput" (change)="onFileSelected($event)" [disabled]="!isEditable" accept="image/*" *ngIf="selectedItem.type !== 'Dip'">
   </div>
 
   <button mat-button id="saveButton" (click)="saveItem()" [disabled]="!isEditable">Save</button>
