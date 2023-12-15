@@ -47,6 +47,11 @@ public class UserService : IUserService
         return true;
     }
     
+    public async Task<User> GetUserByIdAsync(int userId)
+    {
+        return await _userRepository.GetUserByIdAsync(userId);
+    }
+    
     public async Task CreateUserAsync(string username, string email, string password)
     {
         byte[] passwordHash, passwordSalt;
