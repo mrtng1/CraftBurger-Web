@@ -49,6 +49,8 @@ builder.Services.AddSingleton<BurgerRepository>();
 builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
+builder.Services.AddSingleton<IDipService, DipService>();
+builder.Services.AddSingleton<DipRepository>();
 builder.Services.AddSingleton<MailService>();
 builder.Services.AddSingleton<OrderRepository>();
 builder.Services.AddSingleton<IOrderService, OrderService>();

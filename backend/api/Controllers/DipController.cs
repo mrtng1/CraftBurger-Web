@@ -59,7 +59,6 @@ public class DipController : Controller
         }
 
         Dip updatedDip = await _service.UpdateDip(dipId, dip);
-
         if (updatedDip == null)
         {
             return NotFound("Dip not found");
