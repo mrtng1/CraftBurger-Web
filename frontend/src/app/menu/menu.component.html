@@ -2,6 +2,7 @@
   <button class="nav-button" [class.selected]="selectedCategory === 'All'" (click)="updateSelectedCategory('All')">ALL</button>
   <button class="nav-button" [class.selected]="selectedCategory === 'Burgers'" (click)="updateSelectedCategory('Burgers')">BURGERS</button>
   <button class="nav-button" [class.selected]="selectedCategory === 'Fries'" (click)="updateSelectedCategory('Fries')">FRIES</button>
+  <button class="nav-button" [class.selected]="selectedCategory === 'Dips'" (click)="updateSelectedCategory('Dips')">DIPS</button>
 </div>
 
 <div id="burgerGrid" class="grid-layout" style="color: #f8e8d3">
@@ -31,5 +32,22 @@
   </div>
 </div>
 
-
-
+<div id="dipSection" class="section" *ngIf="shouldDisplayItem('Dips')">
+  <div class="grid-layout">
+    <ng-container *ngFor="let dip of dips; let i = index">
+      <div class="grid-item">
+        <div class="card">
+          <div class="card-content">
+            <h3>{{ dip.name }}</h3>
+            <p>Price: {{ dip.price }}</p>
+          </div>
+          <div class="card-actions">
+            <button mat-button color="warn" (click)="addToCart(dip, 'dip')">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+      <!-- Add a new row after every 4 dips -->
+      <div *ngIf="(i + 1) % 4 === 0" class="clear"></div>
+    </ng-container>
+  </div>
+</div>

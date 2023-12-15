@@ -23,14 +23,14 @@ public class DipService : IDipService
             throw new ArgumentNullException(nameof(dip), "Dip data is null");
         }
 
-        if (string.IsNullOrEmpty(dip.DipName))
+        if (string.IsNullOrEmpty(dip.name))
         {
-            throw new ArgumentException("Dip name must be provided", nameof(dip.DipName));
+            throw new ArgumentException("Dip name must be provided", nameof(dip.name));
         }
 
-        if (dip.DipPrice <= 0)
+        if (dip.price <= 0)
         {
-            throw new ArgumentException("Price must be a positive value", nameof(dip.DipPrice));
+            throw new ArgumentException("Price must be a positive value", nameof(dip.price));
         }
 
         try

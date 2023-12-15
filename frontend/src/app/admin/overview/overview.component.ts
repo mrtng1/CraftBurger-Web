@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from "../../../service/order.service";
 import {FriesService} from "../../../service/fries.service";
 import {BurgerService} from "../../../service/burger.service";
+import {UserService} from "../../../service/user.service";
+import {DipService} from "../../../service/dip.service";
 
 @Component({
   selector: 'app-overview',
@@ -23,7 +25,10 @@ export class OverviewComponent implements OnInit {
 
   constructor(private orderService: OrderService,
               private burgerService: BurgerService,
-              private friesService: FriesService) {}
+              private friesService: FriesService,
+              private dip: DipService,
+              private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.loadOrders();
@@ -33,6 +38,11 @@ export class OverviewComponent implements OnInit {
   loadOrders() {
     this.orderService.getAllUserOrders().subscribe(data => {
       this.orders = data;
+      this.orders.forEach(order => {
+        this.userService.getUserById(order.userId).subscribe(user => {
+          order.userName = user.username;
+        });
+      });
       this.calculateOrderTimeStatistics();
       this.calculateAverageOrderPrice();
     }, error => {
@@ -80,7 +90,7 @@ export class OverviewComponent implements OnInit {
 
   onOrderClick(orderId: number) {
     this.showOrderDetails = true;
-    this.selectedOrderDetails = []; // Reset previous details
+    this.selectedOrderDetails = [];
 
     const details = this.orderDetails.filter(detail => detail.orderId === orderId);
 
@@ -92,6 +102,11 @@ export class OverviewComponent implements OnInit {
       } else if (detail.itemType === 'fries') {
         this.friesService.getFriesById(detail.itemId).subscribe(fries => {
           this.selectedOrderDetails.push({ ...fries, quantity: detail.quantity });
+        });
+      }
+      else if (detail.itemType === 'dip') {
+        this.dip.getDipById(detail.itemId).subscribe((dip: any) => {
+          this.selectedOrderDetails.push({...dip, quantity: detail.quantity});
         });
       }
     });
