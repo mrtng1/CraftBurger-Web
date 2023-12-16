@@ -37,7 +37,14 @@ jobs:
       - name: Build the test project
         run: cd backend && cd test && dotnet build --no-restore
 
+      - name: Start Web API
+        run: cd backend && cd api && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
+
       - name: Run API tests
-        run: cd backend && cd test && dotnet test --no-build --filter FullyQualifiedName~test.api
+        run: cd backend cd test && sleep 30 && dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           pgconn: ${{ secrets.PGCONN }}
+
+      - name: Shutdown Web API
+        if: always()
+        run: kill $API_PID
