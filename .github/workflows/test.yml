@@ -38,10 +38,10 @@ jobs:
         run: cd backend && cd test && dotnet build --no-restore
 
       - name: Start Web API
-        run: cd backend && cd api && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
+        run: cd backend && cd api && sleep 30 && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
 
       - name: Run API tests
-        run: cd backend cd test && sleep 30 && dotnet test --no-build --filter FullyQualifiedName~test.api
+        run: cd backend && cd test && sleep 60 && dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           pgconn: ${{ secrets.PGCONN }}
 
