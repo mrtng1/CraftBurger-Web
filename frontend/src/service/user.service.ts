@@ -19,12 +19,20 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/getUserById/${id}`);
   }
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/getAllUsers`, { headers: this.getHeaders() });
+  }
+
   login(loginDto: LoginDTO): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, loginDto);
   }
 
   createUser(createDto: CreateDTO): Observable<any> {
     return this.http.post(`${this.apiUrl}/create`, createDto);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/deleteUser/${id}`, { headers: this.getHeaders(),  responseType: 'text' });
   }
 
   validateToken(tokenDto: TokenDTO): Observable<boolean> {

@@ -25,7 +25,7 @@ export class LoginComponent {
         if (response.token) {
           localStorage.setItem('SessionToken', response.token);
           this.snackBar.open('Login successful', 'Close', { duration: 3000 });
-          this.router.navigate(['/admin']); // Navigate to /admin
+          this.router.navigate(['/admin/overview']);
         } else {
           this.snackBar.open('Login failed', 'Close', { duration: 3000 });
         }
