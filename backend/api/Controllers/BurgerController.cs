@@ -1,4 +1,5 @@
 using infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Interfaces.Blob;
@@ -37,6 +38,7 @@ public class BurgerController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "true")]
     [Route("/api/burger")]
     public async Task<ActionResult<Burger>> CreateBurger([FromForm] Burger burger, [FromForm] IFormFile image)
     {
@@ -62,12 +64,12 @@ public class BurgerController : Controller
     
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult<Burger>> UpdateBurger([FromRoute] int burgerId, [FromForm] Burger burger, [FromForm] IFormFile? image)
     {
         if (!ModelState.IsValid || burger.id != burgerId)
         {
             var modelStateErrors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-            // Log the errors for debugging
             Console.WriteLine("ModelState Errors: " + string.Join(", ", modelStateErrors));
 
             return BadRequest(ModelState);
@@ -75,14 +77,12 @@ public class BurgerController : Controller
 
         try
         {
-            // Retrieve the current burger data from the database
             Burger currentBurger = await _service.GetBurgerById(burgerId);
             if (currentBurger == null)
             {
                 return NotFound("Burger not found");
             }
-
-            // Check if a new image is provided
+            
             if (image != null)
             {
                 // Delete the old image if it exists
@@ -115,13 +115,13 @@ public class BurgerController : Controller
         }
         catch (Exception ex)
         {
-            // Handle exceptions
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
     }
     
     [HttpDelete]
     [Route("/api/burger/{id}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult> DeleteBurger([FromRoute] int id)
     {
         // Retrieve the burger item to get the image URL

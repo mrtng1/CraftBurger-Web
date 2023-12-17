@@ -1,4 +1,5 @@
 ﻿using infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Interfaces.Blob;
@@ -38,6 +39,7 @@ public class FriesController : Controller
 
     [HttpPost]
     [Route("/api/fries")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult<Fries>> CreateFries([FromForm] Fries fries, [FromForm] IFormFile image)
     {
         try
@@ -65,6 +67,7 @@ public class FriesController : Controller
 
     [HttpPut]
     [Route("/api/fries/{id}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult<Fries>> UpdateFries([FromRoute] int id, [FromForm] Fries fries, [FromForm] IFormFile image)
     {
         if (!ModelState.IsValid || fries.id != id)
@@ -121,6 +124,7 @@ public class FriesController : Controller
     
     [HttpDelete]
     [Route("/api/fries/{id}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult> DeleteFries([FromRoute] int id)
     {
         Fries fries = await _service.GetFriesById(id);
