@@ -27,7 +27,7 @@ jobs:
           pgconn: ${{ secrets.PGCONN }}
 
       - name: Run tests once API is running (sleep interval set to 60 seconds)
-        run: cd backend && cd test && sleep 60 && dotnet test
+        run: cd backend && cd test && sleep 60 && dotnet test --filter FullyQualifiedName~test.playwright
         env:
           pgconn: ${{ secrets.PGCONN }}
 
