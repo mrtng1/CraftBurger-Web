@@ -4,9 +4,11 @@ namespace service.Interfaces;
 
 public interface IUserService
 {
-    Task<User> AuthenticateAsync(string username, string password);
-    Task CreateUserAsync(string username, string email, string password);
+    Task<User> Authenticate(string username, string password);
+    Task CreateUser(string username, string email, string password);
     bool ValidateToken(string token);
-    Task<User> GetUserByIdAsync(int userId);
+    Task<User> GetUserById(int userId);
+    Task<IEnumerable<User>> GetAllUsers();
+    Task<bool> DeleteUser(int id);
 
 }

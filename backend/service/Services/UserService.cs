@@ -23,9 +23,9 @@ public class UserService : IUserService
         _jwtKey = jwtKey ?? throw new ArgumentNullException(nameof(jwtKey));
     }
 
-    public async Task<User> AuthenticateAsync(string username, string password)
+    public async Task<User> Authenticate(string username, string password)
     {
-        var user = await _userRepository.GetUserByUsernameAsync(username);
+        var user = await _userRepository.GetUserByUsername(username);
         if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         {
             return null;
@@ -47,15 +47,20 @@ public class UserService : IUserService
         return true;
     }
     
-    public async Task<User> GetUserByIdAsync(int userId)
+    public async Task<User> GetUserById(int userId)
     {
-        return await _userRepository.GetUserByIdAsync(userId);
+        return await _userRepository.GetUserById(userId);
     }
-    
-    public async Task CreateUserAsync(string username, string email, string password)
+
+    public async Task<IEnumerable<User>> GetAllUsers()
+    {
+        return await _userRepository.GetAllUsers();
+    }
+
+    public async Task CreateUser(string username, string email, string password)
     {
         byte[] passwordHash, passwordSalt;
-        CreatePasswordHash(password, out passwordHash, out passwordSalt);
+        CreatePassword(password, out passwordHash, out passwordSalt);
 
         var user = new User
         {
@@ -65,10 +70,20 @@ public class UserService : IUserService
             PasswordSalt = passwordSalt
         };
 
-        await _userRepository.CreateUserAsync(user);
+        await _userRepository.CreateUser(user);
+    }
+    
+    public async Task<bool> DeleteUser(int id)
+    {
+        if (await _userRepository.UserExists(id))
+        {
+            await _userRepository.DeleteUser(id);
+            return true;
+        }
+        return false;
     }
 
-    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    private void CreatePassword(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
         using (var hmac = new System.Security.Cryptography.HMACSHA512())
         {
@@ -95,7 +110,6 @@ public class UserService : IUserService
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                // Set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
 
@@ -106,7 +120,6 @@ public class UserService : IUserService
         }
         catch
         {
-            // Token is not valid
             return false;
         }
     }
