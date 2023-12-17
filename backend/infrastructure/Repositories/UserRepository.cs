@@ -23,7 +23,7 @@ public class UserRepository
         }
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username)
+    public async Task<User> GetUserByUsername(string username)
     {
         const string sql = "SELECT * FROM users WHERE username = @Username;";
         using (var conn = _dataSource.OpenConnection())
@@ -32,7 +32,16 @@ public class UserRepository
         }
     }
     
-    public async Task<User> GetUserByIdAsync(int userId)
+    public async Task<IEnumerable<User>> GetAllUsers()
+    {
+        const string sql = "SELECT * FROM users;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return await conn.QueryAsync<User>(sql);
+        }
+    }
+    
+    public async Task<User> GetUserById(int userId)
     {
         const string sql = "SELECT * FROM users WHERE id = @UserId;";
         using (var conn = _dataSource.OpenConnection())
@@ -41,12 +50,21 @@ public class UserRepository
         }
     }
 
-    public async Task CreateUserAsync(User user)
+    public async Task CreateUser(User user)
     {
         const string sql = "INSERT INTO users (username, email, passwordhash, passwordsalt) VALUES (@Username, @Email, @PasswordHash, @PasswordSalt);";
         using (var conn = _dataSource.OpenConnection())
         {
             await conn.ExecuteAsync(sql, user);
+        }
+    }
+
+    public async Task DeleteUser(int id)
+    {
+        const string sql = "DELETE FROM users WHERE id = @Id;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            await conn.ExecuteAsync(sql, new { Id = id });
         }
     }
 }
