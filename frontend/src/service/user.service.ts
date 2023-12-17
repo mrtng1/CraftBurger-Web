@@ -33,7 +33,10 @@ export class UserService {
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
-    // Add any common headers you need, for example, for authentication
+    const token = localStorage.getItem('SessionToken');
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
     return headers;
   }
 }
