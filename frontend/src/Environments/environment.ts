@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: "https://craftburgerweb.azurewebsites.net"
-  //baseUrl: "http://localhost:5113"
+  //baseUrl: "https://craftburgerweb.azurewebsites.net"
+  baseUrl: "http://localhost:5113"
 };

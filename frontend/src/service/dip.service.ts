@@ -30,8 +30,8 @@ export class DipService {
     this.router.navigate([dipDetailsUrl]);
   }
 
-    createDip(dipData: Dip): Observable<any> {
-        return this.http.post(`${environment.baseUrl}/api/dip`, dipData);
+  createDip(dipData: Dip): Observable<any> {
+        return this.http.post(`${environment.baseUrl}/api/dip`, dipData, { headers: this.getHeaders() });
     }
 
   updateDip(id: number, dipData: Dip): Observable<any> {
@@ -40,15 +40,20 @@ export class DipService {
       name: dipData.name,
       price: dipData.price
     };
-    return this.http.put(`${environment.baseUrl}/api/dip/${id}`, payload, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+    return this.http.put(`${environment.baseUrl}/api/dip/${id}`, payload, { headers: this.getHeaders() });
   }
 
   deleteDip(dipId: number): Observable<any> {
     const url = `${environment.baseUrl}/api/dip/${dipId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { headers: this.getHeaders() });
+  }
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = localStorage.getItem('SessionToken');
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 }
