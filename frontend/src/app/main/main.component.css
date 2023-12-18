@@ -81,3 +81,39 @@
 .contact-section * {
   color: inherit; /* Ensures all child elements inherit the white text color */
 }
+
+.image-container {
+  position: relative;
+  width: 346px;  /* Adjust as needed */
+  height: 518px; /* Adjust as needed */
+  overflow: hidden;
+}
+
+.main-burger-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+
+.image-container:hover .main-burger-image {
+  filter: grayscale(100%);
+}
+
+.image-description {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translateY(100%);
+}
+
+.image-container:hover .image-description {
+  opacity: 1;
+  transform: translateY(0);
+}

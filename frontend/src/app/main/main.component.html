@@ -14,11 +14,13 @@
 
     <!-- Current Burger with Animation -->
     <div *ngFor="let burger of burgers; let i = index">
-      <img *ngIf="i === currentIndex"
-           [@scaleIn]
-           [src]="burger.imageUrl"
-           alt="{{ burger.name }}"
-           class="main-burger-image drop-shadow-md">
+      <div *ngIf="i === currentIndex" class="image-container">
+        <img [@scaleIn]
+             [src]="burger.imageUrl"
+             alt="{{ burger.name }}"
+             class="main-burger-image">
+        <p class="image-description">{{ burger.description }}</p>
+      </div>
     </div>
 
     <!-- Next Burger -->

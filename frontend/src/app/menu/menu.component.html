@@ -15,11 +15,12 @@
 <div class="grid-layout" id="burgerGrid" style="color: #f8e8d3">
   <ng-container *ngFor="let burger of burgers; let i = index">
     <div *ngIf="shouldDisplayItem('Burgers')" class="grid-item">
-      <img [src]="burger.imageUrl"
-           alt="{{ burger.name }}"
-           style="width: 100%; object-fit: cover;">
+      <div class="image-container">
+        <img [src]="burger.imageUrl" alt="{{ burger.name }}" style="width: 100%; object-fit: cover;">
+        <p class="image-description">{{ burger.description }}</p>
+      </div>
       <p>{{ burger.name }}</p>
-      <p>Price: {{ burger.price }}</p>
+      <p>Price: {{ burger.price }} kr</p>
       <button (click)="addToCart(burger, 'burger')" color="warn" mat-button>ADD TO CART</button>
     </div>
   </ng-container>
@@ -33,27 +34,20 @@
            alt="{{ fry.name }}"
            style="width: 100%; object-fit: cover;">
       <p>{{ fry.name }}</p>
-      <p>Price: {{ fry.price }}</p>
+      <p>Price: {{ fry.price }} kr</p>
       <button (click)="addToCart(fry, 'fry')" color="warn" mat-button>ADD TO CART</button>
     </div>
   </div>
 </div>
 
 <div *ngIf="shouldDisplayItem('Dips')" class="section" id="dipSection">
-  <div class="grid-layout">
-    <ng-container *ngFor="let dip of dips; let i = index">
-      <div class="grid-item">
-        <div class="card">
-          <div class="card-content">
-            <h3>{{ dip.name }}</h3>
-            <p>Price: {{ dip.price }}</p>
-          </div>
-          <div class="card-actions">
-            <button (click)="addToCart(dip, 'dip')" color="warn" mat-button>ADD TO CART</button>
-          </div>
-        </div>
+  <div class="grid-layout" style="color: #f8e8d3">
+    <div *ngFor="let dip of dips; let i = index" class="grid-item">
+      <div class="content-container">
+        <p class="item-name">{{ dip.name }}</p>
+        <p class="item-price">Price: {{ dip.price }} kr</p>
       </div>
-      <div *ngIf="(i + 1) % 4 === 0" class="clear"></div>
-    </ng-container>
+      <button (click)="addToCart(dip, 'dip')" color="warn" mat-button>ADD TO CART</button>
+    </div>
   </div>
 </div>
