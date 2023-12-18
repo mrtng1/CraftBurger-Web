@@ -11,7 +11,8 @@ export class HeaderComponent implements OnInit {
   @Output() aboutUsClick = new EventEmitter<void>();
   cartCount: number = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService) {
+  }
 
   ngOnInit() {
     console.log('Header Component: ngOnInit');

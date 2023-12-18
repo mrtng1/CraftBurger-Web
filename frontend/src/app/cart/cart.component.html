@@ -4,9 +4,11 @@
 
   <div *ngIf="cartItems.length > 0; else emptyCart">
     <!-- Cart Items -->
-    <div *ngFor="let item of cartItems" class="flex items-center justify-between" style="border-bottom: 1px solid #f8e8d3; padding: 10px 0;">
+    <div *ngFor="let item of cartItems" class="flex items-center justify-between"
+         style="border-bottom: 1px solid #f8e8d3; padding: 10px 0;">
       <div class="flex items-center" style="color: #f8e8d3;">
-        <img [src]="item.imageUrl" alt="{{ item.name }}" class="object-cover mr-4 square-image" style="width: 150px; height: 150px;">
+        <img [src]="item.imageUrl" alt="{{ item.name }}" class="object-cover mr-4 square-image"
+             style="width: 150px; height: 150px;">
         <div style="width: 200px;">
           <p class="font-semibold">{{ item.name }}</p>
           <p *ngIf="item.price !== undefined">Price: {{ item.price.toFixed(2) }} kr</p>

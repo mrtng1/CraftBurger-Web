@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from "../Environments/environment";
+import {Observable} from 'rxjs';
+import {environment} from "../Environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BurgerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getBurgers(): Observable<any[]> {
     const url = `${environment.baseUrl}/api/burgers`;
@@ -21,17 +22,17 @@ export class BurgerService {
 
   createBurger(burgerData: FormData): Observable<any> {
     const url = `${environment.baseUrl}/api/burger`;
-    return this.http.post(url, burgerData, { headers: this.getHeaders() });
+    return this.http.post(url, burgerData, {headers: this.getHeaders()});
   }
 
   updateBurger(id: number, burgerData: FormData): Observable<any> {
     const url = `${environment.baseUrl}/api/burger/${id}`;
-    return this.http.put(url, burgerData, { headers: this.getHeaders() });
+    return this.http.put(url, burgerData, {headers: this.getHeaders()});
   }
 
   deleteBurger(burgerId: number): Observable<any> {
     const url = `${environment.baseUrl}/api/burger/${burgerId}`;
-    return this.http.delete(url, { headers: this.getHeaders() });
+    return this.http.delete(url, {headers: this.getHeaders()});
   }
 
   private getHeaders(): HttpHeaders {

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 import {environment} from "../Environments/environment";
 import {Dip} from "../models/Dip";
 
@@ -9,7 +9,8 @@ import {Dip} from "../models/Dip";
   providedIn: 'root'
 })
 export class DipService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   getDips(): Observable<any[]> {
     const url = `${environment.baseUrl}/api/dips`;
@@ -31,8 +32,8 @@ export class DipService {
   }
 
   createDip(dipData: Dip): Observable<any> {
-        return this.http.post(`${environment.baseUrl}/api/dip`, dipData, { headers: this.getHeaders() });
-    }
+    return this.http.post(`${environment.baseUrl}/api/dip`, dipData, {headers: this.getHeaders()});
+  }
 
   updateDip(id: number, dipData: Dip): Observable<any> {
     const payload = {
@@ -40,12 +41,12 @@ export class DipService {
       name: dipData.name,
       price: dipData.price
     };
-    return this.http.put(`${environment.baseUrl}/api/dip/${id}`, payload, { headers: this.getHeaders() });
+    return this.http.put(`${environment.baseUrl}/api/dip/${id}`, payload, {headers: this.getHeaders()});
   }
 
   deleteDip(dipId: number): Observable<any> {
     const url = `${environment.baseUrl}/api/dip/${dipId}`;
-    return this.http.delete(url, { headers: this.getHeaders() });
+    return this.http.delete(url, {headers: this.getHeaders()});
   }
 
   private getHeaders(): HttpHeaders {

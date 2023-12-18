@@ -4,26 +4,30 @@
     <form (ngSubmit)="onRegister()" class="flex flex-col gap-4">
       <!-- Full Name -->
       <div>
-        <label for="fullName" class="block mb-2 text-sm font-medium">Full Name</label>
-        <input type="text" id="fullName" [(ngModel)]="registerData.fullName" name="fullName" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="fullName">Full Name</label>
+        <input [(ngModel)]="registerData.fullName" class="border border-gray-300 p-2 rounded-md w-full" id="fullName" name="fullName"
+               required type="text">
       </div>
       <!-- Email -->
       <div>
-        <label for="email" class="block mb-2 text-sm font-medium">Email</label>
-        <input type="email" id="email" [(ngModel)]="registerData.email" name="email" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="email">Email</label>
+        <input [(ngModel)]="registerData.email" class="border border-gray-300 p-2 rounded-md w-full" id="email" name="email"
+               required type="email">
       </div>
       <!-- Password -->
       <div>
-        <label for="password" class="block mb-2 text-sm font-medium">Password</label>
-        <input type="password" id="password" [(ngModel)]="registerData.password" name="password" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="password">Password</label>
+        <input [(ngModel)]="registerData.password" class="border border-gray-300 p-2 rounded-md w-full" id="password" name="password"
+               required type="password">
       </div>
       <!-- Confirm Password -->
       <div>
-        <label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
-        <input type="password" id="confirmPassword" [(ngModel)]="registerData.confirmPassword" name="confirmPassword" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="confirmPassword">Confirm Password</label>
+        <input [(ngModel)]="registerData.confirmPassword" class="border border-gray-300 p-2 rounded-md w-full" id="confirmPassword" name="confirmPassword"
+               required type="password">
       </div>
       <!-- Register Button -->
-      <button type="submit" class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Register</button>
+      <button class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" type="submit">Register</button>
     </form>
   </div>
 </div>

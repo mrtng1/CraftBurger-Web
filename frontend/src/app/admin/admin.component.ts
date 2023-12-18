@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
-import { filter } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +19,8 @@ export class AdminComponent implements OnInit {
     // Add more mappings as needed
   };
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     // Subscribe to router events to detect navigation changes

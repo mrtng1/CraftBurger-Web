@@ -3,14 +3,18 @@
     <h2 class="text-2xl font-semibold mb-4">LOG IN</h2>
     <form (ngSubmit)="onLogin()" class="flex flex-col gap-4">
       <div>
-        <label for="usernameInput" class="block mb-2 text-sm font-medium">Username</label>
-        <input type="text" id="usernameInput" [(ngModel)]="loginData.username" name="username" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="usernameInput">Username</label>
+        <input [(ngModel)]="loginData.username" class="border border-gray-300 p-2 rounded-md w-full" id="usernameInput" name="username"
+               required type="text">
       </div>
       <div>
-        <label for="passwordInput" class="block mb-2 text-sm font-medium">Password</label>
-        <input type="password" id="passwordInput" [(ngModel)]="loginData.password" name="password" class="border border-gray-300 p-2 rounded-md w-full" required>
+        <label class="block mb-2 text-sm font-medium" for="passwordInput">Password</label>
+        <input [(ngModel)]="loginData.password" class="border border-gray-300 p-2 rounded-md w-full" id="passwordInput" name="password"
+               required type="password">
       </div>
-      <button type="submit" id="loginButton" class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Log In</button>
+      <button class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" id="loginButton" type="submit">Log
+        In
+      </button>
     </form>
   </div>
 </div>
