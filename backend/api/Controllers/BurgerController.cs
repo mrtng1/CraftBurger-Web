@@ -60,7 +60,6 @@ public class BurgerController : Controller
             return StatusCode(500, "Internal Server Error: Could not create the burger");
         }
     }
-
     
     [HttpPut]
     [Route("/api/burger/{burgerId}")]
