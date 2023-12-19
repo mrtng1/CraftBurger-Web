@@ -2,12 +2,44 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-#aboutUsSection p {
-  margin-bottom: 18px;
+#aboutUsSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligns items to the start */
+  padding-top: 125px;
+  margin: 48px 24px 0;
+}
+
+#aboutUsSection .text-f8e8d3 {
+  width: calc(100% - 300px); /* Takes the full width minus 300px for the image */
+  font-size: 18px;
+  color: #f8e8d3;
+}
+
+#aboutUsSection .text-f8e8d3 p {
+  margin-bottom: 24px;
 }
 
 .skiltImage {
-  width: 346px;
-  height: 518px;
-  margin-left: 50px;
+  width: 300px; /* Fixed width for the image */
+  height: auto;
+  margin-left: auto; /* Pushes the image to the right */
+}
+
+@media (max-width: 768px) {
+  #aboutUsSection {
+    flex-direction: column;
+    padding-top: 20px;
+    margin: 24px 24px 0;
+  }
+
+  .text-f8e8d3 {
+    width: 100%; /* Full width on smaller screens */
+  }
+
+  .skiltImage {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
 }

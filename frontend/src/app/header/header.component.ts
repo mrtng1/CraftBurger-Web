@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CartService} from "../../service/cart.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
   @Output() aboutUsClick = new EventEmitter<void>();
   cartCount: number = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService) {
+  constructor(private router: Router, private route: ActivatedRoute, private cartService: CartService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -36,5 +37,18 @@ export class HeaderComponent implements OnInit {
         this.aboutUsClick.emit();
       });
     }
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('SessionToken');
+  }
+
+  login(): void {
+    this.router.navigate(['/login']);
+  }
+
+  logout(): void {
+    localStorage.removeItem('SessionToken');
+    this.snackBar.open('Logged Out', 'Close', { duration: 3000 });
   }
 }

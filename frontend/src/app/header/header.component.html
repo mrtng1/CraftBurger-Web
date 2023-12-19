@@ -7,6 +7,8 @@
       </a>
       <button class="px-3 nav-button" mat-button routerLink="/menu" style="left: 15px;">Menu</button>
       <button (click)="aboutUsClicked()" class="px-3 nav-button" mat-button style="left: 30px;">About Us</button>
+      <button *ngIf="!isLoggedIn()" class="px-3 mx-2 nav-button" mat-button (click)="login()" style="left: 30px;">LogIn</button>
+      <button *ngIf="isLoggedIn()" class="px-3 mx-2 nav-button" mat-button (click)="logout()" style="left: 30px;">LogOut</button>
     </div>
 
     <button class="shopping-cart" mat-icon-button routerLink="/cart" style="right: 10px">
