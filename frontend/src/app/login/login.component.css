@@ -47,5 +47,18 @@
 }
 
 .login-box button:hover {
-  background-color: #e63900; /* Slightly darker on hover */
+  background-color: #ff3a02; /* Slightly darker on hover */
+}
+
+.login-box button#registerButton {
+  margin-top: 5%;
+  background-color: transparent; /* Transparent background */
+  color: #fff; /* Light tan color for text */
+  border: 2px solid transparent; /* Transparent border */
+}
+
+.login-box button#registerButton:hover {
+  background-color: #ff3a02; /* Orange background on hover */
+  color: #fff; /* White text on hover */
+  border-color: #ff3a02; /* Orange border on hover */
 }

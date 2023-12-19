@@ -11,6 +11,7 @@ import {UserService} from "../../service/user.service";
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   registerData = {
