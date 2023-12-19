@@ -100,7 +100,7 @@ export class OverviewComponent implements OnInit {
         this.burgerService.getBurgerById(detail.itemId).subscribe(burger => {
           this.selectedOrderDetails.push({...burger, quantity: detail.quantity});
         });
-      } else if (detail.itemType === 'fries') {
+      } else if (detail.itemType === 'fry') {
         this.friesService.getFriesById(detail.itemId).subscribe(fries => {
           this.selectedOrderDetails.push({...fries, quantity: detail.quantity});
         });
