@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from "../Environments/environment";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from "../Environments/environment";
 import {User} from "../models/User";
 import {LoginDTO} from "../models/LoginDTO";
 import {CreateDTO} from "../models/CreateDTO";
@@ -13,14 +13,15 @@ import {TokenDTO} from "../models/TokenDTO";
 export class UserService {
   private apiUrl = `${environment.baseUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/getUserById/${id}`);
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/getAllUsers`, { headers: this.getHeaders() });
+    return this.http.get<User[]>(`${this.apiUrl}/getAllUsers`, {headers: this.getHeaders()});
   }
 
   login(loginDto: LoginDTO): Observable<{ token: string }> {
@@ -32,7 +33,7 @@ export class UserService {
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/deleteUser/${id}`, { headers: this.getHeaders(),  responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}/deleteUser/${id}`, {headers: this.getHeaders(), responseType: 'text'});
   }
 
   validateToken(tokenDto: TokenDTO): Observable<boolean> {

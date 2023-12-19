@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from "../../../service/user.service";
 
 @Component({
@@ -10,7 +10,8 @@ export class UserManagementComponent {
   users: any[] = [];
   selectedUserId: number | null = null;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit() {
     this.loadUsers();

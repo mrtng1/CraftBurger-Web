@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MenuItem } from '../../../models/MenuItem';
-import { BurgerService } from '../../../service/burger.service';
-import { FriesService } from '../../../service/fries.service';
-import { forkJoin } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MenuItem} from '../../../models/MenuItem';
+import {BurgerService} from '../../../service/burger.service';
+import {FriesService} from '../../../service/fries.service';
+import {forkJoin} from 'rxjs';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DipService} from "../../../service/dip.service";
 import {Dip} from "../../../models/Dip";
@@ -22,11 +22,12 @@ export class ItemManagementComponent implements OnInit {
   isEditable: boolean = false;
 
   constructor(
-      private burgerService: BurgerService,
-      private friesService: FriesService,
-      private dipService: DipService,
-      private snackBar: MatSnackBar
-  ) {}
+    private burgerService: BurgerService,
+    private friesService: FriesService,
+    private dipService: DipService,
+    private snackBar: MatSnackBar
+  ) {
+  }
 
   ngOnInit() {
     this.fetchMenuItems();
@@ -37,7 +38,7 @@ export class ItemManagementComponent implements OnInit {
       burgers: this.burgerService.getBurgers(),
       fries: this.friesService.getFries(),
       dips: this.dipService.getDips()
-    }).subscribe(({ burgers, fries , dips}) => {
+    }).subscribe(({burgers, fries, dips}) => {
       this.menuItems = [
         ...burgers.map(burger => ({
           id: burger.id,
@@ -68,12 +69,12 @@ export class ItemManagementComponent implements OnInit {
   }
 
   selectItem(item: MenuItem): void {
-    this.selectedItem = { ...item };
+    this.selectedItem = {...item};
     this.isEditable = false;
   }
 
   createItem(): void {
-    this.selectedItem = { id: null, name: '', price: '', description: '', type: '' };
+    this.selectedItem = {id: null, name: '', price: '', description: '', type: ''};
     this.isEditable = true;
   }
 
@@ -86,9 +87,9 @@ export class ItemManagementComponent implements OnInit {
       if (this.selectedItem.type === 'Burger') {
         this.burgerService.deleteBurger(this.selectedItem.id).subscribe(() => {
           this.fetchMenuItems();
-          this.snackBar.open('Burger deleted successfully!', 'Close', { duration: 3000 });
+          this.snackBar.open('Burger deleted successfully!', 'Close', {duration: 3000});
         }, error => {
-          this.snackBar.open('Error while deleting burger. Please try again.', 'Close', { duration: 3000 });
+          this.snackBar.open('Error while deleting burger. Please try again.', 'Close', {duration: 3000});
         });
       } else if (this.selectedItem.type === 'Fries') {
         this.friesService.deleteFries(this.selectedItem.id).subscribe(() => {
@@ -178,7 +179,7 @@ export class ItemManagementComponent implements OnInit {
 
       const errorMessage = priceError ?? nameError;
       if (errorMessage) {
-        this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+        this.snackBar.open(errorMessage, 'Close', {duration: 3000});
         return;
       }
 
@@ -211,22 +212,22 @@ export class ItemManagementComponent implements OnInit {
       formData.append('id', this.selectedItem.id)
       this.burgerService.updateBurger(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
-        this.snackBar.open('Burger updated successfully!', 'Close', { duration: 4000 });
+        this.snackBar.open('Burger updated successfully!', 'Close', {duration: 4000});
         this.isEditable = false;
         this.selectedItem = {};
         this.resetFileInput();
       }, error => {
-        this.snackBar.open('Error while updating burger. Please try again.', 'Close', { duration: 4000 });
+        this.snackBar.open('Error while updating burger. Please try again.', 'Close', {duration: 4000});
       });
     } else {
       this.burgerService.createBurger(formData).subscribe(() => {
         this.fetchMenuItems();
-        this.snackBar.open('Burger created successfully!', 'Close', { duration: 4000 });
+        this.snackBar.open('Burger created successfully!', 'Close', {duration: 4000});
         this.isEditable = false;
         this.selectedItem = {};
         this.resetFileInput();
       }, error => {
-        this.snackBar.open('Error while creating burger. Please try again.', 'Close', { duration: 4000 });
+        this.snackBar.open('Error while creating burger. Please try again.', 'Close', {duration: 4000});
       });
     }
   }
@@ -236,53 +237,53 @@ export class ItemManagementComponent implements OnInit {
       formData.append('id', this.selectedItem.id)
       this.friesService.updateFries(this.selectedItem.id, formData).subscribe(() => {
         this.fetchMenuItems();
-        this.snackBar.open('Fries updated successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Fries updated successfully!', 'Close', {duration: 3000});
         this.isEditable = false;
         this.selectedItem = {};
         this.resetFileInput();
       }, error => {
-        this.snackBar.open('Error while updating fries. Please try again.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error while updating fries. Please try again.', 'Close', {duration: 3000});
       });
     } else {
       this.friesService.createFries(formData).subscribe(() => {
         this.fetchMenuItems();
-        this.snackBar.open('Fries created successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Fries created successfully!', 'Close', {duration: 3000});
         this.isEditable = false;
         this.selectedItem = {};
         this.resetFileInput()
       }, error => {
-        this.snackBar.open('Error while creating fries. Please try again.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error while creating fries. Please try again.', 'Close', {duration: 3000});
       });
     }
   }
 
-    handleDipItem(): void {
-        let dipData: Dip = {
-            name: this.selectedItem.name,
-            price: this.selectedItem.price
-        };
+  handleDipItem(): void {
+    let dipData: Dip = {
+      name: this.selectedItem.name,
+      price: this.selectedItem.price
+    };
 
-        if (this.selectedItem.id) {
-            dipData.id = this.selectedItem.id;
-            this.dipService.updateDip(this.selectedItem.id, dipData).subscribe(() => {
-                this.fetchMenuItems();
-                this.snackBar.open('Dip updated successfully!', 'Close', { duration: 4000 });
-                this.isEditable = false;
-                this.selectedItem = {};
-            }, error => {
-                this.snackBar.open('Error while updating dip. Please try again.', 'Close', { duration: 4000 });
-            });
-        } else {
-            this.dipService.createDip(dipData).subscribe(() => {
-                this.fetchMenuItems();
-                this.snackBar.open('Dip created successfully!', 'Close', { duration: 4000 });
-                this.isEditable = false;
-                this.selectedItem = {};
-            }, error => {
-                this.snackBar.open('Error while creating dip. Please try again.', 'Close', { duration: 4000 });
-            });
-        }
+    if (this.selectedItem.id) {
+      dipData.id = this.selectedItem.id;
+      this.dipService.updateDip(this.selectedItem.id, dipData).subscribe(() => {
+        this.fetchMenuItems();
+        this.snackBar.open('Dip updated successfully!', 'Close', {duration: 4000});
+        this.isEditable = false;
+        this.selectedItem = {};
+      }, error => {
+        this.snackBar.open('Error while updating dip. Please try again.', 'Close', {duration: 4000});
+      });
+    } else {
+      this.dipService.createDip(dipData).subscribe(() => {
+        this.fetchMenuItems();
+        this.snackBar.open('Dip created successfully!', 'Close', {duration: 4000});
+        this.isEditable = false;
+        this.selectedItem = {};
+      }, error => {
+        this.snackBar.open('Error while creating dip. Please try again.', 'Close', {duration: 4000});
+      });
     }
+  }
 
 
 }

@@ -30,6 +30,9 @@ public class CreateFriesApiTest
         var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
         imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
         formData.Add(imageContent, "image", "test_image.jpg");
+        
+        var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var httpResponse = await httpClient.PostAsync(Helper.ApiBaseUrl + "/fries", formData);
         httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);

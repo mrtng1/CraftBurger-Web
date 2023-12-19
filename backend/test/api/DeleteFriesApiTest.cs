@@ -22,6 +22,9 @@ public class DeleteFriesApiTest
     {
         using var httpClient = new HttpClient();
         int id = await CreateFries(httpClient);
+        
+        var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             
         var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/fries/{id}");
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -44,6 +47,9 @@ public class DeleteFriesApiTest
         var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
         imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
         formData.Add(imageContent, "image", "test_image.jpg");
+        
+        var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var createResponse = await httpClient.PostAsync($"{Helper.ApiBaseUrl}/fries", formData);
         createResponse.EnsureSuccessStatusCode();

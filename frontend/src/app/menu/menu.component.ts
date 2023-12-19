@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { BurgerService } from '../../service/burger.service';
-import { FriesService } from '../../service/fries.service';
-import { CartItem } from '../../models/CartItem';
-import { ImageService } from "../../service/image.service";
-import { CartService } from "../../service/cart.service";
+import {Component, OnInit} from '@angular/core';
+import {BurgerService} from '../../service/burger.service';
+import {FriesService} from '../../service/fries.service';
+import {CartItem} from '../../models/CartItem';
+import {ImageService} from "../../service/image.service";
+import {CartService} from "../../service/cart.service";
 import {DipService} from "../../service/dip.service";
 
 @Component({
@@ -18,7 +18,8 @@ export class MenuComponent implements OnInit {
   selectedCategory: string = 'All';
 
   constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService,
-  private dipService: DipService) {}
+              private dipService: DipService) {
+  }
 
   ngOnInit() {
     this.loadBurgers();

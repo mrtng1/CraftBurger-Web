@@ -1,8 +1,6 @@
-import {CanActivate, CanActivateFn, Router} from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
 import {Injectable} from "@angular/core";
 import {map, Observable, of} from "rxjs";
-import {environment} from "../Environments/environment";
-import {HttpClient} from "@angular/common/http";
 import {UserService} from "../service/user.service";
 
 
@@ -10,7 +8,8 @@ import {UserService} from "../service/user.service";
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) {
+  }
 
   canActivate(): Observable<boolean> {
     const token = localStorage.getItem('SessionToken');
@@ -25,7 +24,7 @@ export class AuthGuard implements CanActivate {
       return of(false);
     }
 
-    return this.userService.validateToken({ token: token }).pipe(
+    return this.userService.validateToken({token: token}).pipe(
       map(isValid => {
         if (!isValid) {
           this.router.navigate(['/login']);

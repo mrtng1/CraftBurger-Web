@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CartService} from "../../service/cart.service";
 import {MailService} from "../../service/mail.service";
 import {OrderService} from "../../service/order.service";
@@ -11,7 +11,17 @@ import {OrderService} from "../../service/order.service";
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private cartService: CartService, private mailService: MailService, private orderService: OrderService) {}
+  constructor(private cartService: CartService, private mailService: MailService, private orderService: OrderService) {
+  }
+
+  get totalPrice(): number {
+    return this.cartItems.reduce((sum, item) => {
+      const itemPrice = item.price || 0;
+      const quantity = item.quantity || 0;
+
+      return sum + itemPrice * quantity;
+    }, 0);
+  }
 
   ngOnInit() {
     this.loadCartItems();
@@ -35,15 +45,6 @@ export class CartComponent implements OnInit {
       if (typeA > typeB) return 1;
       return 0;
     });
-  }
-
-  get totalPrice(): number {
-    return this.cartItems.reduce((sum, item) => {
-      const itemPrice = item.price || 0;
-      const quantity = item.quantity || 0;
-
-      return sum + itemPrice * quantity;
-    }, 0);
   }
 
   removeItem(item: any) {
@@ -76,7 +77,6 @@ export class CartComponent implements OnInit {
     };
 
 
-
     console.log('Order being sent:', order);
 
     this.orderService.createOrder(order).subscribe({
@@ -89,7 +89,11 @@ export class CartComponent implements OnInit {
   }
 
 
-  private sendConfirmationEmail(userDetails: { email: string | null, name: string | null, userId: string | null }, orderResponse: any) {
+  private sendConfirmationEmail(userDetails: {
+    email: string | null,
+    name: string | null,
+    userId: string | null
+  }, orderResponse: any) {
 
     const subject = 'Din ordrebekræftelse';
     let body = `<html><body style="background-color: #1b1b1b; color: white;">`;
@@ -126,7 +130,7 @@ export class CartComponent implements OnInit {
   private getUserDetailsFromToken(): { email: string | null, name: string | null, userId: string | null } {
     const token = localStorage.getItem('SessionToken');
     if (!token) {
-      return { email: null, name: null, userId: null };
+      return {email: null, name: null, userId: null};
     }
 
     try {
@@ -136,10 +140,10 @@ export class CartComponent implements OnInit {
       const email = decodedToken.email;
       const name = decodedToken.unique_name || decodedToken.name;
       const userId = decodedToken.nameid;
-      return { email, name, userId };
+      return {email, name, userId};
     } catch (e) {
       console.error('Error decoding token', e);
-      return { email: null, name: null, userId: null };
+      return {email: null, name: null, userId: null};
     }
   }
 

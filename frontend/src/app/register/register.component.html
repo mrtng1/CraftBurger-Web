@@ -1,29 +1,34 @@
-<div class="login-container flex flex-col items-center justify-center min-h-screen bg-gray-100">
-  <div class="login-box p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-4">REGISTER</h2>
-    <form (ngSubmit)="onRegister()" class="flex flex-col gap-4">
+<div class="register-container">
+  <div class="register-box">
+    <h2>REGISTER</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm" style="display: grid; gap: 10px;">
       <!-- Full Name -->
-      <div>
-        <label for="fullName" class="block mb-2 text-sm font-medium">Full Name</label>
-        <input type="text" id="fullName" [(ngModel)]="registerData.fullName" name="fullName" class="border border-gray-300 p-2 rounded-md w-full" required>
+      <div style="display: flex; flex-direction: column;">
+        <label for="fullName" style="margin-bottom: 5px;">Full Name</label>
+        <input [(ngModel)]="registerData.fullName" id="fullName" name="fullName" required type="text" style="padding: 8px; border-radius: 4px;">
       </div>
       <!-- Email -->
-      <div>
-        <label for="email" class="block mb-2 text-sm font-medium">Email</label>
-        <input type="email" id="email" [(ngModel)]="registerData.email" name="email" class="border border-gray-300 p-2 rounded-md w-full" required>
+      <div style="display: flex; flex-direction: column;">
+        <label for="email" style="margin-bottom: 5px;">Email</label>
+        <input [(ngModel)]="registerData.email" id="email" name="email" required type="email" style="padding: 8px; border-radius: 4px;">
       </div>
       <!-- Password -->
-      <div>
-        <label for="password" class="block mb-2 text-sm font-medium">Password</label>
-        <input type="password" id="password" [(ngModel)]="registerData.password" name="password" class="border border-gray-300 p-2 rounded-md w-full" required>
+      <div style="display: flex; flex-direction: column;">
+        <label for="password" style="margin-bottom: 5px;">Password</label>
+        <input [(ngModel)]="registerData.password" id="password" name="password" #password="ngModel" required type="password" style="padding: 8px; border-radius: 4px;">
       </div>
       <!-- Confirm Password -->
-      <div>
-        <label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
-        <input type="password" id="confirmPassword" [(ngModel)]="registerData.confirmPassword" name="confirmPassword" class="border border-gray-300 p-2 rounded-md w-full" required>
+      <div style="display: flex; flex-direction: column;">
+        <label for="confirmPassword" style="margin-bottom: 5px;">Confirm Password</label>
+        <input [(ngModel)]="registerData.confirmPassword" id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel" required type="password" style="padding: 8px; border-radius: 4px;">
+        <div *ngIf="confirmPassword.touched && confirmPassword.value !== password.value" class="text-red-500">
+          Passwords must match.
+        </div>
       </div>
       <!-- Register Button -->
-      <button type="submit" class="mt-4 p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Register</button>
+      <button type="submit" [disabled]="!registerForm.form.valid || confirmPassword.value !== password.value" style="padding: 8px; border-radius: 4px;">
+        Register
+      </button>
     </form>
   </div>
 </div>

@@ -22,6 +22,9 @@ namespace test.api;
         {
             using var httpClient = new HttpClient();
             int id = await CreateBurger(httpClient);
+            
+            var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var deleteResponse = await httpClient.DeleteAsync($"{Helper.ApiBaseUrl}/burger/{id}");
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -48,6 +51,9 @@ namespace test.api;
             var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
             imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
             formData.Add(imageContent, "image", "test_image.jpg");
+            
+            var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var createResponse = await httpClient.PostAsync($"{Helper.ApiBaseUrl}/burger", formData);
             createResponse.EnsureSuccessStatusCode();

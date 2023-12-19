@@ -1,0 +1,69 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Register Container */
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #1b1b1b; /* Dark background */
+}
+
+/* Register Box Styling */
+.register-box {
+  padding: 30px;
+  background-color: #1b1b1b; /* Dark background for the box */
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff; /* White text color for box content */
+}
+
+/* Title Styling */
+.register-box h2 {
+  color: #ff3a02; /* Accent color for the title */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+.register-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input Fields Styling */
+.register-box input[type="text"],
+.register-box input[type="password"],
+.register-box input[type="email"] {
+  padding: 12px;
+  border: 2px solid #ff3a02; /* Accent color for border */
+  background-color: transparent;
+  color: #fff; /* White text color for input fields */
+  border-radius: 4px;
+}
+
+/* Label Styling */
+.register-box label {
+  color: #fff; /* White text color for labels */
+}
+
+/* Button Styling */
+.register-box button {
+  padding: 12px;
+  background-color: #ff3a02; /* Accent color for button */
+  color: #fff; /* White text color for button */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button Hover Effect */
+.register-box button:hover {
+  background-color: #e63900; /* Slightly darker on hover */
+}

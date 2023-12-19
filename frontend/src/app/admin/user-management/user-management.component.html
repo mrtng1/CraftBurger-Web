@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users" (click)="onUserClick(user.id)" [class.selected]="user.id === selectedUserId">
+    <tr (click)="onUserClick(user.id)" *ngFor="let user of users" [class.selected]="user.id === selectedUserId">
       <td>{{ user.id }}</td>
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
@@ -20,5 +20,6 @@
     <p>No users available.</p>
   </ng-template>
 
-  <button *ngIf="selectedUserId" class="delete-button" (click)="deleteUser()">Delete User with ID:{{selectedUserId}}</button>
+  <button (click)="deleteUser()" *ngIf="selectedUserId" class="delete-button">Delete User with
+    ID:{{selectedUserId}}</button>
 </div>

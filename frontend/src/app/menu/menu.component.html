@@ -1,52 +1,62 @@
 <div class="navigation">
-  <button class="nav-button" [class.selected]="selectedCategory === 'All'" (click)="updateSelectedCategory('All')">ALL</button>
-  <button class="nav-button" [class.selected]="selectedCategory === 'Burgers'" (click)="updateSelectedCategory('Burgers')">BURGERS</button>
-  <button class="nav-button" [class.selected]="selectedCategory === 'Fries'" (click)="updateSelectedCategory('Fries')">FRIES</button>
-  <button class="nav-button" [class.selected]="selectedCategory === 'Dips'" (click)="updateSelectedCategory('Dips')">DIPS</button>
+  <button (click)="updateSelectedCategory('All')" [class.selected]="selectedCategory === 'All'" class="nav-button">ALL
+  </button>
+  <button (click)="updateSelectedCategory('Burgers')" [class.selected]="selectedCategory === 'Burgers'"
+          class="nav-button">BURGERS
+  </button>
+  <button (click)="updateSelectedCategory('Fries')" [class.selected]="selectedCategory === 'Fries'" class="nav-button">
+    FRIES
+  </button>
+  <button (click)="updateSelectedCategory('Dips')" [class.selected]="selectedCategory === 'Dips'" class="nav-button">
+    DIPS
+  </button>
 </div>
 
-<div id="burgerGrid" class="grid-layout" style="color: #f8e8d3">
-  <ng-container *ngFor="let burger of burgers; let i = index">
-    <div class="grid-item" *ngIf="shouldDisplayItem('Burgers')">
-      <img [src]="burger.imageUrl"
-           alt="{{ burger.name }}"
-           style="width: 100%; object-fit: cover;">
-      <p>{{ burger.name }}</p>
-      <p>Price: {{ burger.price }}</p>
-      <button mat-button color="warn" (click)="addToCart(burger, 'burger')">ADD TO CART</button>
-    </div>
-  </ng-container>
-</div>
-
-
-<div id="fries" class="section" *ngIf="shouldDisplayItem('Fries')" style="margin-top: 0;">
-  <div class="grid-layout" style="color: #f8e8d3">
-    <div *ngFor="let fry of fries; let i = index" class="grid-item">
-      <img [src]="fry.imageUrl"
-           alt="{{ fry.name }}"
-           style="width: 100%; object-fit: cover;">
-      <p>{{ fry.name }}</p>
-      <p>Price: {{ fry.price }}</p>
-      <button mat-button color="warn" (click)="addToCart(fry, 'fry')">ADD TO CART</button>
-    </div>
-  </div>
-</div>
-
-<div id="dipSection" class="section" *ngIf="shouldDisplayItem('Dips')">
-  <div class="grid-layout">
-    <ng-container *ngFor="let dip of dips; let i = index">
+<div *ngIf="shouldDisplayItem('Burgers')" class="section" id="burgerSection">
+  <div class="grid-layout" id="burgerGrid" style="color: #f8e8d3" *ngIf="burgers.length > 0; else noBurgersTemplate">
+    <ng-container *ngFor="let burger of burgers; let i = index">
       <div class="grid-item">
-        <div class="card">
-          <div class="card-content">
-            <h3>{{ dip.name }}</h3>
-            <p>Price: {{ dip.price }}</p>
-          </div>
-          <div class="card-actions">
-            <button mat-button color="warn" (click)="addToCart(dip, 'dip')">ADD TO CART</button>
-          </div>
+        <div class="image-container">
+          <img [src]="burger.imageUrl" alt="{{ burger.name }}" style="width: 100%; object-fit: cover;">
+          <p class="image-description">{{ burger.description }}</p>
         </div>
+        <p>{{ burger.name }}</p>
+        <p>Price: {{ burger.price }} kr</p>
+        <button (click)="addToCart(burger, 'burger')" color="warn" mat-button>ADD TO CART</button>
       </div>
-      <div *ngIf="(i + 1) % 4 === 0" class="clear"></div>
     </ng-container>
   </div>
+  <ng-template #noBurgersTemplate>
+    <p>No burgers available.</p>
+  </ng-template>
+</div>
+
+
+<div *ngIf="shouldDisplayItem('Fries')" class="section" id="fries" style="margin-top: 0;">
+  <div *ngIf="fries.length > 0; else noFriesTemplate" class="grid-layout" style="color: #f8e8d3">
+    <div *ngFor="let fry of fries; let i = index" class="grid-item">
+      <img [src]="fry.imageUrl" alt="{{ fry.name }}" style="width: 100%; object-fit: cover;">
+      <p>{{ fry.name }}</p>
+      <p>Price: {{ fry.price }} kr</p>
+      <button (click)="addToCart(fry, 'fry')" color="warn" mat-button>ADD TO CART</button>
+    </div>
+  </div>
+  <ng-template #noFriesTemplate>
+    <p>No fries available.</p>
+  </ng-template>
+</div>
+
+<div *ngIf="shouldDisplayItem('Dips')" class="section" id="dipSection">
+  <div class="grid-layout" style="color: #f8e8d3" *ngIf="dips.length > 0; else noDipsTemplate">
+    <div *ngFor="let dip of dips; let i = index" class="grid-item">
+      <div class="content-container">
+        <p class="item-name">{{ dip.name }}</p>
+        <p class="item-price">Price: {{ dip.price }} kr</p>
+      </div>
+      <button (click)="addToCart(dip, 'dip')" color="warn" mat-button>ADD TO CART</button>
+    </div>
+  </div>
+  <ng-template #noDipsTemplate>
+    <p>No dips available.</p>
+  </ng-template>
 </div>

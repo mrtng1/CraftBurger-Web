@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OrderService } from "../../../service/order.service";
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {OrderService} from "../../../service/order.service";
 import {FriesService} from "../../../service/fries.service";
 import {BurgerService} from "../../../service/burger.service";
 import {UserService} from "../../../service/user.service";
@@ -28,7 +28,8 @@ export class OverviewComponent implements OnInit {
               private friesService: FriesService,
               private dip: DipService,
               private userService: UserService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.loadOrders();
@@ -97,14 +98,13 @@ export class OverviewComponent implements OnInit {
     details.forEach(detail => {
       if (detail.itemType === 'burger') {
         this.burgerService.getBurgerById(detail.itemId).subscribe(burger => {
-          this.selectedOrderDetails.push({ ...burger, quantity: detail.quantity });
+          this.selectedOrderDetails.push({...burger, quantity: detail.quantity});
         });
       } else if (detail.itemType === 'fries') {
         this.friesService.getFriesById(detail.itemId).subscribe(fries => {
-          this.selectedOrderDetails.push({ ...fries, quantity: detail.quantity });
+          this.selectedOrderDetails.push({...fries, quantity: detail.quantity});
         });
-      }
-      else if (detail.itemType === 'dip') {
+      } else if (detail.itemType === 'dip') {
         this.dip.getDipById(detail.itemId).subscribe((dip: any) => {
           this.selectedOrderDetails.push({...dip, quantity: detail.quantity});
         });
