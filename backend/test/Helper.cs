@@ -1,3 +1,4 @@
+using System.Net.Http.Json;
 using Npgsql;
 using Dapper;
 
@@ -22,7 +23,7 @@ public static class Helper
         {
             var uri = new Uri(rawConnectionString);
             var properlyFormattedConnectionString = string.Format(
-                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=true;MaxPoolSize=1;",
+                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=true;MaxPoolSize=6;",
                 uri.Host,
                 uri.AbsolutePath.Trim('/'),
                 uri.UserInfo.Split(':')[0],
@@ -69,4 +70,26 @@ CREATE TABLE fries (
     price DECIMAL NOT NULL,
     imageurl VARCHAR(2083) NULL
 );";
+    
+    public static async Task<string> GetAuthenticationToken(string username, string password)
+    {
+        using var httpClient = new HttpClient();
+
+        var loginDto = new
+        {
+            Username = username,
+            Password = password
+        };
+
+        var response = await httpClient.PostAsJsonAsync("http://localhost:5113/Auth/login", loginDto);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Authentication failed");
+        }
+
+        var data = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        return data["token"]; 
+    }
 }

@@ -1,12 +1,13 @@
 // src/app/services/image.service.ts
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  constructor() { }
+  constructor() {
+  }
 
   getImageUrl(itemName: string, itemType: 'burger' | 'fries'): string {
     if (!itemName) {

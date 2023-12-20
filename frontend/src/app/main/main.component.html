@@ -1,32 +1,42 @@
 <div class="flex flex-col items-center p-5 avenir-next custom-margin-top">
-  <h2 class="text-3xl" style="color: #f8e8d3; margin-top: 80px; margin-bottom: 20px">{{ burgers[currentIndex]?.name }}</h2>
+  <h2 class="text-3xl"
+      style="color: #f8e8d3; margin-top: 80px; margin-bottom: 20px">{{ burgers[currentIndex]?.name }}</h2>
 
   <div class="burger-container">
     <!-- Previous Button -->
-    <button (click)="previousBurger()" mat-icon-button class="prev-button">
+    <button (click)="previousBurger()" class="prev-button" mat-icon-button>
       <mat-icon>chevron_left</mat-icon>
     </button>
 
     <!-- Previous Burger -->
-    <img [src]="burgers[previousIndex]?.imageUrl" alt="{{ burgers[previousIndex]?.name }}" class="side-burger-image prev-image">
+    <img [src]="burgers[previousIndex]?.imageUrl" alt="{{ burgers[previousIndex]?.name }}"
+         class="side-burger-image prev-image">
 
     <!-- Current Burger with Animation -->
     <div *ngFor="let burger of burgers; let i = index">
-      <img *ngIf="i === currentIndex"
-           [src]="burger.imageUrl"
-           alt="{{ burger.name }}"
-           class="main-burger-image drop-shadow-md"
-           [@scaleIn]>
+      <div *ngIf="i === currentIndex" class="image-container">
+        <img [@scaleIn]
+             [src]="burger.imageUrl"
+             alt="{{ burger.name }}"
+             class="main-burger-image">
+        <p class="image-description">{{ burger.description }}</p>
+      </div>
     </div>
 
     <!-- Next Burger -->
     <img [src]="burgers[nextIndex]?.imageUrl" alt="{{ burgers[nextIndex]?.name }}" class="side-burger-image next-image">
 
     <!-- Next Button -->
-    <button (click)="nextBurger()" mat-icon-button class="next-button">
+    <button (click)="nextBurger()" class="next-button" mat-icon-button>
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
 
   <div class="mt-4" style="display: flex; justify-content: center; gap: 32px;">
-    <button mat-button color="warn" (click)="addToCart(burgers[
+    <button (click)="addToCart(burgers[currentIndex])" color="warn" mat-button>ADD TO CART</button>
+  </div>
+</div>
+
+<app-about-us></app-about-us>
+
+<app-footer></app-footer>

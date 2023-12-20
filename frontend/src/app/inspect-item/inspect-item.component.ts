@@ -14,7 +14,8 @@ export class InspectItemComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

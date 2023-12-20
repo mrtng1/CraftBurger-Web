@@ -35,6 +35,13 @@
   padding: 20px;
 }
 
+#dipSection .grid-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
 .grid-item img {
   width: 100%;
   object-fit: cover;
@@ -69,3 +76,36 @@
   color: #1b1b1b;
   background-color: #f8e8d3;
 }
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.image-container:hover img {
+  filter: grayscale(100%);
+}
+
+.image-description {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translateY(100%);
+}
+
+.image-container:hover .image-description {
+  opacity: 1;
+  transform: translateY(0);
+}
+

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {InspectItemComponent} from "./inspect-item/inspect-item.component";
 import {MainComponent} from "./main/main.component";
 import {MenuComponent} from "./menu/menu.component";
@@ -21,39 +21,39 @@ const routes: Routes = [
   {
     path: 'home',
     component: MainComponent,
-    data: { showHeader: true }
+    data: {showHeader: true}
   },
   {
     path: 'inspect/:burgerId',
     component: InspectItemComponent,
-    data: { showHeader: true }
+    data: {showHeader: true}
   },
   {
     path: 'menu',
     component: MenuComponent,
-    data: { showHeader: true }
+    data: {showHeader: true}
   },
   {
     path: 'cart',
     component: CartComponent,
-    data: { showHeader: true }
+    data: {showHeader: true}
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: { showHeader: false }
+    data: {showHeader: false}
   },
   {
     path: 'register',
     component: RegisterComponent,
-    data: { showHeader: false }
+    data: {showHeader: false}
   },
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: { showHeader: false },
-    children: [ {
+    data: {showHeader: false},
+    children: [{
       path: 'item-management',
       component: ItemManagementComponent,
     },
@@ -70,7 +70,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -9,8 +9,10 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   showHeader = true;
+  title = 'frontend';
+
   constructor(private initializationService: InitializationService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -26,8 +28,6 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.initializationService.initializeCartCount();
   }
-
-  title = 'frontend';
 
   scrollToAboutUs(): void {
     const aboutUsSection = document.getElementById('aboutUsSection');

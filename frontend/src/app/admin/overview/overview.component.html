@@ -1,1 +1,54 @@
+<div class="item-management-container">
+  <h2>Order List</h2>
+  <table *ngIf="orders.length > 0; else noOrdersTemplate" class="orders-table">
+    <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User ID</th>
+      <th>Total Price</th>
+      <th>Order Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr (click)="onOrderClick(order.orderId)" *ngFor="let order of orders">
+      <td>{{ order.orderId }}</td>
+      <td>{{ order.userName }}</td>
+      <td>{{ order.totalPrice}} kr</td>
+      <td>{{ order.orderDate | date }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <ng-template #noOrdersTemplate>
+    <p>No orders available.</p>
+  </ng-template>
 
+  <!-- Order Details Section -->
+  <div *ngIf="showOrderDetails">
+    <h3>Order Details</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let detail of selectedOrderDetails">
+        <td>{{ detail.name }}</td>
+        <td>{{ detail.price}} kr</td>
+        <td>{{ detail.quantity }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="stats-container mt-10">
+    <h3>Order Statistics</h3>
+    <p *ngIf="mostCommonOrderHour">Most common order time: {{ mostCommonOrderHour }}</p>
+    <p *ngIf="mostPreferredItemType">Most preferred item type: {{ mostPreferredItemType }}</p>
+    <p *ngIf="averageOrderPrice">Average order price: {{ averageOrderPrice}} kr</p>
+    <p *ngIf="!mostCommonOrderHour && !mostPreferredItemType && !averageOrderPrice">No statistics available.</p>
+  </div>
+</div>

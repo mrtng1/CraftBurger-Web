@@ -1,6 +1,7 @@
 <div *ngIf="burger" class="burger-container">
   <div class="burger-image">
-    <img [src]="getImageUrl(burger.burgerName)" alt="{{ burger.burgerName }}" style="width: 288px; height: 432px; object-fit: cover;">
+    <img [src]="getImageUrl(burger.burgerName)" alt="{{ burger.burgerName }}"
+         style="width: 288px; height: 432px; object-fit: cover;">
   </div>
   <div class="burger-info">
     <h2>{{ burger.burgerName }}</h2>

@@ -31,7 +31,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateAudience = false,
+            RoleClaimType = "IsAdmin"
         };
     });
 
@@ -49,7 +50,11 @@ builder.Services.AddSingleton<BurgerRepository>();
 builder.Services.AddSingleton<IBurgerService, BurgerService>();
 builder.Services.AddSingleton<FriesRepository>();
 builder.Services.AddSingleton<IFriesService, FriesService>();
+builder.Services.AddSingleton<IDipService, DipService>();
+builder.Services.AddSingleton<DipRepository>();
 builder.Services.AddSingleton<MailService>();
+builder.Services.AddSingleton<OrderRepository>();
+builder.Services.AddSingleton<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>(serviceProvider =>
 {
@@ -80,6 +85,7 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins("http://localhost:4200")
+            //builder.WithOrigins("https://craftburger-2fe56.firebaseapp.com")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -100,6 +106,7 @@ var policyCollection = new HeaderPolicyCollection()
     .AddDefaultSecurityHeaders()
     .AddContentSecurityPolicy(builder =>
     {
+        //builder.AddDefaultSrc().Self().From("https://craftburger-2fe56.firebaseapp.com");
         builder.AddDefaultSrc().Self().From("http://localhost:4200");
     });
 app.UseSecurityHeaders(policyCollection);

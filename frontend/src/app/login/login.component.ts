@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
-import {environment} from "../../Environments/environment";
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from "@angular/router";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-login',
@@ -16,24 +15,27 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router, private userService: UserService) {
+  }
 
   onLogin() {
-    const url = `${environment.baseUrl}/Auth/login`;
-
-    this.http.post<any>(url, this.loginData).subscribe(
+    this.userService.login(this.loginData).subscribe(
       response => {
         if (response.token) {
           localStorage.setItem('SessionToken', response.token);
-          this.snackBar.open('Login successful', 'Close', { duration: 3000 });
-          this.router.navigate(['/admin']); // Navigate to /admin
+          this.snackBar.open('Login successful', 'Close', {duration: 3000});
+          this.router.navigate(['/admin/overview']);
         } else {
-          this.snackBar.open('Login failed', 'Close', { duration: 3000 });
+          this.snackBar.open('Login failed', 'Close', {duration: 3000});
         }
       },
       error => {
-        this.snackBar.open('Login failed', 'Close', { duration: 3000 });
+        this.snackBar.open('Login failed', 'Close', {duration: 3000});
       }
     );
+  }
+
+  registerClick() {
+    this.router.navigate(['/register']);
   }
 }

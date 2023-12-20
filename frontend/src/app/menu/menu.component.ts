@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BurgerService } from '../../service/burger.service';
-import { FriesService } from '../../service/fries.service';
-import { CartItem } from '../../models/CartItem';
-import { ImageService } from "../../service/image.service";
-import { CartService } from "../../service/cart.service";
+import {Component, OnInit} from '@angular/core';
+import {BurgerService} from '../../service/burger.service';
+import {FriesService} from '../../service/fries.service';
+import {CartItem} from '../../models/CartItem';
+import {ImageService} from "../../service/image.service";
+import {CartService} from "../../service/cart.service";
+import {DipService} from "../../service/dip.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,13 +14,17 @@ import { CartService } from "../../service/cart.service";
 export class MenuComponent implements OnInit {
   burgers: any[] = [];
   fries: any[] = [];
+  dips: any[] = [];
   selectedCategory: string = 'All';
 
-  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService) {}
+  constructor(private burgerService: BurgerService, public friesService: FriesService, public imageService: ImageService, private cartService: CartService,
+              private dipService: DipService) {
+  }
 
   ngOnInit() {
     this.loadBurgers();
     this.loadFries();
+    this.loadDips();
   }
 
   loadBurgers() {
@@ -40,16 +45,30 @@ export class MenuComponent implements OnInit {
     });
   }
 
+  loadDips() {
+    this.dipService.getDips().subscribe({
+      next: (data) => {
+        this.dips = data;
+      },
+      error: (error) => console.error('Error fetching dips:', error)
+    });
+  }
+
   addToCart(item: CartItem, itemType: string) {
     let cart = sessionStorage.getItem('cart');
     let cartArray: CartItem[] = cart ? JSON.parse(cart) : [];
 
-    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id);
+    const newItem = {
+      ...item,
+      quantity: 1,
+      itemType: itemType
+    };
+
+    const existingItemIndex = cartArray.findIndex((cartItem: CartItem) => cartItem.id === item.id && cartItem.itemType === itemType);
 
     if (existingItemIndex !== -1) {
       cartArray[existingItemIndex].quantity = (cartArray[existingItemIndex].quantity || 0) + 1;
     } else {
-      const newItem = { ...item, quantity: 1 };
       cartArray.push(newItem);
     }
 

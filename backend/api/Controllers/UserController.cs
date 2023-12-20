@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using service.Interfaces;
@@ -20,11 +21,47 @@ public class AuthController : ControllerBase
         _userService = userService;
         _configuration = configuration;
     }
+    
+    [HttpGet("getAllUsers")]
+    [Authorize(Roles = "true")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _userService.GetAllUsers();
+        if (users.Any())
+        {
+            return Ok(users);
+        }
+        return NotFound("No users found.");
+    }
+    
+    [HttpDelete("deleteUser/{id}")]
+    [Authorize(Roles = "true")]
+    public async Task<IActionResult> DeleteUserById(int id)
+    {
+        var user = await _userService.GetUserById(id);
+        if (user != null)
+        {
+            await _userService.DeleteUser(id);
+            return Ok("User deleted successfully.");
+        }
+        return NotFound("User not found.");
+    }
+    
+    [HttpGet("getUserById/{id}")]
+    public async Task<IActionResult> GetUserById(int id)
+    {
+        var user = await _userService.GetUserById(id);
+        if (user != null)
+        {
+            return Ok(user);
+        }
+        return NotFound("User not found.");
+    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
     {
-        var user = await _userService.AuthenticateAsync(loginDto.Username, loginDto.Password);
+        var user = await _userService.Authenticate(loginDto.Username, loginDto.Password);
         if (user != null)
         {
             var token = GenerateJwtToken(user);
@@ -42,7 +79,7 @@ public class AuthController : ControllerBase
 
         try
         {
-            await _userService.CreateUserAsync(createDTO.Username, createDTO.Email, createDTO.Password);
+            await _userService.CreateUser(createDTO.Username, createDTO.Email, createDTO.Password);
             return Ok(new { message = "User created successfully" });
         }
         catch (Exception ex)
@@ -59,9 +96,9 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.Username),
-            // Add an admin claim if the user is an admin
             new Claim("IsAdmin", user.Id == 1 ? "true" : "false"),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

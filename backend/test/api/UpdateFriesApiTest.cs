@@ -31,6 +31,9 @@ public class UpdateFriesApiTest
         var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
         imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
         updateFormData.Add(imageContent, "image", "test_image.jpg");
+        
+        var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var updateResponse = await httpClient.PutAsync($"{Helper.ApiBaseUrl}/fries/{id}", updateFormData);
         updateResponse.EnsureSuccessStatusCode();
@@ -55,6 +58,9 @@ public class UpdateFriesApiTest
         var imageContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
         imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
         formData.Add(imageContent, "image", "test_image.jpg");
+        
+        var token = await Helper.GetAuthenticationToken("Sohaib", "burger");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var createResponse = await httpClient.PostAsync($"{Helper.ApiBaseUrl}/fries", formData);
         createResponse.EnsureSuccessStatusCode();

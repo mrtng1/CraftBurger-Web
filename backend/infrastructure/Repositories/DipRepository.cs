@@ -36,12 +36,12 @@ public class DipRepository
 
     public async Task<Dip> CreateDip(Dip dip)
     {
-        const string checkSql = "SELECT COUNT(*) FROM dips WHERE dipname = @DipName;";
-        const string insertSql = "INSERT INTO dips (dipname, dipprice) VALUES (@DipName, @DipPrice) RETURNING *;";
+        const string checkSql = "SELECT COUNT(*) FROM dips WHERE name = @Name;";
+        const string insertSql = "INSERT INTO dips (name, price) VALUES (@Name, @Price) RETURNING *;";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            var exists = await conn.ExecuteScalarAsync<int>(checkSql, new { DipName = dip.DipName });
+            var exists = await conn.ExecuteScalarAsync<int>(checkSql, new { Name = dip.name });
             if (exists > 0)
             {
                 throw new InvalidOperationException("A dip with the same name already exists.");
@@ -54,19 +54,19 @@ public class DipRepository
 
     public Dip UpdateDip(int dipId, Dip dip)
     {
-        const string sql = "UPDATE dips SET dipname = @DipName, dipprice = @DipPrice WHERE id = @DipId RETURNING *;";
+        const string sql = "UPDATE dips SET name = @Name, price = @Price WHERE id = @id RETURNING *;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QuerySingleOrDefault<Dip>(sql, new { dip.DipName, dip.DipPrice, DipId = dipId });
+            return conn.QuerySingleOrDefault<Dip>(sql, new { dip.name, dip.price, DipId = dipId });
         }
     }
 
     public bool DeleteDip(int dipId)
     {
-        const string sql = "DELETE FROM dips WHERE id = @DipId;";
+        const string sql = "DELETE FROM dips WHERE id = @Id;";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Execute(sql, new { DipId = dipId }) > 0;
+            return conn.Execute(sql, new { Id = dipId }) > 0;
         }
     }
 }

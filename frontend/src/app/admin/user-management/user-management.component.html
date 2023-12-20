@@ -1,1 +1,25 @@
+<div class="user-management-container">
+  <h2>User List</h2>
+  <table *ngIf="users.length > 0; else noUsersTemplate" class="users-table">
+    <thead>
+    <tr>
+      <th>User ID</th>
+      <th>User Name</th>
+      <th>User Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr (click)="onUserClick(user.id)" *ngFor="let user of users" [class.selected]="user.id === selectedUserId">
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <ng-template #noUsersTemplate>
+    <p>No users available.</p>
+  </ng-template>
 
+  <button (click)="deleteUser()" *ngIf="selectedUserId" class="delete-button">Delete User with
+    ID:{{selectedUserId}}</button>
+</div>

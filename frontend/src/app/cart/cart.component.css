@@ -2,3 +2,20 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.complete-order-button {
+  background-color: #ff3a02;
+  color: #f8e8d3;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  border: none;
+  margin-top: 20px;
+}
+
+.complete-order-button:hover {
+  background-color: #e63900;
+  color: #ffffff;
+}

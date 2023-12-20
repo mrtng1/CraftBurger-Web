@@ -38,6 +38,7 @@ public class DipController : Controller
 
     [HttpPost]
     [Route("/api/dip")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult<Dip>> CreateDip([FromBody] Dip dip)
     {
         if (!ModelState.IsValid)
@@ -51,6 +52,7 @@ public class DipController : Controller
 
     [HttpPut]
     [Route("/api/dip/{dipId}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult<Dip>> UpdateDip([FromBody] Dip dip, [FromRoute] int dipId)
     {
         if (!ModelState.IsValid)
@@ -59,7 +61,6 @@ public class DipController : Controller
         }
 
         Dip updatedDip = await _service.UpdateDip(dipId, dip);
-
         if (updatedDip == null)
         {
             return NotFound("Dip not found");
@@ -67,10 +68,10 @@ public class DipController : Controller
 
         return Ok(updatedDip);
     }
-
-    //[Authorize]
+    
     [HttpDelete]
     [Route("/api/dip/{dipId}")]
+    [Authorize(Roles = "true")]
     public async Task<ActionResult> DeleteDip([FromRoute] int dipId)
     {
         bool isDeleted = await _service.DeleteDip(dipId);

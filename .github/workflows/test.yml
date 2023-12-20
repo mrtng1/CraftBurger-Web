@@ -11,7 +11,7 @@ on:
       - develop
 
 jobs:
-  test:
+  api-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,15 +21,30 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.100-preview.7.23376.3'
+          dotnet-version: '8.0.x'
 
-      - name: Install dependencies
-        run: dotnet restore ./backend/apitests/apitests.csproj
+      - name: Cache NuGet packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: cd backend && cd test && dotnet restore
 
       - name: Build the test project
-        run: dotnet build --no-restore ./backend/apitests/apitests.csproj
+        run: cd backend && cd test && dotnet build --no-restore
 
-      - name: Run tests
-        run: dotnet test --no-build --verbosity normal ./backend/apitests/apitests.csproj
+      - name: Start Web API
+        run: cd backend && cd api && sleep 30 && dotnet run & echo "API_PID=$!" >> $GITHUB_ENV
+
+      - name: Run API tests
+        run: cd backend && cd test && sleep 60 && dotnet test --no-build --filter FullyQualifiedName~test.api
         env:
           pgconn: ${{ secrets.PGCONN }}
+
+      - name: Shutdown Web API
+        if: always()
+        run: kill $API_PID
